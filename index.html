@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#faf7f2">
-<title>Kun Tizimi · v2</title>
+<title>Kun Tizimi · v3</title>
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕌</text></svg>">
 
@@ -14,6 +14,7 @@
 
 <style>
 :root {
+  /* Light theme (default) */
   --bg: #faf7f2;
   --bg-elev: #ffffff;
   --bg-soft: #f3efe7;
@@ -55,6 +56,44 @@
   --transition: 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+/* Dark theme */
+:root.dark {
+  --bg: #18161a;
+  --bg-elev: #232026;
+  --bg-soft: #2a2730;
+  --bg-softer: #1f1c22;
+  --ink: #f0ece3;
+  --ink-soft: #b5b0a3;
+  --ink-mute: #807a6e;
+  --ink-faint: #5c5750;
+  --line: #3a3540;
+  --line-soft: #2e2a34;
+  --line-strong: #4a4452;
+  --green: #4a9d75;
+  --green-bg: #1f3328;
+  --green-text: #a8d4be;
+  --green-soft: #2d5240;
+  --terra: #d97757;
+  --terra-bg: #3d2118;
+  --terra-text: #f5b094;
+  --terra-soft: #6b3829;
+  --amber: #d4a543;
+  --amber-bg: #3a2e0f;
+  --amber-text: #f0d384;
+  --blue: #5b8fc5;
+  --blue-bg: #1a2a3d;
+  --blue-text: #a8c4e0;
+  --purple: #9a7dc7;
+  --purple-bg: #2a1f3d;
+  --purple-text: #c8b5e0;
+  --rose: #d96b8f;
+  --rose-bg: #3d1a26;
+  --shadow-xs: 0 0 0 0.5px rgba(255, 255, 255, 0.04);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.04);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
@@ -65,6 +104,7 @@ html, body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body {
@@ -73,6 +113,12 @@ body {
     radial-gradient(circle at 95% 95%, rgba(184, 84, 58, 0.025) 0%, transparent 40%);
   min-height: 100vh;
   overscroll-behavior: none;
+}
+
+:root.dark body {
+  background-image:
+    radial-gradient(circle at 5% 5%, rgba(74, 157, 117, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 95% 95%, rgba(217, 119, 87, 0.04) 0%, transparent 40%);
 }
 
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
@@ -1707,9 +1753,410 @@ main {
 .hidden { display: none !important; }
 .row { display: flex; align-items: center; gap: 8px; }
 .spacer { flex: 1; }
+
+/* ============ LIVE CLOCK ============ */
+.greeting-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+}
+
+.greeting-left { flex: 1; min-width: 0; }
+
+.live-clock {
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  padding: 10px 16px;
+  border-radius: 14px;
+  text-align: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.live-clock-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.live-clock-label {
+  font-size: 9px;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ============ THEME TOGGLE ============ */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bg-elev);
+  border: 0.5px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  font-size: 16px;
+}
+
+.theme-toggle:hover { transform: scale(1.08); }
+
+@media (max-width: 760px) {
+  .theme-toggle { top: 12px; right: 12px; width: 34px; height: 34px; }
+}
+
+/* ============ EXTRA PRAYER CARDS (Quyosh + Tahajjud) ============ */
+.prayer-extras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.prayer-extra {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--accent, var(--amber));
+}
+
+.prayer-extra.tahajjud { --accent: var(--purple); }
+.prayer-extra.quyosh { --accent: var(--amber); }
+
+.prayer-extra-icon { font-size: 18px; }
+
+.prayer-extra-info { flex: 1; min-width: 0; }
+
+.prayer-extra-name {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+
+.prayer-extra-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-top: 2px;
+}
+
+.prayer-extra-hint {
+  font-size: 10px;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* ============ ASOS SECTION ============ */
+.asos-card {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+  margin-top: 14px;
+  border-left: 3px solid var(--green);
+}
+
+.asos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.asos-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 0.5px solid transparent;
+}
+
+.asos-item:hover {
+  border-color: var(--line-strong);
+  transform: translateX(2px);
+}
+
+.asos-item.done {
+  opacity: 0.55;
+}
+
+.asos-item.done .asos-text {
+  text-decoration: line-through;
+  color: var(--ink-mute);
+}
+
+.asos-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  color: white;
+  font-size: 11px;
+}
+
+.asos-item.done .asos-check {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.asos-cat {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cat-color, var(--terra));
+  font-weight: 700;
+  background: var(--cat-bg, var(--terra-bg));
+  padding: 2px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.asos-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 0;
+}
+
+.asos-time {
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+.asos-empty {
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-style: italic;
+  padding: 8px 0;
+}
+
+/* ============ TASK AUTOCOMPLETE ============ */
+.timer-task-wrap {
+  position: relative;
+}
+
+.task-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-elev);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  max-height: 280px;
+  overflow-y: auto;
+  display: none;
+}
+
+.task-suggestions.show { display: block; }
+
+.suggestion-group {
+  padding: 6px 8px;
+}
+
+.suggestion-group-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  padding: 6px 10px;
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 13px;
+  transition: background var(--transition);
+}
+
+.suggestion:hover { background: var(--bg-soft); }
+
+.suggestion-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+}
+
+.suggestion-badge.a { background: var(--terra-bg); color: var(--terra-text); }
+.suggestion-badge.b { background: var(--blue-bg); color: var(--blue-text); }
+.suggestion-badge.asos { background: var(--green-bg); color: var(--green-text); }
+
+.suggestion-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.suggestion-done {
+  font-size: 10px;
+  color: var(--ink-mute);
+  text-decoration: line-through;
+}
+
+/* ============ HISTORY (TARIX) VIEW ============ */
+.history-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+
+.history-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--ink-soft);
+  transition: all var(--transition);
+}
+
+.history-nav-btn:hover { background: var(--line); color: var(--ink); }
+.history-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.history-date-display {
+  text-align: center;
+  flex: 1;
+}
+
+.history-date-day {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.history-date-sub {
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 2px;
+}
+
+.history-picker {
+  padding: 6px 10px;
+  background: var(--bg-soft);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.history-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 760px) {
+  .history-content { grid-template-columns: 1fr; }
+}
+
+.history-card {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.history-card h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.history-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 0.5px solid var(--line);
+  font-size: 13px;
+}
+
+.history-row:last-child { border-bottom: none; }
+
+.history-row-value {
+  font-weight: 500;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.history-empty-day {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-mute);
+  font-size: 13px;
+}
+
+/* Dark theme: prayer card highlights stay readable */
+:root.dark .prayer.done {
+  background: rgba(74, 157, 117, 0.18);
+  border-color: var(--green);
+}
+:root.dark .prayer.current {
+  background: rgba(212, 165, 67, 0.18);
+  border-color: var(--amber);
+}
+:root.dark .task {
+  background: var(--bg-elev);
+}
+:root.dark .reflect-textarea:focus {
+  box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.2);
+}
 </style>
 </head>
 <body>
+
+<button class="theme-toggle" id="themeToggle" title="Tema almashtirish">🌙</button>
 
 <div class="app">
 
@@ -1749,6 +2196,10 @@ main {
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 12l4-4 4 4 5-5"/></svg></span>
         Statistika
       </button>
+      <button class="nav-item" data-view="history">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/><path d="M3 12a9 9 0 0 1 9-9"/></svg></span>
+        Tarix
+      </button>
 
       <div class="nav-divider"></div>
 
@@ -1764,16 +2215,25 @@ main {
     <!-- TODAY -->
     <section class="view active" id="view-today">
       <div class="greeting-card">
-        <div class="greeting-text" id="greeting">Assalomu alaykum, <strong>Birodar</strong> 👋</div>
-        <div class="greeting-date" id="greetingDate">—</div>
-        <div class="greeting-hijri" id="greetingHijri">—</div>
-        <div class="greeting-next" id="greetingNext">Keyingi namoz: <strong id="nextPrayerInfo">—</strong></div>
+        <div class="greeting-top-row">
+          <div class="greeting-left">
+            <div class="greeting-text" id="greeting">Assalomu alaykum, <strong>Birodar</strong> 👋</div>
+            <div class="greeting-date" id="greetingDate">—</div>
+            <div class="greeting-hijri" id="greetingHijri">—</div>
+            <div class="greeting-next" id="greetingNext">Keyingi namoz: <strong id="nextPrayerInfo">—</strong></div>
+          </div>
+          <div class="live-clock">
+            <div class="live-clock-time" id="liveClock">--:--</div>
+            <div class="live-clock-label">UTC+5</div>
+          </div>
+        </div>
       </div>
 
       <div class="today-grid">
         <div class="card">
           <div class="card-title">Bugungi namozlar <span id="prayerCount">0/5</span></div>
           <div class="prayers" id="prayerRow"></div>
+          <div class="prayer-extras" id="prayerExtras"></div>
         </div>
 
         <div class="card">
@@ -1801,6 +2261,11 @@ main {
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="asos-card">
+        <div class="card-title">🌱 Asos · Har kungi qaytariladigan ishlar <span id="asosProgress">0/5</span></div>
+        <div class="asos-list" id="asosList"></div>
       </div>
 
       <div class="card" style="margin-top: 14px;">
@@ -1862,7 +2327,10 @@ main {
 
         <div class="timer-task">
           <div class="timer-task-label">Hozir nima ustida ishlayman?</div>
-          <input type="text" class="timer-task-input" id="timerTask" placeholder="masalan: Klient X uchun reklama kreativlari">
+          <div class="timer-task-wrap">
+            <input type="text" class="timer-task-input" id="timerTask" placeholder="Bosing — bugungi vazifalardan tanlang yoki qo'lda yozing" autocomplete="off">
+            <div class="task-suggestions" id="taskSuggestions"></div>
+          </div>
         </div>
 
         <div class="sound-section">
@@ -2046,6 +2514,28 @@ main {
       </div>
     </section>
 
+    <!-- HISTORY (TARIX) -->
+    <section class="view" id="view-history">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Tarix</h1>
+          <p class="view-sub">O'tgan kunlarning batafsil analitikasi</p>
+        </div>
+        <input type="date" class="history-picker" id="historyPicker">
+      </div>
+
+      <div class="history-nav">
+        <button class="history-nav-btn" id="histPrev">◀</button>
+        <div class="history-date-display">
+          <div class="history-date-day" id="histDay">—</div>
+          <div class="history-date-sub" id="histSub">—</div>
+        </div>
+        <button class="history-nav-btn" id="histNext">▶</button>
+      </div>
+
+      <div id="histContent"></div>
+    </section>
+
     <!-- SETTINGS -->
     <section class="view" id="view-settings">
       <div class="view-header">
@@ -2066,12 +2556,57 @@ main {
 
       <div class="settings-section">
         <h3>🕌 Namoz vaqtlari</h3>
-        <p class="section-desc">Mahalliy namoz vaqtlaringizni kiriting</p>
+        <p class="section-desc">Aladhan API orqali avtomatik olinadi. Manual o'zgartirish ham mumkin.</p>
+        <div class="setting-row">
+          <div class="setting-label-wrap">
+            <div class="setting-name">Shahar (lat, lng)</div>
+            <div class="setting-desc">Toshkent: 41.2995, 69.2401 · Samarqand: 39.6270, 66.9750</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <input type="number" step="0.0001" class="setting-input" id="locLat" placeholder="41.2995" style="min-width:90px;">
+            <input type="number" step="0.0001" class="setting-input" id="locLng" placeholder="69.2401" style="min-width:90px;">
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap">
+            <div class="setting-name">Avtomatik olish</div>
+            <div class="setting-desc">Har kun ertalab Aladhan API dan olinadi</div>
+          </div>
+          <button class="btn btn-primary" onclick="manualFetchPrayers()">🔄 Hozir yangilash</button>
+        </div>
+        <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Tahajjud</div></div><input type="time" class="setting-input" id="time-tahajjud" value="02:00"></div>
         <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Bomdod</div></div><input type="time" class="setting-input" id="time-bomdod" value="04:30"></div>
+        <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Quyosh</div></div><input type="time" class="setting-input" id="time-quyosh" value="05:50"></div>
         <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Peshin</div></div><input type="time" class="setting-input" id="time-peshin" value="12:00"></div>
         <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Asr</div></div><input type="time" class="setting-input" id="time-asr" value="15:30"></div>
         <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Shom</div></div><input type="time" class="setting-input" id="time-shom" value="20:00"></div>
         <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Xufton</div></div><input type="time" class="setting-input" id="time-xufton" value="21:30"></div>
+      </div>
+
+      <div class="settings-section">
+        <h3>📅 Google Calendar</h3>
+        <p class="section-desc">Uchrashuvlar avtomatik tortib olinadi. Tg bot 1 soat oldin xabar yuboradi.</p>
+        <div class="setting-row">
+          <div class="setting-label-wrap">
+            <div class="setting-name">iCal URL</div>
+            <div class="setting-desc">Calendar Settings → Integrate calendar → Secret address in iCal format</div>
+          </div>
+          <input type="text" class="setting-input setting-input-wide" id="icalUrl" placeholder="https://calendar.google.com/calendar/ical/...">
+        </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Hozir tortib olish</div></div>
+          <button class="btn btn-primary" onclick="manualFetchCalendar()">🔄 Yangilash</button>
+        </div>
+        <details style="margin-top: 12px;">
+          <summary style="cursor: pointer; font-size: 12px; color: var(--ink-mute); font-weight: 500;">Qanday topish?</summary>
+          <div style="font-size: 12px; line-height: 1.7; color: var(--ink-soft); margin-top: 8px; padding: 12px; background: var(--bg-soft); border-radius: var(--radius);">
+            <b>1.</b> calendar.google.com → chap tomonda kalendaringizni toping<br>
+            <b>2.</b> 3 nuqta menyu → <b>Settings and sharing</b><br>
+            <b>3.</b> Pastga tushib <b>"Integrate calendar"</b> bo'limini toping<br>
+            <b>4.</b> <b>"Secret address in iCal format"</b> URL ni nusxa oling (⚠️ maxfiy — boshqalar bilan baham ko'rmang)<br>
+            <b>5.</b> Yuqorida joylashtiring va "Yangilash" ni bosing<br>
+          </div>
+        </details>
       </div>
 
       <div class="settings-section">
@@ -2227,9 +2762,12 @@ const STORAGE_KEY = 'kun_tizimi_v2';
 const DEFAULT_DATA = {
   settings: {
     name: '',
-    prayerTimes: { bomdod: '04:30', peshin: '12:00', asr: '15:30', shom: '20:00', xufton: '21:30' },
-    telegram: { token: '', chatId: '', prayerNotif: false, reflectionNotif: false },
-    timer: { sound: 'none', volume: 0.3 }
+    theme: 'light', // 'light' | 'dark'
+    location: { lat: 41.2995, lng: 69.2401, name: 'Toshkent' },
+    prayerTimes: { tahajjud: '02:00', bomdod: '04:30', quyosh: '05:50', peshin: '12:00', asr: '15:30', shom: '20:00', xufton: '21:30' },
+    telegram: { token: '', chatId: '', prayerNotif: false, reflectionNotif: false, meetingNotif: false },
+    timer: { sound: 'none', volume: 0.3 },
+    calendar: { icalUrl: '', lastFetch: null }
   },
   habits: [
     {
@@ -2253,6 +2791,8 @@ const DEFAULT_DATA = {
   },
   goals: [],
   days: {},
+  prayerCache: { date: null, times: null },
+  calendarEvents: []
 };
 
 let data = loadData();
@@ -2267,9 +2807,11 @@ function loadData() {
       settings: {
         ...DEFAULT_DATA.settings,
         ...(loaded.settings || {}),
+        location: { ...DEFAULT_DATA.settings.location, ...(loaded.settings?.location || {}) },
         prayerTimes: { ...DEFAULT_DATA.settings.prayerTimes, ...(loaded.settings?.prayerTimes || {}) },
         telegram: { ...DEFAULT_DATA.settings.telegram, ...(loaded.settings?.telegram || {}) },
-        timer: { ...DEFAULT_DATA.settings.timer, ...(loaded.settings?.timer || {}) }
+        timer: { ...DEFAULT_DATA.settings.timer, ...(loaded.settings?.timer || {}) },
+        calendar: { ...DEFAULT_DATA.settings.calendar, ...(loaded.settings?.calendar || {}) }
       },
       habits: (loaded.habits || DEFAULT_DATA.habits).map(h => ({ subtasks: [], ...h })),
       resources: {
@@ -2280,6 +2822,8 @@ function loadData() {
       },
       goals: loaded.goals || [],
       days: loaded.days || {},
+      prayerCache: loaded.prayerCache || { date: null, times: null },
+      calendarEvents: loaded.calendarEvents || []
     };
   } catch (e) {
     return JSON.parse(JSON.stringify(DEFAULT_DATA));
@@ -2393,32 +2937,62 @@ document.querySelectorAll('.nav-item').forEach(btn => {
     if (view === 'stats') renderStats();
     if (view === 'settings') renderSettings();
     if (view === 'deepwork') renderSessions();
+    if (view === 'history') { historyDate = todayKey(); renderHistory(); }
     window.scrollTo(0, 0);
   });
 });
 
 /* ============ TODAY VIEW ============ */
-function renderToday() {
+function getDynamicGreeting() {
+  // Returns greeting based on current prayer time
+  const pt = data.settings.prayerTimes;
   const now = new Date();
-  const hours = now.getHours();
-  let greeting = 'Assalomu alaykum';
-  if (hours < 6) greeting = 'Bomdod muborak';
-  else if (hours < 12) greeting = 'Hayrli tong';
-  else if (hours < 17) greeting = 'Hayrli kun';
-  else if (hours < 20) greeting = 'Hayrli kech';
-  else greeting = 'Hayrli oqshom';
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const phases = [
+    { from: timeToMin(pt.tahajjud), name: 'Tahajjud vaqti, mubarak' },
+    { from: timeToMin(pt.bomdod), name: 'Bomdod muborak' },
+    { from: timeToMin(pt.quyosh), name: 'Hayrli tong' },
+    { from: timeToMin(pt.peshin), name: 'Peshin muborak' },
+    { from: timeToMin(pt.asr), name: 'Asr muborak' },
+    { from: timeToMin(pt.shom), name: 'Shom muborak' },
+    { from: timeToMin(pt.xufton), name: 'Xufton muborak' }
+  ];
+  let active = phases[0].name;
+  for (const p of phases) if (nowMin >= p.from) active = p.name;
+  // Before tahajjud (after midnight, before tahajjud time)
+  if (nowMin < timeToMin(pt.tahajjud)) active = 'Xufton muborak';
+  return active;
+}
 
+function renderToday() {
   const name = data.settings.name || 'birodar';
-  document.getElementById('greeting').innerHTML = `${greeting}, <strong>${escapeHtml(name)}</strong> 👋`;
+  document.getElementById('greeting').innerHTML = `${getDynamicGreeting()}, <strong>${escapeHtml(name)}</strong> 👋`;
+  const now = new Date();
   document.getElementById('greetingDate').textContent = `${dayName(now)}, ${now.getDate()} ${monthName(now.getMonth())}, ${now.getFullYear()}`;
   try {
     document.getElementById('greetingHijri').textContent = new Intl.DateTimeFormat('uz-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(now);
   } catch(e) {}
   renderPrayers();
+  renderPrayerExtras();
   renderQuickStats();
   renderTasks();
+  renderAsos();
   renderMeetings();
   updateNextPrayer();
+  updateLiveClock();
+}
+
+function updateLiveClock() {
+  const el = document.getElementById('liveClock');
+  if (!el) return;
+  // UTC+5 (Tashkent timezone)
+  const now = new Date();
+  const utc5 = new Date(now.getTime() + (5 * 60 + now.getTimezoneOffset()) * 60000);
+  const h = String(utc5.getHours()).padStart(2, '0');
+  const m = String(utc5.getMinutes()).padStart(2, '0');
+  const s = String(utc5.getSeconds()).padStart(2, '0');
+  el.textContent = `${h}:${m}`;
+  el.title = `${h}:${m}:${s} UTC+5`;
 }
 
 function renderPrayers() {
@@ -2451,6 +3025,55 @@ function renderPrayers() {
   document.getElementById('prayerCount').textContent = count + '/5';
 }
 
+function renderPrayerExtras() {
+  const pt = data.settings.prayerTimes;
+  const c = document.getElementById('prayerExtras');
+  if (!c) return;
+  c.innerHTML = `
+    <div class="prayer-extra tahajjud">
+      <span class="prayer-extra-icon">🌌</span>
+      <div class="prayer-extra-info">
+        <div class="prayer-extra-name">Tahajjud</div>
+        <div class="prayer-extra-time">${pt.tahajjud || '—'}</div>
+      </div>
+      <span class="prayer-extra-hint">eng qulay vaqt</span>
+    </div>
+    <div class="prayer-extra quyosh">
+      <span class="prayer-extra-icon">🌄</span>
+      <div class="prayer-extra-info">
+        <div class="prayer-extra-name">Quyosh</div>
+        <div class="prayer-extra-time">${pt.quyosh || '—'}</div>
+      </div>
+      <span class="prayer-extra-hint">namoz tugashi</span>
+    </div>
+  `;
+}
+
+function updateNextPrayer() {
+  const pt = data.settings.prayerTimes;
+  const now = new Date();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  const order = [
+    {key:'tahajjud',n:'Tahajjud'},
+    {key:'bomdod',n:'Bomdod'},
+    {key:'quyosh',n:'Quyosh'},
+    {key:'peshin',n:'Peshin'},
+    {key:'asr',n:'Asr'},
+    {key:'shom',n:'Shom'},
+    {key:'xufton',n:'Xufton'}
+  ];
+  let next = null;
+  for (const p of order) {
+    if (timeToMin(pt[p.key]) > nowMin) { next = p; break; }
+  }
+  if (!next) next = { key: 'tahajjud', n: 'Tahajjud (ertaga)' };
+  const nextTime = timeToMin(pt[next.key]);
+  const diffMin = next.n.includes('ertaga') ? (24*60 - nowMin + nextTime) : (nextTime - nowMin);
+  const h = Math.floor(diffMin/60);
+  const m = diffMin % 60;
+  document.getElementById('nextPrayerInfo').textContent = `${next.n} — ${pt[next.key]} (${(h>0?h+' soat ':'')}${m} daqiqa)`;
+}
+
 function togglePrayer(key) {
   const t = today();
   t.prayers[key] = !t.prayers[key];
@@ -2459,27 +3082,15 @@ function togglePrayer(key) {
   renderQuickStats();
 }
 
-function updateNextPrayer() {
-  const pt = data.settings.prayerTimes;
-  const now = new Date();
-  const nowMin = now.getHours()*60 + now.getMinutes();
-  const order = [{key:'bomdod',n:'Bomdod'},{key:'peshin',n:'Peshin'},{key:'asr',n:'Asr'},{key:'shom',n:'Shom'},{key:'xufton',n:'Xufton'}];
-  let next = null;
-  for (const p of order) {
-    if (timeToMin(pt[p.key]) > nowMin) { next = p; break; }
-  }
-  if (!next) next = { key: 'bomdod', n: 'Bomdod (ertaga)' };
-  const nextTime = timeToMin(pt[next.key]);
-  const diffMin = next.n.includes('ertaga') ? (24*60 - nowMin + nextTime) : (nextTime - nowMin);
-  const h = Math.floor(diffMin/60);
-  const m = diffMin % 60;
-  document.getElementById('nextPrayerInfo').textContent = `${next.n} — ${pt[next.key]} (${(h>0?h+' soat ':'')}${m} daqiqa)`;
+function deepWorkSessions(minutes) {
+  if (!minutes) return 0;
+  return Math.max(1, Math.round(minutes / 50));
 }
 
 function renderQuickStats() {
   const t = today();
-  const sessions = (t.deepwork || []).filter(s => s.completed).length;
-  document.getElementById('qsDeep').textContent = sessions;
+  const totalMin = (t.deepwork || []).filter(s => s.completed).reduce((s,x) => s + x.duration, 0);
+  document.getElementById('qsDeep').textContent = deepWorkSessions(totalMin);
 
   let habitsDone = 0;
   data.habits.forEach(h => { if (getHabitStatus(h, todayKey()) === 'done') habitsDone++; });
@@ -2541,6 +3152,58 @@ function addTask(type) {
 function toggleTask(type, idx) { today()[type][idx].done = !today()[type][idx].done; saveData(); renderTaskList(type, type==='tasksA'?3:5); renderQuickStats(); }
 function deleteTask(type, idx) { today()[type].splice(idx, 1); saveData(); renderTaskList(type, type==='tasksA'?3:5); renderQuickStats(); }
 
+/* ============ ASOS SECTION ============ */
+const ASOS_MAP = [
+  { catKey: 'islam', habitId: 'h2', cat: 'Diniy', time: 25, color: 'green' },
+  { catKey: 'book', habitId: 'h3', cat: 'Kitob', time: 10, color: 'purple' },
+  { catKey: 'field', habitId: 'h4', cat: 'Soha', time: 50, color: 'terra' },
+  { catKey: 'language', habitId: 'h5', cat: 'Til', time: 25, color: 'blue' }
+];
+
+function renderAsos() {
+  const c = document.getElementById('asosList');
+  if (!c) return;
+  const tKey = todayKey();
+  const t = today();
+  let doneCount = 0;
+  const items = ASOS_MAP.map(item => {
+    const resource = data.resources[item.catKey];
+    const activeTitle = resource.active ? resource.active.title : null;
+    const habit = data.habits.find(h => h.id === item.habitId);
+    const done = habit ? getHabitStatus(habit, tKey) === 'done' : false;
+    if (done) doneCount++;
+    const text = activeTitle 
+      ? `${activeTitle}` 
+      : `<span style="color:var(--ink-mute); font-style:italic;">Manbalar bo'limidan ${item.cat.toLowerCase()} qo'shing</span>`;
+    return `<div class="asos-item ${done?'done':''}" onclick="toggleAsos('${item.habitId}')" style="--cat-color: var(--${item.color}); --cat-bg: var(--${item.color}-bg);">
+      <div class="asos-check">${done?'✓':''}</div>
+      <span class="asos-cat">${item.cat}</span>
+      <span class="asos-text">${text}</span>
+      <span class="asos-time">${item.time} min</span>
+    </div>`;
+  });
+  // 5th item: reflection
+  const reflectionDone = t.reflection && t.reflection.savedAt;
+  if (reflectionDone) doneCount++;
+  items.push(`<div class="asos-item ${reflectionDone?'done':''}" onclick="goToReflection()" style="--cat-color: var(--rose); --cat-bg: var(--rose-bg);">
+    <div class="asos-check">${reflectionDone?'✓':''}</div>
+    <span class="asos-cat">Xulosa</span>
+    <span class="asos-text">Kechki kunlik xulosani to'ldirish</span>
+    <span class="asos-time">5-10 min</span>
+  </div>`);
+  c.innerHTML = items.join('');
+  document.getElementById('asosProgress').textContent = doneCount + '/5';
+}
+
+function toggleAsos(habitId) {
+  toggleHabit(habitId);
+  renderAsos();
+}
+
+function goToReflection() {
+  document.querySelector('.nav-item[data-view="reflection"]').click();
+}
+
 /* MEETINGS */
 function openMeetingModal() { document.getElementById('meetingModal').classList.add('show'); document.getElementById('meetingName').focus(); }
 function closeMeetingModal() { document.getElementById('meetingModal').classList.remove('show'); }
@@ -2557,15 +3220,27 @@ function saveMeeting() {
   renderMeetings();
 }
 function renderMeetings() {
-  const m = today().meetings || [];
+  const manual = today().meetings || [];
+  const tKey = todayKey();
+  // Today's calendar events
+  const todayCal = (data.calendarEvents || []).filter(ev => {
+    const d = new Date(ev.start);
+    return dateKey(d) === tKey;
+  }).map(ev => {
+    const d = new Date(ev.start);
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    return { id: ev.id, name: ev.title, time: `${hh}:${mm}`, duration: ev.end ? Math.round((new Date(ev.end) - d) / 60000) : 30, isCalendar: true };
+  });
+  const all = [...todayCal, ...manual].sort((a,b)=>a.time.localeCompare(b.time));
   const c = document.getElementById('meetings');
-  if (!m.length) { c.innerHTML = '<div class="empty-state">Bugun uchrashuvlar yo\'q</div>'; return; }
-  c.innerHTML = m.sort((a,b)=>a.time.localeCompare(b.time)).map(mt => `
+  if (!all.length) { c.innerHTML = '<div class="empty-state">Bugun uchrashuvlar yo\'q</div>'; return; }
+  c.innerHTML = all.map(mt => `
     <div class="task">
-      <div class="task-check" style="border-color:var(--blue);background:var(--blue-bg);">📅</div>
-      <div style="flex:1;"><div style="font-weight:500;font-size:13px;">${escapeHtml(mt.name)}</div>
+      <div class="task-check" style="border-color:var(--blue);background:var(--blue-bg);">${mt.isCalendar?'🗓️':'📅'}</div>
+      <div style="flex:1;"><div style="font-weight:500;font-size:13px;">${escapeHtml(mt.name)}${mt.isCalendar?' <span style="font-size:10px;color:var(--blue);">· Calendar</span>':''}</div>
       <div style="font-size:11px;color:var(--ink-mute);font-family:'JetBrains Mono',monospace;">${mt.time} · ${mt.duration} daqiqa</div></div>
-      <button class="task-delete" onclick="deleteMeeting('${mt.id}')">×</button>
+      ${!mt.isCalendar ? `<button class="task-delete" onclick="deleteMeeting('${mt.id}')">×</button>` : ''}
     </div>`).join('');
 }
 function deleteMeeting(id) { today().meetings = today().meetings.filter(m => m.id !== id); saveData(); renderMeetings(); }
@@ -2600,6 +3275,15 @@ function initTimer() {
   document.getElementById('timerStart').addEventListener('click', startTimer);
   document.getElementById('timerStop').addEventListener('click', confirmStopTimer);
 
+  // Task autocomplete
+  const taskInput = document.getElementById('timerTask');
+  const suggestions = document.getElementById('taskSuggestions');
+  taskInput.addEventListener('focus', () => renderTaskSuggestions());
+  taskInput.addEventListener('input', () => renderTaskSuggestions());
+  taskInput.addEventListener('blur', () => {
+    setTimeout(() => suggestions.classList.remove('show'), 150);
+  });
+
   // Sound options
   document.querySelectorAll('.sound-opt').forEach(btn => {
     if (btn.dataset.sound === data.settings.timer.sound) btn.classList.add('active');
@@ -2609,7 +3293,6 @@ function initTimer() {
       btn.classList.add('active');
       data.settings.timer.sound = btn.dataset.sound;
       saveData();
-      // If timer running, switch the sound immediately
       if (timer.running && timer.state === 'work') {
         stopSound();
         if (data.settings.timer.sound !== 'none') startSound(data.settings.timer.sound);
@@ -2630,6 +3313,58 @@ function initTimer() {
   });
 }
 
+function renderTaskSuggestions() {
+  const suggestions = document.getElementById('taskSuggestions');
+  const q = document.getElementById('timerTask').value.toLowerCase().trim();
+  const t = today();
+  const items = [];
+
+  // A tasks
+  t.tasksA.forEach(task => {
+    if (task.text && task.text.trim() && (!q || task.text.toLowerCase().includes(q))) {
+      items.push({ badge: 'A', cls: 'a', text: task.text, done: task.done });
+    }
+  });
+  // B tasks
+  t.tasksB.forEach(task => {
+    if (task.text && task.text.trim() && (!q || task.text.toLowerCase().includes(q))) {
+      items.push({ badge: 'B', cls: 'b', text: task.text, done: task.done });
+    }
+  });
+  // Asos items (with active resource titles)
+  ASOS_MAP.forEach(item => {
+    const res = data.resources[item.catKey];
+    if (res.active) {
+      const text = `${item.cat} | ${item.time} daqiqa "${res.active.title}"`;
+      if (!q || text.toLowerCase().includes(q)) {
+        const habit = data.habits.find(h => h.id === item.habitId);
+        const done = habit ? getHabitStatus(habit, todayKey()) === 'done' : false;
+        items.push({ badge: 'ASOS', cls: 'asos', text, done });
+      }
+    }
+  });
+
+  if (!items.length) {
+    suggestions.classList.remove('show');
+    return;
+  }
+
+  suggestions.innerHTML = `<div class="suggestion-group">
+    <div class="suggestion-group-label">Bugungi vazifalardan tanlang</div>
+    ${items.map(it => `<div class="suggestion" onmousedown="selectTaskSuggestion('${escapeHtml(it.text).replace(/'/g, '&#39;')}')">
+      <span class="suggestion-badge ${it.cls}">${it.badge}</span>
+      <span class="suggestion-text ${it.done?'suggestion-done':''}">${escapeHtml(it.text)}</span>
+    </div>`).join('')}
+  </div>`;
+  suggestions.classList.add('show');
+}
+
+function selectTaskSuggestion(text) {
+  const clean = text.replace(/&#39;/g, "'");
+  document.getElementById('timerTask').value = clean;
+  document.getElementById('taskSuggestions').classList.remove('show');
+}
+
 function startTimer() {
   if (timer.running) return;
   timer.task = document.getElementById('timerTask').value.trim() || 'Deep Work';
@@ -2642,8 +3377,29 @@ function startTimer() {
   document.getElementById('timerStop').classList.remove('hidden');
   timer.interval = setInterval(tickTimer, 1000);
   if (data.settings.timer.sound !== 'none') startSound(data.settings.timer.sound);
-  toast('▶ Ish boshlandi · Tovushni baholang');
+  // Smooth full-duration ring animation
+  startSmoothRing(timer.total);
+  toast('▶ Ish boshlandi');
   updateTimerDisplay();
+}
+
+function startSmoothRing(durationSec) {
+  const ring = document.getElementById('timerRing');
+  const c = 2 * Math.PI * 46;
+  // Reset to full instantly
+  ring.style.transition = 'none';
+  ring.style.strokeDashoffset = '0';
+  // Force reflow
+  void ring.getBoundingClientRect();
+  // Smoothly animate to empty over full duration
+  ring.style.transition = `stroke-dashoffset ${durationSec}s linear`;
+  ring.style.strokeDashoffset = String(c);
+}
+
+function resetSmoothRing() {
+  const ring = document.getElementById('timerRing');
+  ring.style.transition = 'stroke-dashoffset 0.3s ease';
+  ring.style.strokeDashoffset = '0';
 }
 
 function tickTimer() {
@@ -2651,19 +3407,20 @@ function tickTimer() {
   updateTimerDisplay();
   if (timer.remaining <= 0) {
     if (timer.state === 'work') {
-      // Work done — go to break automatically (don't log yet — wait for break to finish)
+      // Work done — start break
       timer.state = 'break';
       timer.remaining = timer.modes[timer.mode].break * 60;
       timer.total = timer.remaining;
-      stopSound(); // pause sound during break
+      stopSound();
       playBell();
-      sendNotification('🎉 Ish vaqti tugadi', 'Tanaffus vaqti boshlandi. Tanaffusda ekrandan chiqing.');
+      // Start new smooth ring for break (green color)
+      startSmoothRing(timer.total);
+      sendNotification('🎉 Ish vaqti tugadi', 'Tanaffus vaqti boshlandi.');
       toast('🎉 Ajoyib! Tanaffus boshlandi.');
     } else {
-      // Break complete — NOW log the session as fully completed
+      // Break complete — log fully completed cycle
       const workDur = timer.modes[timer.mode].work;
       logCompletedSession(timer.task, workDur, timer.mode);
-      // Reset to idle
       stopTimer(false);
       playBell();
       sendNotification('✓ To\'liq sessiya bajarildi', `${workDur} daqiqa Deep Work + tanaffus tugadi.`);
@@ -2690,6 +3447,7 @@ function stopTimer(showRestore) {
   document.getElementById('timerStart').classList.remove('hidden');
   document.getElementById('timerStop').classList.add('hidden');
   stopSound();
+  resetSmoothRing();
   updateTimerDisplay();
 }
 
@@ -2713,18 +3471,17 @@ function updateTimerDisplay() {
   document.getElementById('timerCycleInfo').textContent = timer.running ? `${timer.modes[timer.mode].work}+${timer.modes[timer.mode].break} min sikl` : '';
   const ring = document.getElementById('timerRing');
   ring.classList.toggle('break', timer.state === 'break');
-  const c = 2 * Math.PI * 46;
-  const offset = c * (1 - timer.remaining / timer.total);
-  ring.style.strokeDashoffset = offset;
+  // Note: stroke-dashoffset is now controlled by CSS transition started in startSmoothRing
 }
 
 function renderSessions() {
   const sessions = (today().deepwork || []).filter(s => s.completed);
   const totalMin = sessions.reduce((s,x)=>s+x.duration, 0);
-  document.getElementById('todaySessionsCount').textContent = `${sessions.length} ta · ${totalMin} min`;
+  const sessionCount = deepWorkSessions(totalMin);
+  document.getElementById('todaySessionsCount').textContent = `${sessionCount} sessiya · ${totalMin} min · ${sessions.length} sikl`;
   const c = document.getElementById('sessionLog');
   if (!sessions.length) {
-    c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">⏱️</span>Bugun hali to\'liq sessiya yo\'q.<br>Ishni to\'liq + tanaffusni to\'liq bajaring.</div>';
+    c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">⏱️</span>Bugun hali to\'liq sessiya yo\'q.<br>50 daqiqa = 1 sessiya hisobi</div>';
     return;
   }
   c.innerHTML = sessions.slice().reverse().map(s => {
@@ -3410,13 +4167,18 @@ function renderStats() {
 function renderSettings() {
   const pt = data.settings.prayerTimes;
   document.getElementById('userName').value = data.settings.name || '';
+  document.getElementById('locLat').value = data.settings.location.lat;
+  document.getElementById('locLng').value = data.settings.location.lng;
+  document.getElementById('time-tahajjud').value = pt.tahajjud;
   document.getElementById('time-bomdod').value = pt.bomdod;
+  document.getElementById('time-quyosh').value = pt.quyosh;
   document.getElementById('time-peshin').value = pt.peshin;
   document.getElementById('time-asr').value = pt.asr;
   document.getElementById('time-shom').value = pt.shom;
   document.getElementById('time-xufton').value = pt.xufton;
   document.getElementById('tgToken').value = data.settings.telegram.token;
   document.getElementById('tgChatId').value = data.settings.telegram.chatId;
+  document.getElementById('icalUrl').value = data.settings.calendar.icalUrl || '';
   document.getElementById('tgPrayerToggle').classList.toggle('on', data.settings.telegram.prayerNotif);
   document.getElementById('tgReflectionToggle').classList.toggle('on', data.settings.telegram.reflectionNotif);
   if ("Notification" in window) {
@@ -3426,14 +4188,17 @@ function renderSettings() {
 
 function initSettings() {
   document.getElementById('userName').addEventListener('change', e => { data.settings.name = e.target.value.trim(); saveData(); renderToday(); });
-  ['bomdod','peshin','asr','shom','xufton'].forEach(p => {
+  document.getElementById('locLat').addEventListener('change', e => { data.settings.location.lat = parseFloat(e.target.value) || 41.2995; saveData(); });
+  document.getElementById('locLng').addEventListener('change', e => { data.settings.location.lng = parseFloat(e.target.value) || 69.2401; saveData(); });
+  ['tahajjud','bomdod','quyosh','peshin','asr','shom','xufton'].forEach(p => {
     document.getElementById('time-' + p).addEventListener('change', e => {
       data.settings.prayerTimes[p] = e.target.value;
-      saveData(); renderPrayers(); updateNextPrayer(); schedulePrayerNotifications();
+      saveData(); renderPrayers(); renderPrayerExtras(); updateNextPrayer(); schedulePrayerNotifications();
     });
   });
   document.getElementById('tgToken').addEventListener('change', e => { data.settings.telegram.token = e.target.value.trim(); saveData(); });
   document.getElementById('tgChatId').addEventListener('change', e => { data.settings.telegram.chatId = e.target.value.trim(); saveData(); });
+  document.getElementById('icalUrl').addEventListener('change', e => { data.settings.calendar.icalUrl = e.target.value.trim(); saveData(); });
 }
 
 function toggleSetting(key, el) {
@@ -3487,19 +4252,31 @@ function schedulePrayerNotifications() {
   scheduledTimers.forEach(t => clearTimeout(t));
   scheduledTimers = [];
   const pt = data.settings.prayerTimes;
-  const names = { bomdod: '🌅 Bomdod', peshin: '☀️ Peshin', asr: '🌤️ Asr', shom: '🌆 Shom', xufton: '🌙 Xufton' };
+  const labels = {
+    tahajjud: { emoji: '🌌', name: 'Tahajjud', msg: 'uchun eng qulay vaqt' },
+    bomdod: { emoji: '🌅', name: 'Bomdod', msg: 'vaqti kirdi' },
+    quyosh: { emoji: '🌄', name: 'Quyosh', msg: 'ko\'tarildi' },
+    peshin: { emoji: '☀️', name: 'Peshin', msg: 'vaqti kirdi' },
+    asr: { emoji: '🌤️', name: 'Asr', msg: 'vaqti kirdi' },
+    shom: { emoji: '🌆', name: 'Shom', msg: 'vaqti kirdi' },
+    xufton: { emoji: '🌙', name: 'Xufton', msg: 'vaqti kirdi' }
+  };
   const now = new Date();
   const nowMs = now.getTime();
 
   Object.keys(pt).forEach(key => {
+    if (!labels[key] || !pt[key]) return;
     const [h, m] = pt[key].split(':').map(Number);
     const target = new Date(); target.setHours(h, m, 0, 0);
     if (target < now) target.setDate(target.getDate() + 1);
     const ms = target.getTime() - nowMs;
     if (ms > 0 && ms < 24*60*60*1000) {
+      const timeStr = pt[key];
+      const lbl = labels[key];
+      const tgMsg = `${timeStr} ${lbl.name} ${lbl.msg}`;
       const t = setTimeout(() => {
-        sendNotification(names[key] + ' vaqti', 'Namozga to\'plansin');
-        if (data.settings.telegram.prayerNotif) sendTelegramMessage(`🕌 *${names[key]}* vaqti keldi.`);
+        sendNotification(lbl.emoji + ' ' + lbl.name + ' vaqti', tgMsg);
+        if (data.settings.telegram.prayerNotif) sendTelegramMessage(`${lbl.emoji} ${tgMsg}`);
       }, ms);
       scheduledTimers.push(t);
     }
@@ -3517,6 +4294,27 @@ function schedulePrayerNotifications() {
       scheduledTimers.push(t);
     }
   }
+}
+
+function scheduleMeetingReminders() {
+  if (!data.settings.telegram.meetingNotif && !data.settings.telegram.prayerNotif) return;
+  if (!data.calendarEvents || !data.calendarEvents.length) return;
+  const now = Date.now();
+  data.calendarEvents.forEach(ev => {
+    const startMs = new Date(ev.start).getTime();
+    const reminderMs = startMs - 60 * 60 * 1000; // 1 hour before
+    if (reminderMs > now && reminderMs - now < 24 * 60 * 60 * 1000) {
+      const t = setTimeout(() => {
+        const evDate = new Date(ev.start);
+        const hh = String(evDate.getHours()).padStart(2,'0');
+        const mm = String(evDate.getMinutes()).padStart(2,'0');
+        const msg = `📅 ${hh}:${mm} vaqtda uchrashuv bor: ${ev.title}`;
+        sendNotification('Uchrashuv 1 soatdan keyin', msg);
+        sendTelegramMessage(msg);
+      }, reminderMs - now);
+      scheduledTimers.push(t);
+    }
+  });
 }
 
 function exportData() {
@@ -3552,21 +4350,299 @@ function resetAll() {
   localStorage.removeItem(STORAGE_KEY); location.reload();
 }
 
-/* ============ INIT ============ */
+/* ============ PRAYER TIMES API (Aladhan) ============ */
+async function fetchPrayerTimes() {
+  const cache = data.prayerCache;
+  const tKey = todayKey();
+  if (cache && cache.date === tKey && cache.times) {
+    applyFetchedPrayers(cache.times);
+    return;
+  }
+  try {
+    const lat = data.settings.location.lat;
+    const lng = data.settings.location.lng;
+    const now = new Date();
+    const dateStr = `${String(now.getDate()).padStart(2,'0')}-${String(now.getMonth()+1).padStart(2,'0')}-${now.getFullYear()}`;
+    // Method 14 = Spiritual Administration of Muslims (Russia/Central Asia), best for Uzbekistan
+    const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=14`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API failed');
+    const json = await res.json();
+    if (json.code !== 200) throw new Error('Bad response');
+    const t = json.data.timings;
+    // Aladhan times look like "04:32 (+05)" — clean them
+    const clean = s => (s || '').split(' ')[0];
+    const fetched = {
+      bomdod: clean(t.Fajr),
+      quyosh: clean(t.Sunrise),
+      peshin: clean(t.Dhuhr),
+      asr: clean(t.Asr),
+      shom: clean(t.Maghrib),
+      xufton: clean(t.Isha),
+      tahajjud: clean(t.Lastthird)
+    };
+    data.prayerCache = { date: tKey, times: fetched };
+    applyFetchedPrayers(fetched);
+    saveData();
+    return true;
+  } catch(e) {
+    console.error('Prayer fetch failed:', e);
+    return false;
+  }
+}
+
+function applyFetchedPrayers(times) {
+  Object.keys(times).forEach(k => {
+    if (times[k]) data.settings.prayerTimes[k] = times[k];
+  });
+  saveData();
+  if (document.getElementById('view-today').classList.contains('active')) {
+    renderPrayers();
+    renderPrayerExtras();
+    updateNextPrayer();
+  }
+  schedulePrayerNotifications();
+}
+
+async function manualFetchPrayers() {
+  toast('Aladhan API dan olinmoqda...');
+  data.prayerCache = { date: null, times: null }; // force refresh
+  const ok = await fetchPrayerTimes();
+  if (ok) {
+    toast('✓ Namoz vaqtlari yangilandi');
+    renderSettings();
+  } else {
+    toast('❌ Xato. Internet yoki lokatsiyani tekshiring');
+  }
+}
+
+/* ============ GOOGLE CALENDAR (iCal) ============ */
+async function fetchCalendarEvents() {
+  const url = data.settings.calendar.icalUrl;
+  if (!url || !url.startsWith('https://')) return;
+  try {
+    // Use CORS proxy via allorigins.win for browser CORS issue
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error('iCal fetch failed');
+    const text = await res.text();
+    const events = parseICalEvents(text);
+    data.calendarEvents = events;
+    data.settings.calendar.lastFetch = new Date().toISOString();
+    saveData();
+    scheduleMeetingReminders();
+    return events;
+  } catch(e) {
+    console.error('Calendar fetch failed:', e);
+    return null;
+  }
+}
+
+function parseICalEvents(text) {
+  const events = [];
+  const blocks = text.split('BEGIN:VEVENT');
+  for (let i = 1; i < blocks.length; i++) {
+    const block = blocks[i].split('END:VEVENT')[0];
+    const get = (key) => {
+      const re = new RegExp(key + '[^\\r\\n]*:([^\\r\\n]+)', 'i');
+      const m = block.match(re);
+      return m ? m[1].trim() : '';
+    };
+    const summary = get('SUMMARY');
+    const start = get('DTSTART');
+    const end = get('DTEND');
+    if (summary && start) {
+      const startDate = parseICalDate(start);
+      if (startDate) {
+        events.push({
+          id: uid(),
+          title: summary,
+          start: startDate.toISOString(),
+          end: end ? parseICalDate(end)?.toISOString() : null
+        });
+      }
+    }
+  }
+  // Only future + today events, sorted
+  const now = new Date();
+  const cutoff = new Date(now.getTime() - 24*60*60*1000);
+  return events.filter(e => new Date(e.start) > cutoff).sort((a,b) => a.start.localeCompare(b.start));
+}
+
+function parseICalDate(str) {
+  // Formats: 20260519T140000Z, 20260519T140000, 20260519
+  if (!str) return null;
+  str = str.replace(/[^0-9TZ]/g, '');
+  const m = str.match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2}))?(Z)?/);
+  if (!m) return null;
+  const [_, y, mo, d, h='00', mi='00', s='00', z] = m;
+  if (z === 'Z') {
+    return new Date(Date.UTC(+y, +mo-1, +d, +h, +mi, +s));
+  }
+  return new Date(+y, +mo-1, +d, +h, +mi, +s);
+}
+
+async function manualFetchCalendar() {
+  if (!data.settings.calendar.icalUrl) { toast('Avval iCal URL kiriting'); return; }
+  toast('Calendar olinmoqda...');
+  const events = await fetchCalendarEvents();
+  if (events) {
+    toast(`✓ ${events.length} ta uchrashuv topildi`);
+    renderMeetings();
+  } else {
+    toast('❌ Xato. URL ni tekshiring');
+  }
+}
+
+/* ============ THEME ============ */
+function applyTheme(theme) {
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+    document.getElementById('themeToggle').textContent = '☀️';
+  } else {
+    document.documentElement.classList.remove('dark');
+    document.getElementById('themeToggle').textContent = '🌙';
+  }
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#18161a' : '#faf7f2');
+}
+
+function toggleTheme() {
+  const newTheme = data.settings.theme === 'dark' ? 'light' : 'dark';
+  data.settings.theme = newTheme;
+  applyTheme(newTheme);
+  saveData();
+}
+
+/* ============ HISTORY (TARIX) VIEW ============ */
+let historyDate = todayKey();
+
+function renderHistory() {
+  const d = new Date(historyDate);
+  document.getElementById('histDay').textContent = `${dayName(d)}, ${d.getDate()} ${monthName(d.getMonth())}, ${d.getFullYear()}`;
+  document.getElementById('histSub').textContent = historyDate === todayKey() ? 'Bugun' : `${Math.round((new Date() - d) / 86400000)} kun oldin`;
+  document.getElementById('historyPicker').value = historyDate;
+
+  const dayData = data.days[historyDate];
+  const c = document.getElementById('histContent');
+  if (!dayData) {
+    c.innerHTML = '<div class="history-empty-day"><span class="empty-state-icon">📅</span>Bu kunda ma\'lumot yo\'q</div>';
+    return;
+  }
+
+  // Calculate
+  const prayers = ['bomdod','peshin','asr','shom','xufton'];
+  const namesP = { bomdod:'🌅 Bomdod', peshin:'☀️ Peshin', asr:'🌤️ Asr', shom:'🌆 Shom', xufton:'🌙 Xufton' };
+  const dwMin = (dayData.deepwork || []).filter(s=>s.completed).reduce((s,x)=>s+x.duration,0);
+  const dwSessions = deepWorkSessions(dwMin);
+  const aDone = (dayData.tasksA || []).filter(t=>t.done).length;
+  const aTotal = (dayData.tasksA || []).length;
+  const bDone = (dayData.tasksB || []).filter(t=>t.done).length;
+  const bTotal = (dayData.tasksB || []).length;
+  const habitStatuses = data.habits.map(h => ({ name: h.emoji + ' ' + h.name, status: getHabitStatus(h, historyDate) }));
+  const r = dayData.reflection || {};
+
+  c.innerHTML = `
+    <div class="history-content">
+      <div class="history-card">
+        <h4>🕌 Namozlar (${prayers.filter(p => dayData.prayers?.[p]).length}/5)</h4>
+        ${prayers.map(p => `<div class="history-row"><span>${namesP[p]}</span><span class="history-row-value">${dayData.prayers?.[p] ? '✓ bajarildi' : '— o\'tdi'}</span></div>`).join('')}
+      </div>
+
+      <div class="history-card">
+        <h4>⏱️ Deep Work</h4>
+        <div class="history-row"><span>Sessiyalar (50 min = 1)</span><span class="history-row-value">${dwSessions}</span></div>
+        <div class="history-row"><span>Jami daqiqa</span><span class="history-row-value">${dwMin} min</span></div>
+        <div class="history-row"><span>Sikllar soni</span><span class="history-row-value">${(dayData.deepwork || []).filter(s=>s.completed).length}</span></div>
+        ${(dayData.deepwork || []).filter(s=>s.completed).slice(0,3).map(s => `<div class="history-row"><span style="font-size:11px; color:var(--ink-mute);">${escapeHtml(s.task)}</span><span class="history-row-value" style="color:var(--green); font-size:11px;">${s.duration}m</span></div>`).join('')}
+      </div>
+
+      <div class="history-card">
+        <h4>✅ Vazifalar</h4>
+        <div class="history-row"><span>A vazifalar</span><span class="history-row-value">${aDone}/${Math.max(3,aTotal)}</span></div>
+        <div class="history-row"><span>B vazifalar</span><span class="history-row-value">${bDone}/${Math.max(5,bTotal)}</span></div>
+        ${(dayData.tasksA || []).filter(t=>t.done).slice(0,5).map(t => `<div class="history-row"><span style="font-size:11px; color:var(--ink-mute);">✓ ${escapeHtml(t.text || '—')}</span></div>`).join('')}
+      </div>
+
+      <div class="history-card">
+        <h4>🔁 Odatlar</h4>
+        ${habitStatuses.map(h => `<div class="history-row"><span style="font-size:12px;">${escapeHtml(h.name)}</span><span class="history-row-value" style="color: ${h.status==='done'?'var(--green)':h.status==='partial'?'var(--amber)':'var(--ink-faint)'};">${h.status==='done'?'✓':h.status==='partial'?'~':'○'}</span></div>`).join('')}
+      </div>
+
+      ${r.savedAt ? `
+      <div class="history-card" style="grid-column: 1 / -1;">
+        <h4>📝 Kunlik xulosa</h4>
+        ${r.mood ? `<div class="history-row"><span>Kayfiyat</span><span class="history-row-value">${r.mood}</span></div>` : ''}
+        ${r.energy ? `<div class="history-row"><span>Energiya</span><span class="history-row-value">${r.energy}/5</span></div>` : ''}
+        ${r.good ? `<div style="margin-top:10px; font-size:12px;"><b>Yaxshi ketdi:</b> ${escapeHtml(r.good)}</div>` : ''}
+        ${r.bad ? `<div style="margin-top:8px; font-size:12px;"><b>Yomon ketdi:</b> ${escapeHtml(r.bad)}</div>` : ''}
+        ${(r.gratitudes || []).filter(g=>g).length ? `<div style="margin-top:8px; font-size:12px;"><b>Shukrlar:</b> ${(r.gratitudes||[]).filter(g=>g).map(escapeHtml).join(' · ')}</div>` : ''}
+      </div>
+      ` : ''}
+    </div>
+  `;
+
+  // Disable next button if today
+  document.getElementById('histNext').disabled = historyDate >= todayKey();
+}
+
+function initHistory() {
+  document.getElementById('histPrev').addEventListener('click', () => {
+    const d = new Date(historyDate);
+    d.setDate(d.getDate() - 1);
+    historyDate = dateKey(d);
+    renderHistory();
+  });
+  document.getElementById('histNext').addEventListener('click', () => {
+    const d = new Date(historyDate);
+    d.setDate(d.getDate() + 1);
+    if (dateKey(d) > todayKey()) return;
+    historyDate = dateKey(d);
+    renderHistory();
+  });
+  document.getElementById('historyPicker').addEventListener('change', e => {
+    if (e.target.value && e.target.value <= todayKey()) {
+      historyDate = e.target.value;
+      renderHistory();
+    }
+  });
+}
 function init() {
+  // Apply theme before render to avoid flash
+  applyTheme(data.settings.theme || 'light');
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
   renderToday();
   initTimer();
   initReflection();
   initSettings();
+  initHistory();
   schedulePrayerNotifications();
 
+  // Fetch live data
+  fetchPrayerTimes();
+  if (data.settings.calendar.icalUrl) {
+    fetchCalendarEvents();
+  }
+
+  // Live clock — update every second
+  setInterval(updateLiveClock, 1000);
+
+  // Refresh prayer info every minute
   setInterval(() => {
     if (document.getElementById('view-today').classList.contains('active')) {
       updateNextPrayer();
       renderPrayers();
+      // Refresh dynamic greeting
+      const name = data.settings.name || 'birodar';
+      document.getElementById('greeting').innerHTML = `${getDynamicGreeting()}, <strong>${escapeHtml(name)}</strong> 👋`;
     }
   }, 60000);
 
+  // Auto-refresh prayer times daily + calendar every hour
+  setInterval(() => fetchPrayerTimes(), 6 * 60 * 60 * 1000); // every 6 hours
+  setInterval(() => { if (data.settings.calendar.icalUrl) fetchCalendarEvents(); }, 60 * 60 * 1000);
+
+  // Auto-reload at midnight for fresh day
   const now = new Date();
   const tomorrow = new Date(now);
   tomorrow.setDate(tomorrow.getDate() + 1);
