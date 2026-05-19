@@ -1,0 +1,3589 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#faf7f2">
+<title>Kun Tizimi · v2</title>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕌</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #faf7f2;
+  --bg-elev: #ffffff;
+  --bg-soft: #f3efe7;
+  --bg-softer: #f7f4ec;
+  --ink: #1a1a1a;
+  --ink-soft: #5c5a55;
+  --ink-mute: #918e87;
+  --ink-faint: #b8b5ad;
+  --line: #e8e3d8;
+  --line-soft: #f0ece3;
+  --line-strong: #d9d3c4;
+  --green: #2d6a4f;
+  --green-bg: #e8f0eb;
+  --green-text: #1a4733;
+  --green-soft: #c5dccf;
+  --terra: #b8543a;
+  --terra-bg: #f6e6df;
+  --terra-text: #6b2e1c;
+  --terra-soft: #ecc4b3;
+  --amber: #b8862c;
+  --amber-bg: #f5ecd6;
+  --amber-text: #5e4313;
+  --blue: #2c5b8a;
+  --blue-bg: #e3edf5;
+  --blue-text: #163659;
+  --purple: #6b4ba8;
+  --purple-bg: #ece5f4;
+  --purple-text: #3a2766;
+  --rose: #b8395e;
+  --rose-bg: #f5e2ea;
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --shadow-xs: 0 0 0 0.5px rgba(60, 45, 20, 0.06);
+  --shadow-sm: 0 1px 2px rgba(60, 45, 20, 0.04), 0 0 0 0.5px rgba(60, 45, 20, 0.06);
+  --shadow-md: 0 2px 8px rgba(60, 45, 20, 0.06), 0 0 0 0.5px rgba(60, 45, 20, 0.08);
+  --shadow-lg: 0 8px 24px rgba(60, 45, 20, 0.08), 0 0 0 0.5px rgba(60, 45, 20, 0.08);
+  --transition: 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 5% 5%, rgba(45, 106, 79, 0.025) 0%, transparent 40%),
+    radial-gradient(circle at 95% 95%, rgba(184, 84, 58, 0.025) 0%, transparent 40%);
+  min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font-family: inherit; color: inherit; }
+a { color: var(--blue); text-decoration: none; }
+
+/* ============ LAYOUT ============ */
+.app {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  padding: 28px 16px 100px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 0.5px solid var(--line);
+}
+
+.brand {
+  padding: 4px 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon { font-size: 24px; }
+
+.brand-text {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.nav { display: flex; flex-direction: column; gap: 2px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  transition: all var(--transition);
+  text-align: left;
+  width: 100%;
+}
+
+.nav-item:hover { background: var(--bg-soft); color: var(--ink); }
+.nav-item.active { background: var(--ink); color: var(--bg); }
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nav-icon svg { width: 100%; height: 100%; }
+
+.nav-divider {
+  height: 0.5px;
+  background: var(--line);
+  margin: 16px 12px;
+}
+
+main {
+  padding: 32px 36px 80px;
+  max-width: 1180px;
+  width: 100%;
+}
+
+.view { display: none; animation: fadeIn 0.3s ease; }
+.view.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.view-header {
+  margin-bottom: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.view-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.view-sub { color: var(--ink-mute); font-size: 13px; margin-top: 6px; }
+
+/* ============ CARDS ============ */
+.card {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grid { display: grid; gap: 14px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* ============ BUTTONS ============ */
+.btn {
+  padding: 8px 14px;
+  border-radius: 22px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg-elev);
+  color: var(--ink-soft);
+  border: 0.5px solid var(--line);
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn:hover { background: var(--bg-soft); color: var(--ink); }
+.btn-primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn-primary:hover { background: var(--ink-soft); }
+.btn-accent { background: var(--terra); color: white; border-color: var(--terra); }
+.btn-accent:hover { background: var(--terra-text); }
+.btn-ghost { background: transparent; border: none; color: var(--ink-mute); padding: 4px 8px; }
+.btn-ghost:hover { color: var(--ink); background: var(--bg-soft); }
+
+/* ============ TODAY VIEW ============ */
+.greeting-card {
+  background: linear-gradient(135deg, var(--green) 0%, #1f4d3a 100%);
+  color: white;
+  border-radius: var(--radius-xl);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.greeting-card::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+}
+
+.greeting-text {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  position: relative;
+}
+
+.greeting-text strong { font-weight: 500; }
+
+.greeting-date {
+  font-size: 13px;
+  opacity: 0.85;
+  margin-top: 6px;
+  position: relative;
+}
+
+.greeting-hijri {
+  font-style: italic;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 2px;
+  position: relative;
+}
+
+.greeting-next {
+  margin-top: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.12);
+  padding: 8px 14px;
+  border-radius: 22px;
+  font-size: 13px;
+  position: relative;
+}
+
+.greeting-next strong { font-family: 'JetBrains Mono', monospace; font-weight: 500; }
+
+.today-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 920px) {
+  .today-grid { grid-template-columns: 1fr; }
+}
+
+/* Prayer card */
+.prayers {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.prayer {
+  text-align: center;
+  padding: 14px 8px;
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1.5px solid transparent;
+  position: relative;
+}
+
+.prayer:hover { transform: translateY(-2px); }
+.prayer.done { background: var(--green-bg); border-color: var(--green); }
+.prayer.done .prayer-icon { color: var(--green); }
+.prayer.done .prayer-name { color: var(--green-text); font-weight: 600; }
+
+.prayer.current { background: var(--amber-bg); border-color: var(--amber); }
+.prayer.current::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.prayer-icon { font-size: 16px; color: var(--ink-mute); margin-bottom: 4px; display: block; }
+.prayer-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+.prayer-time { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-mute); font-weight: 500; }
+
+/* Quick stats */
+.quick-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+.qs-item {
+  padding: 12px 14px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.qs-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent, var(--terra));
+}
+
+.qs-item.green { --accent: var(--green); }
+.qs-item.terra { --accent: var(--terra); }
+.qs-item.purple { --accent: var(--purple); }
+.qs-item.blue { --accent: var(--blue); }
+
+.qs-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+
+.qs-value { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; line-height: 1; margin-top: 2px; }
+.qs-sub { font-size: 10px; color: var(--ink-mute); margin-top: 2px; }
+
+/* Tasks */
+.task-section { margin-bottom: 14px; }
+
+.task-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 0 2px;
+}
+
+.task-section-title-left { display: flex; align-items: center; gap: 8px; }
+
+.priority-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+
+.priority-badge.a { background: var(--terra-bg); color: var(--terra-text); }
+.priority-badge.b { background: var(--blue-bg); color: var(--blue-text); }
+
+.task-section-title-text {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+
+.task-list { display: flex; flex-direction: column; gap: 6px; }
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-elev);
+  border-radius: var(--radius);
+  border: 0.5px solid var(--line);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.task:hover { border-color: var(--line-strong); transform: translateX(2px); }
+.task.done { opacity: 0.5; background: var(--bg-soft); }
+.task.done .task-text { text-decoration: line-through; }
+
+.task-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.task.done .task-check { background: var(--green); border-color: var(--green); color: white; }
+
+.task-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.task-text:focus { color: var(--terra); }
+
+.task-delete {
+  opacity: 0;
+  color: var(--ink-mute);
+  padding: 4px 8px;
+  font-size: 16px;
+  transition: opacity var(--transition);
+}
+
+.task:hover .task-delete { opacity: 1; }
+.task-delete:hover { color: var(--terra); }
+
+.task-add {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  color: var(--ink-mute);
+  background: transparent;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  font-size: 13px;
+  width: 100%;
+  transition: all var(--transition);
+}
+
+.task-add:hover { border-color: var(--terra); color: var(--terra); background: var(--terra-bg); }
+
+/* ============ DEEP WORK ============ */
+.timer-container {
+  background: var(--bg-elev);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 20px;
+}
+
+.timer-mode {
+  display: inline-flex;
+  background: var(--bg-soft);
+  border-radius: 22px;
+  padding: 3px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.timer-mode button {
+  padding: 6px 16px;
+  border-radius: 19px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-mute);
+}
+
+.timer-mode button.active {
+  background: var(--bg-elev);
+  color: var(--ink);
+  box-shadow: var(--shadow-xs);
+}
+
+.timer-circle {
+  width: 260px;
+  height: 260px;
+  margin: 0 auto 24px;
+  position: relative;
+}
+
+.timer-circle svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.timer-ring-bg { stroke: var(--line); fill: none; stroke-width: 8; }
+.timer-ring-fg {
+  stroke: var(--terra);
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s linear;
+}
+
+.timer-ring-fg.break { stroke: var(--green); }
+
+.timer-display {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 56px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.timer-state {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.timer-cycle-info {
+  font-size: 11px;
+  color: var(--ink-faint);
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.timer-controls { display: flex; gap: 12px; justify-content: center; margin-top: 24px; }
+
+.timer-btn {
+  padding: 12px 28px;
+  border-radius: 28px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.timer-btn-start { background: var(--terra); color: white; min-width: 140px; }
+.timer-btn-start:hover { background: var(--terra-text); }
+.timer-btn-stop { background: var(--bg-soft); color: var(--ink); }
+
+.timer-task { margin: 20px auto 0; max-width: 400px; text-align: left; }
+
+.timer-task-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.timer-task-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-soft);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.timer-task-input:focus {
+  outline: none;
+  border-color: var(--terra);
+  background: var(--bg-elev);
+}
+
+/* Sound selector */
+.sound-section {
+  max-width: 460px;
+  margin: 18px auto 0;
+  padding: 14px 18px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  text-align: left;
+}
+
+.sound-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sound-section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+
+.sound-hint {
+  font-size: 10px;
+  color: var(--ink-mute);
+  font-style: italic;
+}
+
+.sound-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.sound-opt {
+  padding: 8px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  border: 0.5px solid transparent;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+}
+
+.sound-opt:hover { border-color: var(--line-strong); }
+.sound-opt.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.sound-opt-name { display: block; font-weight: 600; margin-bottom: 1px; }
+.sound-opt-sub { display: block; font-size: 9px; opacity: 0.7; }
+
+.volume-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+
+.volume-slider {
+  flex: 1;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--line);
+  border-radius: 3px;
+  outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--terra);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: var(--shadow-xs);
+}
+
+.volume-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* Session log */
+.session-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--line);
+}
+
+.session-row:last-child { border-bottom: none; }
+
+.session-info { flex: 1; }
+
+.session-name { font-weight: 500; font-size: 13px; }
+
+.session-meta { font-size: 11px; color: var(--ink-mute); margin-top: 2px; }
+
+.session-duration {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--green);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ============ HABITS WITH SUBTASKS ============ */
+.habit {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 12px;
+  transition: all var(--transition);
+}
+
+.habit-main {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 20px;
+  align-items: center;
+}
+
+@media (max-width: 760px) {
+  .habit-main { grid-template-columns: 1fr; gap: 12px; }
+}
+
+.habit-info { min-width: 0; }
+
+.habit-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.habit-emoji { font-size: 18px; }
+
+.habit-name {
+  font-weight: 500;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.habit-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-weight: 500;
+}
+
+.habit-streak {
+  color: var(--terra);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.habit-streak-num { font-family: 'JetBrains Mono', monospace; }
+
+.habit-progress { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+.habit-heatmap {
+  display: flex;
+  gap: 2px;
+  height: 28px;
+}
+
+.habit-day {
+  flex: 1;
+  border-radius: 2px;
+  background: var(--bg-soft);
+  cursor: pointer;
+  transition: all var(--transition);
+  min-width: 4px;
+}
+
+.habit-day:hover { transform: scaleY(1.15); }
+.habit-day.done { background: var(--green); }
+.habit-day.partial { background: var(--amber); }
+.habit-day.today { outline: 1.5px solid var(--ink); outline-offset: 1px; }
+
+.habit-actions { display: flex; gap: 6px; align-items: center; }
+
+.habit-toggle {
+  padding: 8px 16px;
+  border-radius: 22px;
+  background: var(--bg-soft);
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-weight: 500;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.habit-toggle.done { background: var(--green); color: white; }
+.habit-toggle.partial { background: var(--amber); color: white; }
+
+.habit-expand {
+  background: var(--bg-soft);
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-mute);
+  transition: all var(--transition);
+}
+
+.habit-expand:hover { background: var(--line); color: var(--ink); }
+.habit-expand.open { transform: rotate(180deg); }
+
+.subtasks {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 0.5px solid var(--line);
+  display: none;
+}
+
+.habit.expanded .subtasks { display: block; }
+
+.subtask {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.subtask:hover { background: var(--bg-soft); }
+.subtask.done .subtask-text { text-decoration: line-through; color: var(--ink-mute); }
+
+.subtask-check {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--line-strong);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  font-size: 10px;
+  color: white;
+}
+
+.subtask.done .subtask-check { background: var(--green); border-color: var(--green); }
+
+.subtask-text {
+  flex: 1;
+  font-size: 13px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.subtask-delete {
+  opacity: 0;
+  color: var(--ink-mute);
+  padding: 4px 8px;
+  font-size: 14px;
+  transition: opacity var(--transition);
+}
+
+.subtask:hover .subtask-delete { opacity: 1; }
+
+.subtask-add {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  color: var(--ink-mute);
+  background: transparent;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  width: 100%;
+  transition: all var(--transition);
+  margin-top: 4px;
+}
+
+.subtask-add:hover { border-color: var(--terra); color: var(--terra); }
+
+/* ============ RESOURCES ============ */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 760px) {
+  .resources-grid { grid-template-columns: 1fr; }
+}
+
+.resource-cat {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+
+.resource-cat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.resource-cat-emoji {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  background: var(--cat-bg);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.resource-cat-info { flex: 1; min-width: 0; }
+
+.resource-cat-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.resource-cat-time { font-size: 11px; color: var(--ink-mute); font-weight: 500; }
+
+.resource-cat[data-cat="islam"] { --cat-color: var(--green); --cat-bg: var(--green-bg); --cat-text: var(--green-text); }
+.resource-cat[data-cat="book"] { --cat-color: var(--purple); --cat-bg: var(--purple-bg); --cat-text: var(--purple-text); }
+.resource-cat[data-cat="field"] { --cat-color: var(--terra); --cat-bg: var(--terra-bg); --cat-text: var(--terra-text); }
+.resource-cat[data-cat="language"] { --cat-color: var(--blue); --cat-bg: var(--blue-bg); --cat-text: var(--blue-text); }
+
+.resource-active {
+  padding: 14px 16px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--cat-color);
+  margin-bottom: 12px;
+}
+
+.resource-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 2px;
+  color: var(--ink);
+}
+
+.resource-author {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 2px;
+}
+
+.resource-source-line {
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-bottom: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.resource-progress-bar {
+  height: 6px;
+  background: var(--bg-elev);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.resource-progress-fill {
+  height: 100%;
+  background: var(--cat-color);
+  border-radius: 3px;
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.resource-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 12px;
+}
+
+.resource-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.resource-btn {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--bg-elev);
+  color: var(--ink-soft);
+  border: 0.5px solid var(--line);
+}
+
+.resource-btn:hover { background: var(--bg-soft); }
+
+.resource-btn.complete {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+
+.resource-btn.complete:hover { background: var(--green-text); }
+
+.resource-empty {
+  padding: 24px 16px;
+  background: var(--bg-soft);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--radius);
+  text-align: center;
+  color: var(--ink-mute);
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.resource-empty:hover {
+  border-color: var(--cat-color);
+  color: var(--cat-color);
+  background: var(--cat-bg);
+}
+
+.resource-empty-icon { font-size: 28px; margin-bottom: 4px; display: block; }
+.resource-empty-text { font-size: 12px; font-weight: 500; }
+
+.resource-completed {
+  margin-top: 8px;
+}
+
+.resource-completed summary {
+  cursor: pointer;
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-weight: 600;
+  padding: 4px 0;
+  list-style: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.resource-completed summary::-webkit-details-marker { display: none; }
+.resource-completed summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 6px;
+  transition: transform var(--transition);
+}
+
+.resource-completed[open] summary::before { transform: rotate(90deg); }
+
+.resource-completed-list {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.resource-done-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+}
+
+.resource-done-item-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+}
+
+.resource-done-item-title::before {
+  content: '✓';
+  color: var(--green);
+  font-weight: 600;
+}
+
+.resource-done-item-meta {
+  font-size: 10px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+/* ============ GOALS ============ */
+.goal {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+
+.goal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.goal-title-wrap { flex: 1; }
+
+.goal-emoji-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.goal-emoji { font-size: 20px; }
+
+.goal-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.goal-period { font-size: 12px; color: var(--ink-mute); font-family: 'JetBrains Mono', monospace; }
+
+.goal-status {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.goal-status.on-track { background: var(--green-bg); color: var(--green-text); }
+.goal-status.behind { background: var(--terra-bg); color: var(--terra-text); }
+.goal-status.ahead { background: var(--blue-bg); color: var(--blue-text); }
+.goal-status.done { background: var(--ink); color: var(--bg); }
+
+.goal-current {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.goal-current-value {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.goal-current-target { font-size: 13px; color: var(--ink-mute); }
+.goal-current-target strong { color: var(--ink); font-weight: 500; }
+
+.goal-bar-wrap { margin-bottom: 8px; }
+
+.goal-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  margin-bottom: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.goal-bar {
+  height: 8px;
+  background: var(--bg-soft);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.goal-bar-fill {
+  height: 100%;
+  background: var(--terra);
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.goal-bar-fill.green { background: var(--green); }
+.goal-bar-fill.blue { background: var(--blue); }
+
+.goal-bar-marker {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--ink);
+  z-index: 1;
+}
+
+.goal-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 0.5px solid var(--line);
+  font-size: 12px;
+}
+
+.goal-meta-item { display: flex; align-items: center; gap: 4px; color: var(--ink-mute); }
+.goal-meta-item strong { color: var(--ink); font-weight: 500; }
+
+.goal-update-btn { font-size: 12px; font-weight: 500; color: var(--terra); padding: 4px 10px; border-radius: 4px; }
+.goal-update-btn:hover { background: var(--terra-bg); }
+
+/* ============ REFLECTION ============ */
+.reflection-form {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-sm);
+}
+
+.reflect-section { margin-bottom: 24px; }
+
+.reflect-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.reflect-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-soft);
+  border: 0.5px solid transparent;
+  border-radius: var(--radius);
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+  min-height: 70px;
+  transition: all var(--transition);
+}
+
+.reflect-textarea:focus {
+  outline: none;
+  border-color: var(--terra);
+  background: var(--bg-elev);
+  box-shadow: 0 0 0 3px var(--terra-bg);
+}
+
+.mood-selector { display: flex; gap: 8px; }
+
+.mood {
+  flex: 1;
+  padding: 14px 12px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  border: 1.5px solid transparent;
+}
+
+.mood:hover { transform: translateY(-2px); }
+.mood.selected { border-color: var(--terra); background: var(--terra-bg); }
+
+.mood-emoji { font-size: 24px; display: block; }
+.mood-label { font-size: 11px; color: var(--ink-mute); margin-top: 4px; font-weight: 500; }
+.mood.selected .mood-label { color: var(--terra-text); }
+
+.energy-slider {
+  width: 100%;
+  height: 36px;
+  appearance: none;
+  background: var(--bg-soft);
+  border-radius: 18px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.energy-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--terra);
+  cursor: pointer;
+  border: 4px solid white;
+  box-shadow: var(--shadow-sm);
+}
+
+.gratitudes { display: flex; flex-direction: column; gap: 6px; }
+
+.gratitude-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  border: 0.5px solid transparent;
+}
+
+.gratitude-input:focus-within { border-color: var(--terra); background: var(--bg-elev); }
+
+.gratitude-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--terra);
+  width: 14px;
+}
+
+.gratitude-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 13px;
+}
+
+.save-btn {
+  margin-top: 16px;
+  padding: 12px 32px;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: 22px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.save-btn:hover { background: var(--ink-soft); }
+
+.save-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 12px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.save-confirm.show { opacity: 1; }
+
+/* ============ STATS ============ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 720px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stat-big {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-big-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 600;
+}
+
+.stat-big-value {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1;
+  margin: 6px 0;
+}
+
+.stat-big-sub { font-size: 12px; color: var(--ink-mute); }
+
+.week-chart {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+}
+
+.week-chart-bars {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-top: 20px;
+  align-items: end;
+  height: 140px;
+}
+
+.wc-day { text-align: center; }
+
+.wc-bar-wrap {
+  height: 100px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.wc-bar {
+  width: 80%;
+  background: var(--terra);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  min-height: 4px;
+}
+
+.wc-bar.today { background: var(--green); }
+
+.wc-day-label { font-size: 11px; color: var(--ink-mute); font-weight: 500; }
+.wc-day-num { font-size: 10px; color: var(--ink-faint); font-family: 'JetBrains Mono', monospace; }
+
+/* ============ SETTINGS ============ */
+.settings-section {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.settings-section h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.settings-section .section-desc {
+  color: var(--ink-mute);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 0.5px solid var(--line);
+}
+
+.setting-row:last-child { border-bottom: none; }
+
+.setting-label-wrap { flex: 1; }
+.setting-name { font-weight: 500; font-size: 13px; }
+.setting-desc { font-size: 12px; color: var(--ink-mute); margin-top: 2px; }
+
+.setting-input {
+  padding: 8px 12px;
+  background: var(--bg-soft);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  min-width: 100px;
+  text-align: right;
+}
+
+.setting-input:focus { outline: none; border-color: var(--terra); background: var(--bg-elev); }
+.setting-input-wide { min-width: 240px; text-align: left; }
+
+.toggle {
+  width: 44px;
+  height: 24px;
+  background: var(--line-strong);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.toggle.on { background: var(--green); }
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.toggle.on::after { transform: translateX(20px); }
+
+/* ============ MODALS ============ */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.modal-bg.show { display: flex; animation: fadeIn 0.2s; }
+
+.modal {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 18px;
+  letter-spacing: -0.01em;
+}
+
+.modal-field { margin-bottom: 14px; }
+
+.modal-field label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-mute);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.modal-field input,
+.modal-field textarea,
+.modal-field select {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-soft);
+  border: 0.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+}
+
+.modal-field input:focus,
+.modal-field textarea:focus,
+.modal-field select:focus { outline: none; border-color: var(--terra); background: var(--bg-elev); }
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 0.5px solid var(--line);
+}
+
+.modal-actions .btn { padding: 10px 18px; }
+
+/* ============ TOAST ============ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 12px 20px;
+  border-radius: 22px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  z-index: 2000;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ============ MOBILE ============ */
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    height: auto;
+    background: var(--bg-elev);
+    padding: 8px 4px max(12px, env(safe-area-inset-bottom));
+    border-right: none;
+    border-top: 0.5px solid var(--line);
+    z-index: 100;
+    overflow: visible;
+  }
+  .brand, .nav-divider { display: none; }
+  .nav {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav-item {
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px 4px;
+    font-size: 9px;
+    min-width: 56px;
+    flex-shrink: 0;
+  }
+  .nav-item .nav-icon { width: 20px; height: 20px; }
+  .nav-item.active { background: transparent; color: var(--terra); }
+  main { padding: 20px 16px 100px; }
+  .view-title { font-size: 24px; }
+  .greeting-card { padding: 22px 20px; }
+  .greeting-text { font-size: 18px; }
+  .timer-circle { width: 200px; height: 200px; }
+  .timer-time { font-size: 42px; }
+  .timer-container { padding: 24px 16px; }
+  .quick-stats { grid-template-columns: 1fr 1fr; }
+  .prayers { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .prayer { padding: 10px 4px; }
+  .prayer-name { font-size: 9px; }
+  .sound-options { grid-template-columns: repeat(2, 1fr); }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-mute);
+  font-size: 13px;
+}
+
+.empty-state-icon { font-size: 32px; margin-bottom: 8px; display: block; }
+
+.hidden { display: none !important; }
+.row { display: flex; align-items: center; gap: 8px; }
+.spacer { flex: 1; }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">🕌</span>
+      <div class="brand-text">Kun<br>Tizimi</div>
+    </div>
+
+    <div class="nav">
+      <button class="nav-item active" data-view="today">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+        Bugun
+      </button>
+      <button class="nav-item" data-view="deepwork">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3 2 6M22 6l-3-3"/></svg></span>
+        Deep Work
+      </button>
+      <button class="nav-item" data-view="habits">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/></svg></span>
+        Odatlar
+      </button>
+      <button class="nav-item" data-view="resources">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+        Manbalar
+      </button>
+      <button class="nav-item" data-view="goals">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+        Maqsadlar
+      </button>
+      <button class="nav-item" data-view="reflection">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+        Xulosa
+      </button>
+      <button class="nav-item" data-view="stats">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 12l4-4 4 4 5-5"/></svg></span>
+        Statistika
+      </button>
+
+      <div class="nav-divider"></div>
+
+      <button class="nav-item" data-view="settings">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1"/></svg></span>
+        Sozlamalar
+      </button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- TODAY -->
+    <section class="view active" id="view-today">
+      <div class="greeting-card">
+        <div class="greeting-text" id="greeting">Assalomu alaykum, <strong>Birodar</strong> 👋</div>
+        <div class="greeting-date" id="greetingDate">—</div>
+        <div class="greeting-hijri" id="greetingHijri">—</div>
+        <div class="greeting-next" id="greetingNext">Keyingi namoz: <strong id="nextPrayerInfo">—</strong></div>
+      </div>
+
+      <div class="today-grid">
+        <div class="card">
+          <div class="card-title">Bugungi namozlar <span id="prayerCount">0/5</span></div>
+          <div class="prayers" id="prayerRow"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Bugungi holat</div>
+          <div class="quick-stats">
+            <div class="qs-item terra">
+              <div class="qs-label">Deep Work</div>
+              <div class="qs-value" id="qsDeep">0</div>
+              <div class="qs-sub">sessiya</div>
+            </div>
+            <div class="qs-item green">
+              <div class="qs-label">Odatlar</div>
+              <div class="qs-value" id="qsHabits">0/0</div>
+              <div class="qs-sub">bugun</div>
+            </div>
+            <div class="qs-item purple">
+              <div class="qs-label">A vazifa</div>
+              <div class="qs-value" id="qsTasksA">0/3</div>
+              <div class="qs-sub">muhim</div>
+            </div>
+            <div class="qs-item blue">
+              <div class="qs-label">B vazifa</div>
+              <div class="qs-value" id="qsTasksB">0/5</div>
+              <div class="qs-sub">qo'shimcha</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 14px;">
+        <div class="task-section">
+          <div class="task-section-title">
+            <div class="task-section-title-left">
+              <span class="priority-badge a">A</span>
+              <span class="task-section-title-text">Eng muhim 3 vazifa</span>
+            </div>
+          </div>
+          <div class="task-list" id="tasksA"></div>
+        </div>
+
+        <div class="task-section" style="margin-top: 20px; margin-bottom: 0;">
+          <div class="task-section-title">
+            <div class="task-section-title-left">
+              <span class="priority-badge b">B</span>
+              <span class="task-section-title-text">Qo'shimcha 5 vazifa</span>
+            </div>
+          </div>
+          <div class="task-list" id="tasksB"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 14px;">
+        <div class="card-title">Bugungi uchrashuvlar</div>
+        <div id="meetings"></div>
+        <button class="task-add" onclick="openMeetingModal()" style="margin-top: 8px;">+ Uchrashuv qo'shish</button>
+      </div>
+    </section>
+
+    <!-- DEEP WORK -->
+    <section class="view" id="view-deepwork">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Deep Work</h1>
+          <p class="view-sub">Chuqur ish · To'liq sessiya = ish + tanaffus tugaganida hisoblanadi</p>
+        </div>
+      </div>
+
+      <div class="timer-container">
+        <div class="timer-mode" id="timerModes">
+          <button class="active" data-mode="50-10">50 + 10 min</button>
+          <button data-mode="25-5">25 + 5 (Pomodoro)</button>
+          <button data-mode="90-20">90 + 20 min</button>
+        </div>
+
+        <div class="timer-circle">
+          <svg viewBox="0 0 100 100">
+            <circle class="timer-ring-bg" cx="50" cy="50" r="46"/>
+            <circle class="timer-ring-fg" id="timerRing" cx="50" cy="50" r="46" stroke-dasharray="289" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-display">
+            <div class="timer-time" id="timerTime">50:00</div>
+            <div class="timer-state" id="timerState">Tayyor</div>
+            <div class="timer-cycle-info" id="timerCycleInfo"></div>
+          </div>
+        </div>
+
+        <div class="timer-task">
+          <div class="timer-task-label">Hozir nima ustida ishlayman?</div>
+          <input type="text" class="timer-task-input" id="timerTask" placeholder="masalan: Klient X uchun reklama kreativlari">
+        </div>
+
+        <div class="sound-section">
+          <div class="sound-section-title">
+            <span class="sound-section-label">🎧 Fokus tovushi</span>
+            <span class="sound-hint">Binaural beats — naushnikda yaxshiroq</span>
+          </div>
+          <div class="sound-options" id="soundOptions">
+            <button class="sound-opt active" data-sound="none"><span class="sound-opt-name">🔇 Tovushsiz</span><span class="sound-opt-sub">—</span></button>
+            <button class="sound-opt" data-sound="brown"><span class="sound-opt-name">🌊 Jigarrang</span><span class="sound-opt-sub">past chastota</span></button>
+            <button class="sound-opt" data-sound="pink"><span class="sound-opt-name">☁️ Pushti</span><span class="sound-opt-sub">muvozanatli</span></button>
+            <button class="sound-opt" data-sound="binaural-alpha"><span class="sound-opt-name">🌿 Alpha 10Hz</span><span class="sound-opt-sub">yumshoq fokus</span></button>
+            <button class="sound-opt" data-sound="binaural-beta"><span class="sound-opt-name">⚡ Beta 15Hz</span><span class="sound-opt-sub">hushyorlik</span></button>
+            <button class="sound-opt" data-sound="binaural-gamma"><span class="sound-opt-name">🧠 Gamma 40Hz</span><span class="sound-opt-sub">chuqur fokus</span></button>
+          </div>
+          <div class="volume-row">
+            <span>🔊</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
+            <span class="volume-value" id="volumeValue">30%</span>
+          </div>
+        </div>
+
+        <div class="timer-controls">
+          <button class="timer-btn timer-btn-start" id="timerStart">▶ Boshlash</button>
+          <button class="timer-btn timer-btn-stop hidden" id="timerStop">■ To'xtatish</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <span>Bugungi to'liq sessiyalar</span>
+          <span id="todaySessionsCount">0 ta · 0 min</span>
+        </div>
+        <div id="sessionLog"></div>
+      </div>
+    </section>
+
+    <!-- HABITS -->
+    <section class="view" id="view-habits">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Odatlar</h1>
+          <p class="view-sub">Subtaskli odatlar · 30 kunlik tarix · Streak counter</p>
+        </div>
+        <button class="btn btn-primary" onclick="openHabitModal()">+ Odat qo'shish</button>
+      </div>
+
+      <div id="habitsGrid"></div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="view" id="view-resources">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">O'rganish manbalari</h1>
+          <p class="view-sub">Hozir o'qiyotgan kitob, kurs, til · Tugaganlar tarixi</p>
+        </div>
+      </div>
+
+      <div class="resources-grid" id="resourcesGrid"></div>
+    </section>
+
+    <!-- GOALS -->
+    <section class="view" id="view-goals">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Maqsadlar</h1>
+          <p class="view-sub">A → B nuqtalar bo'yicha o'sishni kuzatish</p>
+        </div>
+        <button class="btn btn-primary" onclick="openGoalModal()">+ Maqsad qo'shish</button>
+      </div>
+
+      <div id="goalsList"></div>
+    </section>
+
+    <!-- REFLECTION -->
+    <section class="view" id="view-reflection">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Kunlik xulosa</h1>
+          <p class="view-sub" id="reflectionDate">—</p>
+        </div>
+      </div>
+
+      <div class="reflection-form">
+        <div class="reflect-section">
+          <div class="reflect-label">Kayfiyat</div>
+          <div class="mood-selector" id="moodSelector">
+            <div class="mood" data-mood="great"><span class="mood-emoji">🔥</span><div class="mood-label">Ajoyib</div></div>
+            <div class="mood" data-mood="good"><span class="mood-emoji">😊</span><div class="mood-label">Yaxshi</div></div>
+            <div class="mood" data-mood="ok"><span class="mood-emoji">😐</span><div class="mood-label">O'rtacha</div></div>
+            <div class="mood" data-mood="bad"><span class="mood-emoji">😔</span><div class="mood-label">Yomon</div></div>
+            <div class="mood" data-mood="tired"><span class="mood-emoji">😴</span><div class="mood-label">Charchadim</div></div>
+          </div>
+        </div>
+
+        <div class="reflect-section">
+          <div class="reflect-label">Energiya: <span id="energyValue" style="color:var(--terra); font-family:'JetBrains Mono', monospace;">3</span> / 5</div>
+          <input type="range" min="1" max="5" value="3" class="energy-slider" id="energySlider">
+        </div>
+
+        <div class="reflect-section">
+          <div class="reflect-label">Shukr (3 narsa)</div>
+          <div class="gratitudes" id="gratitudes">
+            <div class="gratitude-input"><span class="gratitude-num">1.</span><input type="text" data-grat="0" placeholder="Bugun nimaga shukur qildim?"></div>
+            <div class="gratitude-input"><span class="gratitude-num">2.</span><input type="text" data-grat="1" placeholder="Yana nima yaxshi bo'ldi?"></div>
+            <div class="gratitude-input"><span class="gratitude-num">3.</span><input type="text" data-grat="2" placeholder="Va yana..."></div>
+          </div>
+        </div>
+
+        <div class="reflect-section">
+          <div class="reflect-label">Bugun nima yaxshi ketdi?</div>
+          <textarea class="reflect-textarea" id="reflectGood" placeholder="Eng katta yutuq..."></textarea>
+        </div>
+
+        <div class="reflect-section">
+          <div class="reflect-label">Nima yaxshi ketmadi? Keyingi safar nima qilaman?</div>
+          <textarea class="reflect-textarea" id="reflectBad" placeholder="To'siqlar, dars olganlarim..."></textarea>
+        </div>
+
+        <div class="reflect-section">
+          <div class="reflect-label">Ertangi TOP 3 vazifa</div>
+          <textarea class="reflect-textarea" id="reflectTomorrow" placeholder="1.&#10;2.&#10;3."></textarea>
+        </div>
+
+        <div class="row">
+          <button class="save-btn" id="reflectSave">Saqlash</button>
+          <span class="save-confirm" id="reflectConfirm">✓ Saqlandi</span>
+          <div class="spacer"></div>
+          <button class="btn btn-ghost" onclick="showReflectionHistory()">Tarix →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="view" id="view-stats">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Statistika</h1>
+          <p class="view-sub">Hafta va oy bo'yicha tahlil</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-big">
+          <div class="stat-big-label">Bu hafta namozlar</div>
+          <div class="stat-big-value" id="weekPrayers">0/35</div>
+          <div class="stat-big-sub" id="weekPrayersPct">0%</div>
+        </div>
+        <div class="stat-big">
+          <div class="stat-big-label">Deep Work (hafta)</div>
+          <div class="stat-big-value" id="weekDeep">0h</div>
+          <div class="stat-big-sub">to'liq sessiyalar</div>
+        </div>
+        <div class="stat-big">
+          <div class="stat-big-label">Eng uzun streak</div>
+          <div class="stat-big-value" id="bestStreak">0</div>
+          <div class="stat-big-sub" id="bestStreakName">—</div>
+        </div>
+        <div class="stat-big">
+          <div class="stat-big-label">Bajarilgan vazifalar</div>
+          <div class="stat-big-value" id="weekTasks">0</div>
+          <div class="stat-big-sub">bu hafta</div>
+        </div>
+      </div>
+
+      <div class="week-chart">
+        <div class="card-title">Kunlik foiz · So'nggi 7 kun</div>
+        <div class="week-chart-bars" id="weekChartBars"></div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-title">Namoz davomiyligi</div>
+          <div id="prayerStreaks"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Maqsadlar progressi</div>
+          <div id="goalsSummary"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="view" id="view-settings">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Sozlamalar</h1>
+          <p class="view-sub">Tizimni o'zingizga moslang</p>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>👤 Profil</h3>
+        <p class="section-desc">Ismingizni kiriting</p>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Ismingiz</div></div>
+          <input type="text" class="setting-input setting-input-wide" id="userName" placeholder="Birodar">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>🕌 Namoz vaqtlari</h3>
+        <p class="section-desc">Mahalliy namoz vaqtlaringizni kiriting</p>
+        <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Bomdod</div></div><input type="time" class="setting-input" id="time-bomdod" value="04:30"></div>
+        <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Peshin</div></div><input type="time" class="setting-input" id="time-peshin" value="12:00"></div>
+        <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Asr</div></div><input type="time" class="setting-input" id="time-asr" value="15:30"></div>
+        <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Shom</div></div><input type="time" class="setting-input" id="time-shom" value="20:00"></div>
+        <div class="setting-row"><div class="setting-label-wrap"><div class="setting-name">Xufton</div></div><input type="time" class="setting-input" id="time-xufton" value="21:30"></div>
+      </div>
+
+      <div class="settings-section">
+        <h3>📨 Telegram bot eslatmalari</h3>
+        <p class="section-desc">Namoz va kun yakuni uchun Telegram orqali eslatmalar</p>
+        <div class="setting-row">
+          <div class="setting-label-wrap">
+            <div class="setting-name">Bot token</div>
+            <div class="setting-desc">@BotFather dan oling</div>
+          </div>
+          <input type="text" class="setting-input setting-input-wide" id="tgToken" placeholder="1234567890:ABC...">
+        </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap">
+            <div class="setting-name">Chat ID</div>
+            <div class="setting-desc">@userinfobot dan oling</div>
+          </div>
+          <input type="text" class="setting-input" id="tgChatId" placeholder="123456789">
+        </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Namoz eslatmalari</div></div>
+          <div class="toggle" id="tgPrayerToggle" onclick="toggleSetting('tgPrayer', this)"></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Kechki xulosa eslatmasi</div></div>
+          <div class="toggle" id="tgReflectionToggle" onclick="toggleSetting('tgReflection', this)"></div>
+        </div>
+        <div style="margin-top: 16px;">
+          <button class="btn btn-primary" onclick="testTelegram()">🔔 Test xabar</button>
+        </div>
+        <details style="margin-top: 16px;">
+          <summary style="cursor: pointer; font-size: 12px; color: var(--ink-mute); font-weight: 500;">Telegram bot qanday sozlanadi?</summary>
+          <div style="font-size: 12px; line-height: 1.7; color: var(--ink-soft); margin-top: 8px; padding: 12px; background: var(--bg-soft); border-radius: var(--radius);">
+            <b>1.</b> Telegram da <b>@BotFather</b> ga yozing<br>
+            <b>2.</b> <code>/newbot</code> buyrug'ini yuboring<br>
+            <b>3.</b> Token oling — yuqoriga kiriting<br>
+            <b>4.</b> Botingizga <code>/start</code> yozing<br>
+            <b>5.</b> <b>@userinfobot</b> dan chat ID oling<br>
+            <b>6.</b> Chat ID ni kiriting va Test tugmasini bosing<br>
+          </div>
+        </details>
+      </div>
+
+      <div class="settings-section">
+        <h3>🔔 Brauzer bildiruvlari</h3>
+        <div class="setting-row">
+          <div class="setting-label-wrap">
+            <div class="setting-name">Ruxsat holati</div>
+            <div class="setting-desc" id="notifStatus">—</div>
+          </div>
+          <button class="btn btn-primary" onclick="requestNotifications()">Ruxsat berish</button>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>💾 Ma'lumotlar</h3>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Eksport (JSON)</div></div>
+          <button class="btn" onclick="exportData()">⬇ Eksport</button>
+        </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Import (JSON)</div></div>
+          <button class="btn" onclick="document.getElementById('importFile').click()">⬆ Import</button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+        </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Hammasini tozalash</div></div>
+          <button class="btn" style="color: var(--terra);" onclick="resetAll()">🗑 Tozalash</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- MODALS -->
+<div class="modal-bg" id="habitModal">
+  <div class="modal">
+    <div class="modal-title" id="habitModalTitle">Yangi odat</div>
+    <div class="modal-field"><label>Emoji</label><input type="text" id="habitEmoji" placeholder="📖" maxlength="2"></div>
+    <div class="modal-field"><label>Odat nomi</label><input type="text" id="habitName" placeholder="Masalan: Kitob o'qish"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeHabitModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveHabit()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="goalModal">
+  <div class="modal">
+    <div class="modal-title">Yangi maqsad</div>
+    <div class="modal-field"><label>Emoji</label><input type="text" id="goalEmoji" placeholder="💰" maxlength="2"></div>
+    <div class="modal-field"><label>Maqsad nomi</label><input type="text" id="goalName" placeholder="Iyunda $3000 daromad"></div>
+    <div class="modal-field"><label>Boshlang'ich qiymat (A)</label><input type="number" id="goalStart" value="0"></div>
+    <div class="modal-field"><label>Maqsadli qiymat (B)</label><input type="number" id="goalTarget" placeholder="3000"></div>
+    <div class="modal-field"><label>O'lchov birligi</label><input type="text" id="goalUnit" placeholder="$ · km · kitob" value="$"></div>
+    <div class="modal-field"><label>Boshlanish sanasi</label><input type="date" id="goalStartDate"></div>
+    <div class="modal-field"><label>Tugash sanasi</label><input type="date" id="goalEndDate"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeGoalModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveGoal()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="goalUpdateModal">
+  <div class="modal">
+    <div class="modal-title" id="goalUpdateTitle">Maqsadni yangilash</div>
+    <div class="modal-field"><label>Hozirgi qiymat</label><input type="number" id="goalUpdateValue"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeGoalUpdateModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveGoalUpdate()">Yangilash</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="meetingModal">
+  <div class="modal">
+    <div class="modal-title">Yangi uchrashuv</div>
+    <div class="modal-field"><label>Klient / Mavzu</label><input type="text" id="meetingName" placeholder="Klient X bilan onboarding"></div>
+    <div class="modal-field"><label>Vaqt</label><input type="time" id="meetingTime"></div>
+    <div class="modal-field"><label>Davomiyligi (daqiqa)</label><input type="number" id="meetingDuration" value="30"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeMeetingModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveMeeting()">Qo'shish</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="resourceModal">
+  <div class="modal">
+    <div class="modal-title" id="resourceModalTitle">Yangi manba</div>
+    <div class="modal-field"><label>Nomi</label><input type="text" id="resTitle" placeholder="Masalan: Atomic Habits"></div>
+    <div class="modal-field"><label>Muallif (ixtiyoriy)</label><input type="text" id="resAuthor" placeholder="James Clear"></div>
+    <div class="modal-field"><label>Manba (ixtiyoriy)</label><input type="text" id="resSource" placeholder="Audible · YouTube · PDF"></div>
+    <div class="modal-field"><label>Jami bo'limlar/sahifalar (ixtiyoriy)</label><input type="number" id="resTotal" placeholder="200"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeResourceModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveResource()">Qo'shish</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ====================================================================
+   KUN TIZIMI · v2 — Subtasks, Resources, Strict Timer, Focus Sounds
+   ==================================================================== */
+
+const STORAGE_KEY = 'kun_tizimi_v2';
+
+const DEFAULT_DATA = {
+  settings: {
+    name: '',
+    prayerTimes: { bomdod: '04:30', peshin: '12:00', asr: '15:30', shom: '20:00', xufton: '21:30' },
+    telegram: { token: '', chatId: '', prayerNotif: false, reflectionNotif: false },
+    timer: { sound: 'none', volume: 0.3 }
+  },
+  habits: [
+    {
+      id: 'h1', emoji: '🏃', name: 'Badantarbiya',
+      subtasks: [
+        { id: 'st1', name: 'Abs (20 takror × 3)' },
+        { id: 'st2', name: 'Push-up (20 takror × 3)' },
+        { id: 'st3', name: 'Squats (30 takror × 3)' }
+      ]
+    },
+    { id: 'h2', emoji: '📖', name: 'Diniy ta\'lim (25 min)', subtasks: [] },
+    { id: 'h3', emoji: '📚', name: 'Kitob o\'qish (10 min)', subtasks: [] },
+    { id: 'h4', emoji: '🎓', name: 'Soha o\'rganish (50 min)', subtasks: [] },
+    { id: 'h5', emoji: '🌐', name: 'Til o\'rganish (25 min)', subtasks: [] },
+  ],
+  resources: {
+    islam: { active: null, completed: [] },
+    book: { active: null, completed: [] },
+    field: { active: null, completed: [] },
+    language: { active: null, completed: [] }
+  },
+  goals: [],
+  days: {},
+};
+
+let data = loadData();
+let activeResourceCat = null; // for modal
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    const loaded = JSON.parse(raw);
+    return {
+      settings: {
+        ...DEFAULT_DATA.settings,
+        ...(loaded.settings || {}),
+        prayerTimes: { ...DEFAULT_DATA.settings.prayerTimes, ...(loaded.settings?.prayerTimes || {}) },
+        telegram: { ...DEFAULT_DATA.settings.telegram, ...(loaded.settings?.telegram || {}) },
+        timer: { ...DEFAULT_DATA.settings.timer, ...(loaded.settings?.timer || {}) }
+      },
+      habits: (loaded.habits || DEFAULT_DATA.habits).map(h => ({ subtasks: [], ...h })),
+      resources: {
+        islam: { active: null, completed: [], ...(loaded.resources?.islam || {}) },
+        book: { active: null, completed: [], ...(loaded.resources?.book || {}) },
+        field: { active: null, completed: [], ...(loaded.resources?.field || {}) },
+        language: { active: null, completed: [], ...(loaded.resources?.language || {}) }
+      },
+      goals: loaded.goals || [],
+      days: loaded.days || {},
+    };
+  } catch (e) {
+    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+}
+
+function saveData() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
+/* HELPERS */
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function dateKey(date) {
+  return date.getFullYear() + '-' + String(date.getMonth()+1).padStart(2,'0') + '-' + String(date.getDate()).padStart(2,'0');
+}
+
+function getDay(key) {
+  if (!data.days[key]) {
+    data.days[key] = {
+      prayers: { bomdod: false, peshin: false, asr: false, shom: false, xufton: false },
+      tasksA: [], tasksB: [], habits: {}, reflection: {}, meetings: [], deepwork: []
+    };
+  }
+  return data.days[key];
+}
+
+function today() { return getDay(todayKey()); }
+
+function toast(msg, dur = 2200) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), dur);
+}
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 5); }
+function dayName(d) { return ['Yakshanba','Dushanba','Seshanba','Chorshanba','Payshanba','Juma','Shanba'][d.getDay()]; }
+function monthName(m) { return ['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'][m]; }
+
+function timeToMin(t) { if (!t) return 0; const [h,m] = t.split(':').map(Number); return h*60+m; }
+
+function escapeHtml(text) {
+  const d = document.createElement('div');
+  d.textContent = text || '';
+  return d.innerHTML.replace(/"/g, '&quot;');
+}
+
+/* HABIT HELPERS */
+function getHabitStatus(habit, dayKey) {
+  // Returns: 'none' | 'partial' | 'done'
+  const d = data.days[dayKey];
+  if (!d || !d.habits) return 'none';
+  const v = d.habits[habit.id];
+  if (!v) return 'none';
+  if (!habit.subtasks || !habit.subtasks.length) {
+    return v === true ? 'done' : 'none';
+  }
+  // With subtasks
+  if (typeof v !== 'object') return 'none';
+  const total = habit.subtasks.length;
+  const done = habit.subtasks.filter(st => v[st.id] === true).length;
+  if (done === 0) return 'none';
+  if (done === total) return 'done';
+  return 'partial';
+}
+
+function getHabitProgress(habit, dayKey) {
+  const d = data.days[dayKey];
+  if (!d || !d.habits) return { done: 0, total: habit.subtasks?.length || 1 };
+  const v = d.habits[habit.id];
+  const total = habit.subtasks?.length || 1;
+  if (!v) return { done: 0, total };
+  if (!habit.subtasks || !habit.subtasks.length) {
+    return { done: v === true ? 1 : 0, total: 1 };
+  }
+  return { done: habit.subtasks.filter(st => v[st.id] === true).length, total };
+}
+
+function calcHabitStreak(habit) {
+  let streak = 0;
+  const now = new Date();
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const status = getHabitStatus(habit, dateKey(d));
+    if (status === 'done') streak++;
+    else if (i === 0 && status === 'partial') continue;
+    else if (i === 0 && status === 'none') continue;
+    else break;
+  }
+  return streak;
+}
+
+/* NAVIGATION */
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + view).classList.add('active');
+    if (view === 'today') renderToday();
+    if (view === 'habits') renderHabits();
+    if (view === 'resources') renderResources();
+    if (view === 'goals') renderGoals();
+    if (view === 'reflection') renderReflection();
+    if (view === 'stats') renderStats();
+    if (view === 'settings') renderSettings();
+    if (view === 'deepwork') renderSessions();
+    window.scrollTo(0, 0);
+  });
+});
+
+/* ============ TODAY VIEW ============ */
+function renderToday() {
+  const now = new Date();
+  const hours = now.getHours();
+  let greeting = 'Assalomu alaykum';
+  if (hours < 6) greeting = 'Bomdod muborak';
+  else if (hours < 12) greeting = 'Hayrli tong';
+  else if (hours < 17) greeting = 'Hayrli kun';
+  else if (hours < 20) greeting = 'Hayrli kech';
+  else greeting = 'Hayrli oqshom';
+
+  const name = data.settings.name || 'birodar';
+  document.getElementById('greeting').innerHTML = `${greeting}, <strong>${escapeHtml(name)}</strong> 👋`;
+  document.getElementById('greetingDate').textContent = `${dayName(now)}, ${now.getDate()} ${monthName(now.getMonth())}, ${now.getFullYear()}`;
+  try {
+    document.getElementById('greetingHijri').textContent = new Intl.DateTimeFormat('uz-u-ca-islamic-umalqura', { day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+  } catch(e) {}
+  renderPrayers();
+  renderQuickStats();
+  renderTasks();
+  renderMeetings();
+  updateNextPrayer();
+}
+
+function renderPrayers() {
+  const row = document.getElementById('prayerRow');
+  const t = today();
+  const names = { bomdod: 'Bomdod', peshin: 'Peshin', asr: 'Asr', shom: 'Shom', xufton: 'Xufton' };
+  const icons = { bomdod: '🌅', peshin: '☀️', asr: '🌤️', shom: '🌆', xufton: '🌙' };
+  const pt = data.settings.prayerTimes;
+  const now = new Date();
+  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const order = ['bomdod', 'peshin', 'asr', 'shom', 'xufton'];
+
+  let currentP = null;
+  for (let i = order.length - 1; i >= 0; i--) {
+    if (nowMin >= timeToMin(pt[order[i]])) { currentP = order[i]; break; }
+  }
+
+  let count = 0;
+  row.innerHTML = order.map(key => {
+    const done = t.prayers[key];
+    if (done) count++;
+    const isCurrent = key === currentP && !done;
+    return `<div class="prayer ${done?'done':''} ${isCurrent?'current':''}" onclick="togglePrayer('${key}')">
+      <span class="prayer-icon">${icons[key]}</span>
+      <div class="prayer-name">${names[key]}</div>
+      <div class="prayer-time">${pt[key]}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('prayerCount').textContent = count + '/5';
+}
+
+function togglePrayer(key) {
+  const t = today();
+  t.prayers[key] = !t.prayers[key];
+  saveData();
+  renderPrayers();
+  renderQuickStats();
+}
+
+function updateNextPrayer() {
+  const pt = data.settings.prayerTimes;
+  const now = new Date();
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  const order = [{key:'bomdod',n:'Bomdod'},{key:'peshin',n:'Peshin'},{key:'asr',n:'Asr'},{key:'shom',n:'Shom'},{key:'xufton',n:'Xufton'}];
+  let next = null;
+  for (const p of order) {
+    if (timeToMin(pt[p.key]) > nowMin) { next = p; break; }
+  }
+  if (!next) next = { key: 'bomdod', n: 'Bomdod (ertaga)' };
+  const nextTime = timeToMin(pt[next.key]);
+  const diffMin = next.n.includes('ertaga') ? (24*60 - nowMin + nextTime) : (nextTime - nowMin);
+  const h = Math.floor(diffMin/60);
+  const m = diffMin % 60;
+  document.getElementById('nextPrayerInfo').textContent = `${next.n} — ${pt[next.key]} (${(h>0?h+' soat ':'')}${m} daqiqa)`;
+}
+
+function renderQuickStats() {
+  const t = today();
+  const sessions = (t.deepwork || []).filter(s => s.completed).length;
+  document.getElementById('qsDeep').textContent = sessions;
+
+  let habitsDone = 0;
+  data.habits.forEach(h => { if (getHabitStatus(h, todayKey()) === 'done') habitsDone++; });
+  document.getElementById('qsHabits').textContent = habitsDone + '/' + data.habits.length;
+
+  const tA = t.tasksA.filter(x => x.done).length;
+  document.getElementById('qsTasksA').textContent = tA + '/' + Math.max(3, t.tasksA.length);
+  const tB = t.tasksB.filter(x => x.done).length;
+  document.getElementById('qsTasksB').textContent = tB + '/' + Math.max(5, t.tasksB.length);
+}
+
+function renderTasks() {
+  renderTaskList('tasksA', 3);
+  renderTaskList('tasksB', 5);
+}
+
+function renderTaskList(type, maxFill) {
+  const t = today();
+  const list = t[type];
+  const c = document.getElementById(type);
+  c.innerHTML = '';
+  list.forEach((task, idx) => {
+    const el = document.createElement('div');
+    el.className = 'task' + (task.done ? ' done' : '');
+    el.innerHTML = `
+      <div class="task-check" onclick="toggleTask('${type}',${idx})">${task.done?'✓':''}</div>
+      <input class="task-text" value="${escapeHtml(task.text)}" data-type="${type}" data-idx="${idx}" placeholder="Vazifa...">
+      <button class="task-delete" onclick="deleteTask('${type}',${idx})">×</button>`;
+    c.appendChild(el);
+  });
+  for (let i = list.length; i < maxFill; i++) {
+    const el = document.createElement('button');
+    el.className = 'task-add';
+    el.innerHTML = `+ ${type==='tasksA'?'Asosiy':'Qo\'shimcha'} vazifa qo'shish`;
+    el.onclick = () => addTask(type);
+    c.appendChild(el);
+  }
+  c.querySelectorAll('.task-text').forEach(input => {
+    input.addEventListener('change', e => {
+      const tp = e.target.dataset.type;
+      const idx = parseInt(e.target.dataset.idx);
+      today()[tp][idx].text = e.target.value;
+      saveData();
+    });
+  });
+}
+
+function addTask(type) {
+  today()[type].push({ text: '', done: false, id: uid() });
+  saveData();
+  renderTaskList(type, type==='tasksA'?3:5);
+  setTimeout(() => {
+    const inputs = document.querySelectorAll(`#${type} .task-text`);
+    if (inputs.length) inputs[inputs.length-1].focus();
+  }, 50);
+  renderQuickStats();
+}
+
+function toggleTask(type, idx) { today()[type][idx].done = !today()[type][idx].done; saveData(); renderTaskList(type, type==='tasksA'?3:5); renderQuickStats(); }
+function deleteTask(type, idx) { today()[type].splice(idx, 1); saveData(); renderTaskList(type, type==='tasksA'?3:5); renderQuickStats(); }
+
+/* MEETINGS */
+function openMeetingModal() { document.getElementById('meetingModal').classList.add('show'); document.getElementById('meetingName').focus(); }
+function closeMeetingModal() { document.getElementById('meetingModal').classList.remove('show'); }
+function saveMeeting() {
+  const name = document.getElementById('meetingName').value.trim();
+  const time = document.getElementById('meetingTime').value;
+  const dur = parseInt(document.getElementById('meetingDuration').value) || 30;
+  if (!name || !time) { toast('Nomini va vaqtini kiriting'); return; }
+  today().meetings.push({ id: uid(), name, time, duration: dur });
+  saveData();
+  closeMeetingModal();
+  document.getElementById('meetingName').value = '';
+  document.getElementById('meetingTime').value = '';
+  renderMeetings();
+}
+function renderMeetings() {
+  const m = today().meetings || [];
+  const c = document.getElementById('meetings');
+  if (!m.length) { c.innerHTML = '<div class="empty-state">Bugun uchrashuvlar yo\'q</div>'; return; }
+  c.innerHTML = m.sort((a,b)=>a.time.localeCompare(b.time)).map(mt => `
+    <div class="task">
+      <div class="task-check" style="border-color:var(--blue);background:var(--blue-bg);">📅</div>
+      <div style="flex:1;"><div style="font-weight:500;font-size:13px;">${escapeHtml(mt.name)}</div>
+      <div style="font-size:11px;color:var(--ink-mute);font-family:'JetBrains Mono',monospace;">${mt.time} · ${mt.duration} daqiqa</div></div>
+      <button class="task-delete" onclick="deleteMeeting('${mt.id}')">×</button>
+    </div>`).join('');
+}
+function deleteMeeting(id) { today().meetings = today().meetings.filter(m => m.id !== id); saveData(); renderMeetings(); }
+
+/* ============ DEEP WORK TIMER (STRICT MODE) ============ */
+let timer = {
+  running: false,
+  mode: '50-10',
+  modes: { '50-10':{work:50,break:10}, '25-5':{work:25,break:5}, '90-20':{work:90,break:20} },
+  state: 'idle', // 'idle' | 'work' | 'break'
+  remaining: 50 * 60,
+  total: 50 * 60,
+  interval: null,
+  task: '',
+  workStartedAt: null,
+};
+
+function initTimer() {
+  updateTimerDisplay();
+  document.querySelectorAll('#timerModes button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (timer.running) { toast('Timer ishlamoqda. Avval to\'xtating'); return; }
+      document.querySelectorAll('#timerModes button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      timer.mode = btn.dataset.mode;
+      timer.state = 'idle';
+      timer.remaining = timer.modes[timer.mode].work * 60;
+      timer.total = timer.remaining;
+      updateTimerDisplay();
+    });
+  });
+  document.getElementById('timerStart').addEventListener('click', startTimer);
+  document.getElementById('timerStop').addEventListener('click', confirmStopTimer);
+
+  // Sound options
+  document.querySelectorAll('.sound-opt').forEach(btn => {
+    if (btn.dataset.sound === data.settings.timer.sound) btn.classList.add('active');
+    else btn.classList.remove('active');
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sound-opt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      data.settings.timer.sound = btn.dataset.sound;
+      saveData();
+      // If timer running, switch the sound immediately
+      if (timer.running && timer.state === 'work') {
+        stopSound();
+        if (data.settings.timer.sound !== 'none') startSound(data.settings.timer.sound);
+      }
+    });
+  });
+
+  const vol = document.getElementById('volumeSlider');
+  const volVal = document.getElementById('volumeValue');
+  vol.value = Math.round(data.settings.timer.volume * 100);
+  volVal.textContent = vol.value + '%';
+  vol.addEventListener('input', e => {
+    const v = parseInt(e.target.value);
+    data.settings.timer.volume = v / 100;
+    volVal.textContent = v + '%';
+    setVolume(data.settings.timer.volume);
+    saveData();
+  });
+}
+
+function startTimer() {
+  if (timer.running) return;
+  timer.task = document.getElementById('timerTask').value.trim() || 'Deep Work';
+  timer.state = 'work';
+  timer.remaining = timer.modes[timer.mode].work * 60;
+  timer.total = timer.remaining;
+  timer.workStartedAt = Date.now();
+  timer.running = true;
+  document.getElementById('timerStart').classList.add('hidden');
+  document.getElementById('timerStop').classList.remove('hidden');
+  timer.interval = setInterval(tickTimer, 1000);
+  if (data.settings.timer.sound !== 'none') startSound(data.settings.timer.sound);
+  toast('▶ Ish boshlandi · Tovushni baholang');
+  updateTimerDisplay();
+}
+
+function tickTimer() {
+  timer.remaining--;
+  updateTimerDisplay();
+  if (timer.remaining <= 0) {
+    if (timer.state === 'work') {
+      // Work done — go to break automatically (don't log yet — wait for break to finish)
+      timer.state = 'break';
+      timer.remaining = timer.modes[timer.mode].break * 60;
+      timer.total = timer.remaining;
+      stopSound(); // pause sound during break
+      playBell();
+      sendNotification('🎉 Ish vaqti tugadi', 'Tanaffus vaqti boshlandi. Tanaffusda ekrandan chiqing.');
+      toast('🎉 Ajoyib! Tanaffus boshlandi.');
+    } else {
+      // Break complete — NOW log the session as fully completed
+      const workDur = timer.modes[timer.mode].work;
+      logCompletedSession(timer.task, workDur, timer.mode);
+      // Reset to idle
+      stopTimer(false);
+      playBell();
+      sendNotification('✓ To\'liq sessiya bajarildi', `${workDur} daqiqa Deep Work + tanaffus tugadi.`);
+      toast('✅ To\'liq sessiya hisoblandi!');
+    }
+    updateTimerDisplay();
+  }
+}
+
+function confirmStopTimer() {
+  const phase = timer.state === 'work' ? 'ishlash' : 'tanaffus';
+  if (confirm(`Hozir ${phase} vaqtidasiz. To'xtatish — bu sessiya hisoblanmaydi (chala ish = qilinmagan ish). Davom etamizmi?`)) {
+    stopTimer(true);
+    toast('⚠️ Sessiya bekor qilindi · Hisoblanmadi');
+  }
+}
+
+function stopTimer(showRestore) {
+  clearInterval(timer.interval);
+  timer.running = false;
+  timer.state = 'idle';
+  timer.remaining = timer.modes[timer.mode].work * 60;
+  timer.total = timer.remaining;
+  document.getElementById('timerStart').classList.remove('hidden');
+  document.getElementById('timerStop').classList.add('hidden');
+  stopSound();
+  updateTimerDisplay();
+}
+
+function logCompletedSession(task, dur, mode) {
+  const t = today();
+  if (!t.deepwork) t.deepwork = [];
+  t.deepwork.push({ id: uid(), task, duration: dur, mode, completed: true, completedAt: new Date().toISOString() });
+  saveData();
+  renderSessions();
+  renderQuickStats();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timer.remaining / 60);
+  const s = timer.remaining % 60;
+  document.getElementById('timerTime').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  let stateText = 'Tayyor';
+  if (timer.state === 'work') stateText = 'Ish vaqti';
+  else if (timer.state === 'break') stateText = 'Tanaffus';
+  document.getElementById('timerState').textContent = stateText;
+  document.getElementById('timerCycleInfo').textContent = timer.running ? `${timer.modes[timer.mode].work}+${timer.modes[timer.mode].break} min sikl` : '';
+  const ring = document.getElementById('timerRing');
+  ring.classList.toggle('break', timer.state === 'break');
+  const c = 2 * Math.PI * 46;
+  const offset = c * (1 - timer.remaining / timer.total);
+  ring.style.strokeDashoffset = offset;
+}
+
+function renderSessions() {
+  const sessions = (today().deepwork || []).filter(s => s.completed);
+  const totalMin = sessions.reduce((s,x)=>s+x.duration, 0);
+  document.getElementById('todaySessionsCount').textContent = `${sessions.length} ta · ${totalMin} min`;
+  const c = document.getElementById('sessionLog');
+  if (!sessions.length) {
+    c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">⏱️</span>Bugun hali to\'liq sessiya yo\'q.<br>Ishni to\'liq + tanaffusni to\'liq bajaring.</div>';
+    return;
+  }
+  c.innerHTML = sessions.slice().reverse().map(s => {
+    const t = new Date(s.completedAt);
+    const time = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+    return `<div class="session-row">
+      <div class="session-info">
+        <div class="session-name">${escapeHtml(s.task)}</div>
+        <div class="session-meta">${time} · ${s.mode}</div>
+      </div>
+      <div class="session-duration">✓ ${s.duration} min</div>
+    </div>`;
+  }).join('');
+}
+
+function playBell() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [0, 0.2].forEach((delay, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.frequency.value = i === 0 ? 880 : 1100;
+      gain.gain.setValueAtTime(0, ctx.currentTime + delay);
+      gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + delay + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + 0.6);
+      osc.start(ctx.currentTime + delay);
+      osc.stop(ctx.currentTime + delay + 0.6);
+    });
+  } catch(e) {}
+}
+
+/* ============ FOCUS SOUNDS (Web Audio API) ============ */
+let soundCtx = null;
+let soundNodes = [];
+let soundGain = null;
+
+function startSound(type) {
+  stopSound();
+  if (type === 'none') return;
+  try {
+    soundCtx = new (window.AudioContext || window.webkitAudioContext)();
+    soundGain = soundCtx.createGain();
+    soundGain.gain.value = data.settings.timer.volume || 0.3;
+    soundGain.connect(soundCtx.destination);
+
+    if (type === 'brown' || type === 'pink') {
+      startNoise(type);
+    } else if (type.startsWith('binaural-')) {
+      const beat = { 'binaural-alpha': 10, 'binaural-beta': 15, 'binaural-gamma': 40 }[type];
+      startBinaural(220, beat);
+    }
+  } catch(e) {
+    console.error('Sound error:', e);
+  }
+}
+
+function startNoise(type) {
+  const bufferSize = soundCtx.sampleRate * 2;
+  const buffer = soundCtx.createBuffer(1, bufferSize, soundCtx.sampleRate);
+  const out = buffer.getChannelData(0);
+  if (type === 'brown') {
+    let lastOut = 0;
+    for (let i = 0; i < bufferSize; i++) {
+      const white = Math.random() * 2 - 1;
+      out[i] = (lastOut + (0.02 * white)) / 1.02;
+      lastOut = out[i];
+      out[i] *= 3.5;
+    }
+  } else {
+    // Pink noise (Voss-McCartney approximation)
+    let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+    for (let i = 0; i < bufferSize; i++) {
+      const w = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + w * 0.0555179;
+      b1 = 0.99332 * b1 + w * 0.0750759;
+      b2 = 0.96900 * b2 + w * 0.1538520;
+      b3 = 0.86650 * b3 + w * 0.3104856;
+      b4 = 0.55000 * b4 + w * 0.5329522;
+      b5 = -0.7616 * b5 - w * 0.0168980;
+      out[i] = (b0+b1+b2+b3+b4+b5+b6 + w*0.5362) * 0.11;
+      b6 = w * 0.115926;
+    }
+  }
+  const source = soundCtx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  source.connect(soundGain);
+  source.start();
+  soundNodes.push(source);
+}
+
+function startBinaural(baseFreq, beatFreq) {
+  const merger = soundCtx.createChannelMerger(2);
+  const left = soundCtx.createOscillator();
+  left.type = 'sine';
+  left.frequency.value = baseFreq;
+  const right = soundCtx.createOscillator();
+  right.type = 'sine';
+  right.frequency.value = baseFreq + beatFreq;
+  left.connect(merger, 0, 0);
+  right.connect(merger, 0, 1);
+  const binGain = soundCtx.createGain();
+  binGain.gain.value = 0.5;
+  merger.connect(binGain);
+  binGain.connect(soundGain);
+  left.start();
+  right.start();
+  soundNodes.push(left, right, merger, binGain);
+}
+
+function stopSound() {
+  soundNodes.forEach(n => {
+    try { n.stop && n.stop(); } catch(e) {}
+    try { n.disconnect(); } catch(e) {}
+  });
+  soundNodes = [];
+  if (soundCtx) {
+    try { soundCtx.close(); } catch(e) {}
+    soundCtx = null;
+  }
+  soundGain = null;
+}
+
+function setVolume(v) { if (soundGain) soundGain.gain.value = v; }
+
+/* ============ HABITS ============ */
+function renderHabits() {
+  const c = document.getElementById('habitsGrid');
+  if (!data.habits.length) {
+    c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">🔁</span>Hali odat yo\'q. <a href="#" onclick="openHabitModal(); return false;">Birinchisini qo\'shing</a></div>';
+    return;
+  }
+  c.innerHTML = data.habits.map(habit => habitHTML(habit)).join('');
+}
+
+function habitHTML(habit) {
+  const streak = calcHabitStreak(habit);
+  const heatmap = buildHeatmap(habit, 30);
+  const status = getHabitStatus(habit, todayKey());
+  const progress = getHabitProgress(habit, todayKey());
+  const hasSubtasks = habit.subtasks && habit.subtasks.length > 0;
+  const toggleLabel = status === 'done' ? '✓ Bajarildi' : (status === 'partial' ? `${progress.done}/${progress.total}` : 'Bajarish');
+  const toggleClass = status === 'done' ? 'done' : (status === 'partial' ? 'partial' : '');
+
+  let subtasksHTML = '';
+  if (hasSubtasks) {
+    const t = today();
+    const v = t.habits[habit.id] || {};
+    subtasksHTML = `<div class="subtasks">
+      ${habit.subtasks.map((st, idx) => {
+        const done = typeof v === 'object' && v[st.id] === true;
+        return `<div class="subtask ${done ? 'done' : ''}" onclick="toggleSubtask('${habit.id}','${st.id}')">
+          <div class="subtask-check">${done ? '✓' : ''}</div>
+          <input class="subtask-text" value="${escapeHtml(st.name)}" data-habit="${habit.id}" data-st="${st.id}" onclick="event.stopPropagation()">
+          <button class="subtask-delete" onclick="event.stopPropagation(); deleteSubtask('${habit.id}','${st.id}')">×</button>
+        </div>`;
+      }).join('')}
+      <button class="subtask-add" onclick="addSubtask('${habit.id}')">+ Subtask qo'shish</button>
+    </div>`;
+  } else {
+    subtasksHTML = `<div class="subtasks"><button class="subtask-add" onclick="addSubtask('${habit.id}')">+ Bu odatni bo'limlarga ajratish (masalan: Abs, Push-up, Squats)</button></div>`;
+  }
+
+  return `<div class="habit" id="habit-${habit.id}">
+    <div class="habit-main">
+      <div class="habit-info">
+        <div class="habit-header"><span class="habit-emoji">${habit.emoji || '🎯'}</span><span class="habit-name">${escapeHtml(habit.name)}</span></div>
+        <div class="habit-meta">
+          <span class="habit-streak">🔥 <span class="habit-streak-num">${streak}</span> kun</span>
+          ${hasSubtasks ? `<span class="habit-progress">${progress.done}/${progress.total} bugun</span>` : ''}
+        </div>
+      </div>
+      <div class="habit-heatmap" title="So'nggi 30 kun">${heatmap}</div>
+      <div class="habit-actions">
+        <button class="habit-toggle ${toggleClass}" onclick="toggleHabit('${habit.id}')">${toggleLabel}</button>
+        <button class="habit-expand" onclick="toggleHabitExpand('${habit.id}')">▾</button>
+        <button class="btn-ghost" onclick="deleteHabit('${habit.id}')" style="font-size:16px;">×</button>
+      </div>
+    </div>
+    ${subtasksHTML}
+  </div>`;
+}
+
+function buildHeatmap(habit, days) {
+  let html = '';
+  const tKey = todayKey();
+  for (let i = days - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = dateKey(d);
+    const status = getHabitStatus(habit, k);
+    const cls = status === 'done' ? 'done' : (status === 'partial' ? 'partial' : '');
+    html += `<div class="habit-day ${cls} ${k===tKey?'today':''}" title="${k}"></div>`;
+  }
+  return html;
+}
+
+function toggleHabit(id) {
+  const habit = data.habits.find(h => h.id === id);
+  const t = today();
+  if (!t.habits) t.habits = {};
+  if (!habit.subtasks || !habit.subtasks.length) {
+    t.habits[id] = !t.habits[id];
+  } else {
+    // Toggle all subtasks: if any not done → mark all done; if all done → unmark all
+    const currentVal = (typeof t.habits[id] === 'object') ? t.habits[id] : {};
+    const allDone = habit.subtasks.every(st => currentVal[st.id] === true);
+    const newVal = {};
+    if (!allDone) habit.subtasks.forEach(st => newVal[st.id] = true);
+    t.habits[id] = newVal;
+  }
+  saveData();
+  renderHabits();
+  renderQuickStats();
+}
+
+function toggleSubtask(habitId, subtaskId) {
+  const t = today();
+  if (!t.habits) t.habits = {};
+  if (typeof t.habits[habitId] !== 'object') t.habits[habitId] = {};
+  t.habits[habitId][subtaskId] = !t.habits[habitId][subtaskId];
+  saveData();
+  renderHabits();
+  renderQuickStats();
+}
+
+function toggleHabitExpand(id) {
+  const el = document.getElementById('habit-' + id);
+  el.classList.toggle('expanded');
+  el.querySelector('.habit-expand').classList.toggle('open');
+}
+
+function addSubtask(habitId) {
+  const name = prompt('Subtask nomini kiriting:');
+  if (!name) return;
+  const habit = data.habits.find(h => h.id === habitId);
+  if (!habit.subtasks) habit.subtasks = [];
+  habit.subtasks.push({ id: uid(), name: name.trim() });
+  saveData();
+  renderHabits();
+  // Auto-expand after adding
+  document.getElementById('habit-' + habitId).classList.add('expanded');
+}
+
+function deleteSubtask(habitId, stId) {
+  if (!confirm('Bu subtaskni o\'chirasizmi?')) return;
+  const habit = data.habits.find(h => h.id === habitId);
+  habit.subtasks = habit.subtasks.filter(st => st.id !== stId);
+  saveData();
+  renderHabits();
+  document.getElementById('habit-' + habitId).classList.add('expanded');
+}
+
+// Subtask name editing (event delegation)
+document.addEventListener('change', e => {
+  if (e.target.classList.contains('subtask-text')) {
+    const habitId = e.target.dataset.habit;
+    const stId = e.target.dataset.st;
+    const habit = data.habits.find(h => h.id === habitId);
+    const st = habit.subtasks.find(s => s.id === stId);
+    if (st) { st.name = e.target.value.trim(); saveData(); }
+  }
+});
+
+function openHabitModal() { document.getElementById('habitModal').classList.add('show'); document.getElementById('habitName').focus(); }
+function closeHabitModal() {
+  document.getElementById('habitModal').classList.remove('show');
+  document.getElementById('habitEmoji').value = '';
+  document.getElementById('habitName').value = '';
+}
+function saveHabit() {
+  const emoji = document.getElementById('habitEmoji').value.trim() || '🎯';
+  const name = document.getElementById('habitName').value.trim();
+  if (!name) { toast('Odat nomini kiriting'); return; }
+  data.habits.push({ id: uid(), emoji, name, subtasks: [] });
+  saveData();
+  closeHabitModal();
+  renderHabits();
+}
+function deleteHabit(id) {
+  if (!confirm('Bu odatni o\'chirasizmi? Tarix saqlanib qoladi.')) return;
+  data.habits = data.habits.filter(h => h.id !== id);
+  saveData();
+  renderHabits();
+}
+
+/* ============ RESOURCES ============ */
+const RESOURCE_CATS = {
+  islam: { emoji: '📖', name: 'Diniy ta\'lim', time: 'Kunlik 25 daqiqa' },
+  book: { emoji: '📚', name: 'Kitob', time: 'Kunlik 10 daqiqa' },
+  field: { emoji: '🎓', name: 'Soha kursi', time: 'Kunlik 50 daqiqa' },
+  language: { emoji: '🌐', name: 'Til o\'rganish', time: 'Kunlik 25 daqiqa' },
+};
+
+function renderResources() {
+  const c = document.getElementById('resourcesGrid');
+  c.innerHTML = Object.keys(RESOURCE_CATS).map(key => resourceCatHTML(key)).join('');
+}
+
+function resourceCatHTML(catKey) {
+  const cat = RESOURCE_CATS[catKey];
+  const r = data.resources[catKey];
+  const active = r.active;
+  const completed = r.completed || [];
+
+  let activeHTML;
+  if (active) {
+    const pct = active.total ? Math.min(100, Math.round((active.progress / active.total) * 100)) : 0;
+    const days = active.startedAt ? Math.max(1, Math.round((new Date() - new Date(active.startedAt)) / 86400000)) : 0;
+    activeHTML = `<div class="resource-active">
+      <div class="resource-title">${escapeHtml(active.title)}</div>
+      ${active.author ? `<div class="resource-author">${escapeHtml(active.author)}</div>` : ''}
+      <div class="resource-source-line">${active.source ? escapeHtml(active.source) + ' · ' : ''}${days} kun</div>
+      ${active.total ? `
+        <div class="resource-progress-bar"><div class="resource-progress-fill" style="width:${pct}%"></div></div>
+        <div class="resource-progress-labels"><span>${active.progress || 0} / ${active.total}</span><span>${pct}%</span></div>
+      ` : ''}
+      <div class="resource-actions">
+        ${active.total ? `<button class="resource-btn" onclick="incrementProgress('${catKey}')">+1 bo'lim</button>` : ''}
+        <button class="resource-btn" onclick="editResource('${catKey}')">✎ Tahrirlash</button>
+        <button class="resource-btn complete" onclick="completeResource('${catKey}')">✓ Tugatdim</button>
+      </div>
+    </div>`;
+  } else {
+    activeHTML = `<div class="resource-empty" onclick="openResourceModal('${catKey}')">
+      <span class="resource-empty-icon">+</span>
+      <span class="resource-empty-text">Yangi ${cat.name.toLowerCase()} qo'shing</span>
+    </div>`;
+  }
+
+  let completedHTML = '';
+  if (completed.length) {
+    completedHTML = `<details class="resource-completed">
+      <summary>Tugatilgan (${completed.length})</summary>
+      <div class="resource-completed-list">
+        ${completed.slice().reverse().map(c => {
+          const days = c.startedAt && c.completedAt ? Math.round((new Date(c.completedAt) - new Date(c.startedAt)) / 86400000) : 0;
+          return `<div class="resource-done-item">
+            <span class="resource-done-item-title">${escapeHtml(c.title)}</span>
+            <span class="resource-done-item-meta">${days > 0 ? days + ' kun' : ''}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </details>`;
+  }
+
+  return `<div class="resource-cat" data-cat="${catKey}">
+    <div class="resource-cat-header">
+      <div class="resource-cat-emoji">${cat.emoji}</div>
+      <div class="resource-cat-info">
+        <div class="resource-cat-name">${cat.name}</div>
+        <div class="resource-cat-time">${cat.time}</div>
+      </div>
+    </div>
+    ${activeHTML}
+    ${completedHTML}
+  </div>`;
+}
+
+function openResourceModal(catKey, edit = false) {
+  activeResourceCat = catKey;
+  const r = data.resources[catKey];
+  document.getElementById('resourceModalTitle').textContent = edit ? 'Tahrirlash' : `Yangi · ${RESOURCE_CATS[catKey].name}`;
+  if (edit && r.active) {
+    document.getElementById('resTitle').value = r.active.title || '';
+    document.getElementById('resAuthor').value = r.active.author || '';
+    document.getElementById('resSource').value = r.active.source || '';
+    document.getElementById('resTotal').value = r.active.total || '';
+  } else {
+    document.getElementById('resTitle').value = '';
+    document.getElementById('resAuthor').value = '';
+    document.getElementById('resSource').value = '';
+    document.getElementById('resTotal').value = '';
+  }
+  document.getElementById('resourceModal').classList.add('show');
+  document.getElementById('resTitle').focus();
+}
+
+function closeResourceModal() { document.getElementById('resourceModal').classList.remove('show'); activeResourceCat = null; }
+
+function saveResource() {
+  if (!activeResourceCat) return;
+  const title = document.getElementById('resTitle').value.trim();
+  if (!title) { toast('Nomini kiriting'); return; }
+  const author = document.getElementById('resAuthor').value.trim();
+  const source = document.getElementById('resSource').value.trim();
+  const total = parseInt(document.getElementById('resTotal').value) || null;
+  const r = data.resources[activeResourceCat];
+  if (r.active) {
+    // Edit
+    r.active = { ...r.active, title, author, source, total };
+  } else {
+    r.active = {
+      id: uid(), title, author, source, total,
+      progress: 0,
+      startedAt: new Date().toISOString().split('T')[0]
+    };
+  }
+  saveData();
+  closeResourceModal();
+  renderResources();
+}
+
+function editResource(catKey) { openResourceModal(catKey, true); }
+
+function incrementProgress(catKey) {
+  const r = data.resources[catKey];
+  if (!r.active) return;
+  r.active.progress = (r.active.progress || 0) + 1;
+  if (r.active.total && r.active.progress >= r.active.total) {
+    if (confirm('Maqsadga yetdingiz! Tugatishni belgilaymizmi?')) {
+      completeResource(catKey);
+      return;
+    }
+  }
+  saveData();
+  renderResources();
+}
+
+function completeResource(catKey) {
+  const r = data.resources[catKey];
+  if (!r.active) return;
+  if (!confirm(`"${r.active.title}" ni tugatdim deb belgilaymizmi?`)) return;
+  r.completed.push({ ...r.active, completedAt: new Date().toISOString().split('T')[0] });
+  r.active = null;
+  saveData();
+  renderResources();
+  toast('🎉 Tabriklaymiz! Yangi manba qo\'shing.');
+}
+
+/* ============ GOALS ============ */
+function renderGoals() {
+  const c = document.getElementById('goalsList');
+  if (!data.goals.length) {
+    c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">🎯</span>Hali maqsad yo\'q. <a href="#" onclick="openGoalModal(); return false;">Birinchisini qo\'shing</a></div>';
+    return;
+  }
+  c.innerHTML = data.goals.map(g => renderGoal(g)).join('');
+}
+
+function renderGoal(g) {
+  const now = new Date();
+  const start = new Date(g.startDate);
+  const end = new Date(g.endDate);
+  const totalDays = Math.max(1, Math.round((end - start) / 86400000));
+  const elapsedDays = Math.max(0, Math.round((now - start) / 86400000));
+  const remainingDays = Math.max(0, Math.round((end - now) / 86400000));
+  const timePct = Math.min(100, Math.round(elapsedDays / totalDays * 100));
+  const valuePct = Math.min(100, Math.round(((g.current - g.start) / (g.target - g.start)) * 100));
+
+  let status, statusClass;
+  if (g.current >= g.target) { status = 'Bajarildi!'; statusClass = 'done'; }
+  else if (now > end) { status = 'Muddat tugadi'; statusClass = 'behind'; }
+  else if (valuePct >= timePct + 5) { status = 'Oldindamiz'; statusClass = 'ahead'; }
+  else if (valuePct < timePct - 10) { status = 'Orqada qoldim'; statusClass = 'behind'; }
+  else { status = 'Yo\'lda'; statusClass = 'on-track'; }
+
+  const fmtDate = d => `${d.getDate()} ${monthName(d.getMonth())}`;
+  const unit = g.unit || '';
+  const fmt = n => (typeof n === 'number') ? n.toLocaleString('en-US') : n;
+
+  return `<div class="goal">
+    <div class="goal-header">
+      <div class="goal-title-wrap">
+        <div class="goal-emoji-name"><span class="goal-emoji">${g.emoji||'🎯'}</span><span class="goal-name">${escapeHtml(g.name)}</span></div>
+        <div class="goal-period">${fmtDate(start)} → ${fmtDate(end)} · ${totalDays} kun</div>
+      </div>
+      <div class="goal-status ${statusClass}">${status}</div>
+    </div>
+    <div class="goal-current">
+      <div>
+        <div class="goal-current-value">${unit === '$' ? unit : ''}${fmt(g.current)}${unit && unit !== '$' ? ' ' + unit : ''}</div>
+        <div class="goal-current-target">/ <strong>${unit === '$' ? unit : ''}${fmt(g.target)}${unit && unit !== '$' ? ' ' + unit : ''}</strong> maqsad</div>
+      </div>
+      <button class="goal-update-btn" onclick="openGoalUpdate('${g.id}')">+ Yangilash</button>
+    </div>
+    <div class="goal-bar-wrap">
+      <div class="goal-bar-labels">
+        <span>📈 Bajarildi: <strong style="color:var(--ink);">${valuePct}%</strong></span>
+        <span>⏰ Vaqt: <strong style="color:var(--ink);">${timePct}%</strong></span>
+      </div>
+      <div class="goal-bar">
+        <div class="goal-bar-fill ${valuePct >= timePct ? 'green' : 'blue'}" style="width:${valuePct}%"></div>
+        <div class="goal-bar-marker" style="left:${timePct}%"></div>
+      </div>
+    </div>
+    <div class="goal-meta">
+      <div class="goal-meta-item">📅 <strong>${remainingDays}</strong> kun qoldi</div>
+      <div class="goal-meta-item">📊 <strong>${fmt(Math.round((g.current - g.start) / Math.max(1, elapsedDays)))} ${unit}</strong>/kun</div>
+      <button class="btn-ghost" style="color:var(--ink-mute);" onclick="deleteGoal('${g.id}')">o'chirish</button>
+    </div>
+  </div>`;
+}
+
+function openGoalModal() { document.getElementById('goalModal').classList.add('show'); document.getElementById('goalStartDate').value = todayKey(); document.getElementById('goalName').focus(); }
+function closeGoalModal() {
+  document.getElementById('goalModal').classList.remove('show');
+  ['goalEmoji','goalName','goalTarget','goalEndDate'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('goalStart').value = '0';
+  document.getElementById('goalUnit').value = '$';
+}
+function saveGoal() {
+  const name = document.getElementById('goalName').value.trim();
+  const start = parseFloat(document.getElementById('goalStart').value) || 0;
+  const target = parseFloat(document.getElementById('goalTarget').value);
+  const startDate = document.getElementById('goalStartDate').value;
+  const endDate = document.getElementById('goalEndDate').value;
+  if (!name || isNaN(target) || !startDate || !endDate) { toast('Barcha maydonlarni to\'ldiring'); return; }
+  data.goals.push({
+    id: uid(), emoji: document.getElementById('goalEmoji').value.trim() || '🎯',
+    name, start, target, current: start,
+    unit: document.getElementById('goalUnit').value.trim() || '',
+    startDate, endDate, history: []
+  });
+  saveData(); closeGoalModal(); renderGoals();
+}
+function deleteGoal(id) { if (!confirm('O\'chirilsinmi?')) return; data.goals = data.goals.filter(g => g.id !== id); saveData(); renderGoals(); }
+
+let currentGoalUpdate = null;
+function openGoalUpdate(id) {
+  const g = data.goals.find(x => x.id === id);
+  if (!g) return;
+  currentGoalUpdate = id;
+  document.getElementById('goalUpdateTitle').textContent = g.name;
+  document.getElementById('goalUpdateValue').value = g.current;
+  document.getElementById('goalUpdateModal').classList.add('show');
+  document.getElementById('goalUpdateValue').focus();
+}
+function closeGoalUpdateModal() { document.getElementById('goalUpdateModal').classList.remove('show'); }
+function saveGoalUpdate() {
+  const v = parseFloat(document.getElementById('goalUpdateValue').value);
+  if (isNaN(v)) return;
+  const g = data.goals.find(x => x.id === currentGoalUpdate);
+  if (!g) return;
+  g.current = v;
+  g.history.push({ date: todayKey(), value: v });
+  saveData();
+  closeGoalUpdateModal();
+  renderGoals();
+  toast('✓ Yangilandi');
+}
+
+/* ============ REFLECTION ============ */
+function renderReflection() {
+  const t = today();
+  const r = t.reflection || {};
+  const now = new Date();
+  document.getElementById('reflectionDate').textContent = `${dayName(now)}, ${now.getDate()} ${monthName(now.getMonth())}, ${now.getFullYear()}`;
+  document.querySelectorAll('.mood').forEach(m => m.classList.toggle('selected', m.dataset.mood === r.mood));
+  document.getElementById('energySlider').value = r.energy || 3;
+  document.getElementById('energyValue').textContent = r.energy || 3;
+  document.getElementById('reflectGood').value = r.good || '';
+  document.getElementById('reflectBad').value = r.bad || '';
+  document.getElementById('reflectTomorrow').value = r.tomorrow || '';
+  document.querySelectorAll('#gratitudes input').forEach((inp, i) => inp.value = (r.gratitudes && r.gratitudes[i]) || '');
+}
+
+function initReflection() {
+  document.querySelectorAll('.mood').forEach(m => {
+    m.addEventListener('click', () => {
+      document.querySelectorAll('.mood').forEach(x => x.classList.remove('selected'));
+      m.classList.add('selected');
+    });
+  });
+  document.getElementById('energySlider').addEventListener('input', e => document.getElementById('energyValue').textContent = e.target.value);
+  document.getElementById('reflectSave').addEventListener('click', () => {
+    today().reflection = {
+      mood: document.querySelector('.mood.selected')?.dataset.mood || null,
+      energy: parseInt(document.getElementById('energySlider').value),
+      gratitudes: Array.from(document.querySelectorAll('#gratitudes input')).map(i => i.value.trim()),
+      good: document.getElementById('reflectGood').value,
+      bad: document.getElementById('reflectBad').value,
+      tomorrow: document.getElementById('reflectTomorrow').value,
+      savedAt: new Date().toISOString()
+    };
+    saveData();
+    const c = document.getElementById('reflectConfirm');
+    c.classList.add('show');
+    setTimeout(() => c.classList.remove('show'), 2000);
+  });
+}
+
+function showReflectionHistory() {
+  const days = Object.keys(data.days).filter(k => data.days[k].reflection && data.days[k].reflection.savedAt).sort().reverse();
+  if (!days.length) { toast('Hali xulosalar yo\'q'); return; }
+  let html = '<div style="font-family:Fraunces,serif;font-size:20px;margin-bottom:16px;">Xulosalar tarixi</div>';
+  days.slice(0, 30).forEach(k => {
+    const r = data.days[k].reflection;
+    const d = new Date(k);
+    html += `<div style="padding:12px 0;border-bottom:0.5px solid var(--line);">
+      <div style="font-weight:500;font-size:13px;margin-bottom:4px;">${dayName(d)}, ${d.getDate()} ${monthName(d.getMonth())}</div>
+      <div style="font-size:12px;color:var(--ink-mute);">${r.mood ? '😊 ' + r.mood : ''} ${r.energy ? '· ⚡ ' + r.energy + '/5' : ''}</div>
+      ${r.good ? `<div style="font-size:12px;margin-top:6px;">${escapeHtml(r.good)}</div>` : ''}
+    </div>`;
+  });
+  const m = document.createElement('div');
+  m.className = 'modal-bg show';
+  m.innerHTML = `<div class="modal" style="max-width:560px;">${html}<div class="modal-actions"><button class="btn btn-primary" onclick="this.closest('.modal-bg').remove()">Yopish</button></div></div>`;
+  m.onclick = e => { if (e.target === m) m.remove(); };
+  document.body.appendChild(m);
+}
+
+/* ============ STATS ============ */
+function renderStats() {
+  const last7 = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    last7.push({ date: d, key: dateKey(d) });
+  }
+  let prayerCount = 0, deepMin = 0, tasksDone = 0;
+  last7.forEach(({ key }) => {
+    if (data.days[key]) {
+      Object.values(data.days[key].prayers || {}).forEach(v => { if (v) prayerCount++; });
+      (data.days[key].deepwork || []).filter(s => s.completed).forEach(s => deepMin += s.duration);
+      (data.days[key].tasksA || []).forEach(t => { if (t.done) tasksDone++; });
+      (data.days[key].tasksB || []).forEach(t => { if (t.done) tasksDone++; });
+    }
+  });
+  document.getElementById('weekPrayers').textContent = prayerCount + '/35';
+  document.getElementById('weekPrayersPct').textContent = Math.round(prayerCount/35*100) + '%';
+  document.getElementById('weekDeep').textContent = (deepMin/60).toFixed(1) + 'h';
+  document.getElementById('weekTasks').textContent = tasksDone;
+
+  let best = 0, bestName = '—';
+  data.habits.forEach(h => {
+    const s = calcHabitStreak(h);
+    if (s > best) { best = s; bestName = h.name; }
+  });
+  document.getElementById('bestStreak').textContent = best;
+  document.getElementById('bestStreakName').textContent = bestName;
+
+  const tKey = todayKey();
+  document.getElementById('weekChartBars').innerHTML = last7.map(({ date, key }) => {
+    const d = data.days[key] || { prayers: {}, deepwork: [], tasksA: [], tasksB: [], habits: {} };
+    const prayerPct = Object.values(d.prayers).filter(Boolean).length / 5 * 25;
+    const deepPct = Math.min(35, (d.deepwork || []).filter(s=>s.completed).reduce((s,x)=>s+x.duration,0) / 60 / 5 * 35);
+    const taskPct = ((d.tasksA || []).filter(t=>t.done).length + (d.tasksB || []).filter(t=>t.done).length) / 8 * 20;
+    let habitPct = 0;
+    if (data.habits.length) {
+      data.habits.forEach(h => { if (getHabitStatus(h, key) === 'done') habitPct += 20 / data.habits.length; });
+    }
+    const total = Math.min(100, Math.round(prayerPct + deepPct + taskPct + habitPct));
+    return `<div class="wc-day">
+      <div class="wc-bar-wrap"><div class="wc-bar ${key===tKey?'today':''}" style="height:${total}%"></div></div>
+      <div class="wc-day-label">${['Yak','Du','Se','Ch','Pa','Ju','Sh'][date.getDay()]}</div>
+      <div class="wc-day-num">${date.getDate()}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('prayerStreaks').innerHTML = ['bomdod','peshin','asr','shom','xufton'].map(p => {
+    const names = { bomdod: '🌅 Bomdod', peshin: '☀️ Peshin', asr: '🌤️ Asr', shom: '🌆 Shom', xufton: '🌙 Xufton' };
+    let s = 0;
+    for (let i = 0; i < 90; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const k = dateKey(d);
+      if (data.days[k] && data.days[k].prayers && data.days[k].prayers[p]) s++;
+      else if (i === 0) continue;
+      else break;
+    }
+    return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--line);">
+      <span style="font-size:13px;">${names[p]}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--green);">🔥 ${s} kun</span>
+    </div>`;
+  }).join('');
+
+  if (!data.goals.length) document.getElementById('goalsSummary').innerHTML = '<div class="empty-state">Hali maqsad yo\'q</div>';
+  else {
+    document.getElementById('goalsSummary').innerHTML = data.goals.slice(0,3).map(g => {
+      const pct = Math.min(100, Math.round(((g.current - g.start) / (g.target - g.start)) * 100));
+      return `<div style="padding:8px 0;border-bottom:0.5px solid var(--line);">
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+          <span>${g.emoji||'🎯'} ${escapeHtml(g.name)}</span><strong>${pct}%</strong>
+        </div>
+        <div style="height:4px;background:var(--bg-soft);border-radius:2px;overflow:hidden;">
+          <div style="height:100%;background:var(--terra);width:${pct}%"></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+/* ============ SETTINGS ============ */
+function renderSettings() {
+  const pt = data.settings.prayerTimes;
+  document.getElementById('userName').value = data.settings.name || '';
+  document.getElementById('time-bomdod').value = pt.bomdod;
+  document.getElementById('time-peshin').value = pt.peshin;
+  document.getElementById('time-asr').value = pt.asr;
+  document.getElementById('time-shom').value = pt.shom;
+  document.getElementById('time-xufton').value = pt.xufton;
+  document.getElementById('tgToken').value = data.settings.telegram.token;
+  document.getElementById('tgChatId').value = data.settings.telegram.chatId;
+  document.getElementById('tgPrayerToggle').classList.toggle('on', data.settings.telegram.prayerNotif);
+  document.getElementById('tgReflectionToggle').classList.toggle('on', data.settings.telegram.reflectionNotif);
+  if ("Notification" in window) {
+    document.getElementById('notifStatus').textContent = Notification.permission === 'granted' ? '✓ Yoqilgan' : (Notification.permission === 'denied' ? '✗ Rad etilgan' : 'Hali so\'ralmagan');
+  } else document.getElementById('notifStatus').textContent = 'Brauzerda mavjud emas';
+}
+
+function initSettings() {
+  document.getElementById('userName').addEventListener('change', e => { data.settings.name = e.target.value.trim(); saveData(); renderToday(); });
+  ['bomdod','peshin','asr','shom','xufton'].forEach(p => {
+    document.getElementById('time-' + p).addEventListener('change', e => {
+      data.settings.prayerTimes[p] = e.target.value;
+      saveData(); renderPrayers(); updateNextPrayer(); schedulePrayerNotifications();
+    });
+  });
+  document.getElementById('tgToken').addEventListener('change', e => { data.settings.telegram.token = e.target.value.trim(); saveData(); });
+  document.getElementById('tgChatId').addEventListener('change', e => { data.settings.telegram.chatId = e.target.value.trim(); saveData(); });
+}
+
+function toggleSetting(key, el) {
+  if (key === 'tgPrayer') data.settings.telegram.prayerNotif = !data.settings.telegram.prayerNotif;
+  if (key === 'tgReflection') data.settings.telegram.reflectionNotif = !data.settings.telegram.reflectionNotif;
+  el.classList.toggle('on');
+  saveData();
+  schedulePrayerNotifications();
+}
+
+async function testTelegram() {
+  if (!data.settings.telegram.token || !data.settings.telegram.chatId) { toast('Token va Chat ID kiriting'); return; }
+  toast('Yuborilmoqda...');
+  const ok = await sendTelegramMessage('✅ Salom! Bu Kun Tizimi botidan test xabar.');
+  toast(ok ? '✓ Yuborildi!' : '❌ Xato. Token/Chat ID ni tekshiring');
+}
+
+async function sendTelegramMessage(text) {
+  const t = data.settings.telegram.token, c = data.settings.telegram.chatId;
+  if (!t || !c) return false;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${t}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: c, text, parse_mode: 'Markdown' })
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
+
+function requestNotifications() {
+  if (!("Notification" in window)) { toast('Brauzerda yo\'q'); return; }
+  Notification.requestPermission().then(p => {
+    renderSettings();
+    if (p === 'granted') {
+      toast('✓ Yoqildi');
+      new Notification('Kun Tizimi', { body: 'Bildiruvlar yoqildi 🎉' });
+      schedulePrayerNotifications();
+    }
+  });
+}
+
+function sendNotification(title, body) {
+  if ("Notification" in window && Notification.permission === 'granted') {
+    try { new Notification(title, { body }); } catch(e) {}
+  }
+}
+
+let scheduledTimers = [];
+function schedulePrayerNotifications() {
+  scheduledTimers.forEach(t => clearTimeout(t));
+  scheduledTimers = [];
+  const pt = data.settings.prayerTimes;
+  const names = { bomdod: '🌅 Bomdod', peshin: '☀️ Peshin', asr: '🌤️ Asr', shom: '🌆 Shom', xufton: '🌙 Xufton' };
+  const now = new Date();
+  const nowMs = now.getTime();
+
+  Object.keys(pt).forEach(key => {
+    const [h, m] = pt[key].split(':').map(Number);
+    const target = new Date(); target.setHours(h, m, 0, 0);
+    if (target < now) target.setDate(target.getDate() + 1);
+    const ms = target.getTime() - nowMs;
+    if (ms > 0 && ms < 24*60*60*1000) {
+      const t = setTimeout(() => {
+        sendNotification(names[key] + ' vaqti', 'Namozga to\'plansin');
+        if (data.settings.telegram.prayerNotif) sendTelegramMessage(`🕌 *${names[key]}* vaqti keldi.`);
+      }, ms);
+      scheduledTimers.push(t);
+    }
+  });
+
+  if (data.settings.telegram.reflectionNotif) {
+    const target = new Date(); target.setHours(22, 0, 0, 0);
+    if (target < now) target.setDate(target.getDate() + 1);
+    const ms = target.getTime() - nowMs;
+    if (ms > 0 && ms < 24*60*60*1000) {
+      const t = setTimeout(() => {
+        sendNotification('Kun yakuni', 'Bugungi xulosani yozing');
+        sendTelegramMessage('📝 *Kun yakuni*\n\nBugun nima yaxshi bo\'ldi? Xulosa yozing.');
+      }, ms);
+      scheduledTimers.push(t);
+    }
+  }
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `kun-tizimi-${todayKey()}.json`; a.click();
+  URL.revokeObjectURL(url);
+  toast('✓ Eksport qilindi');
+}
+
+function importData(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try {
+      const imp = JSON.parse(ev.target.result);
+      if (!imp.settings) { toast('Noto\'g\'ri fayl'); return; }
+      if (confirm('Joriy ma\'lumotlar almashtiriladi. Davom?')) {
+        data = imp; saveData();
+        renderToday(); renderSettings();
+        toast('✓ Import qilindi');
+      }
+    } catch(err) { toast('Xato: ' + err.message); }
+  };
+  r.readAsText(f);
+}
+
+function resetAll() {
+  if (!confirm('Barcha ma\'lumotlar o\'chiriladi. Davom?')) return;
+  if (!confirm('Rostdan? Qaytarib bo\'lmaydi!')) return;
+  localStorage.removeItem(STORAGE_KEY); location.reload();
+}
+
+/* ============ INIT ============ */
+function init() {
+  renderToday();
+  initTimer();
+  initReflection();
+  initSettings();
+  schedulePrayerNotifications();
+
+  setInterval(() => {
+    if (document.getElementById('view-today').classList.contains('active')) {
+      updateNextPrayer();
+      renderPrayers();
+    }
+  }, 60000);
+
+  const now = new Date();
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 5, 0);
+  setTimeout(() => location.reload(), tomorrow.getTime() - now.getTime());
+
+  document.querySelectorAll('.modal-bg').forEach(m => {
+    m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); });
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') document.querySelectorAll('.modal-bg.show').forEach(m => m.classList.remove('show'));
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
