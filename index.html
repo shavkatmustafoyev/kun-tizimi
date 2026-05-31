@@ -3456,6 +3456,10 @@ function migrateResources(loaded) {
   return result;
 }
 
+function saveData() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+}
+
 
 /* HELPERS */
 function todayKey() {
