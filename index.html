@@ -1298,6 +1298,112 @@ main {
   margin-bottom: 12px;
 }
 
+/* Deep Work goal dashboard */
+.dw-goal-card {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+  border-top: 3px solid var(--green);
+}
+
+.dw-goal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.dw-goal-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.dw-goal-status {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+.dw-goal-status.ahead { background: var(--green-bg); color: var(--green-text); }
+.dw-goal-status.on-track { background: var(--blue-bg); color: var(--blue-text); }
+.dw-goal-status.behind { background: var(--terra-bg); color: var(--terra-text); }
+.dw-goal-status.done { background: var(--green); color: white; }
+
+.dw-goal-bar-wrap {
+  height: 14px;
+  background: var(--bg-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.dw-goal-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--blue));
+  border-radius: 8px;
+  transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dw-goal-pace-marker {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--terra);
+  z-index: 2;
+}
+.dw-goal-pace-marker::after {
+  content: 'bugun';
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  color: var(--terra);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dw-goal-numbers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 16px;
+}
+.dw-goal-numbers strong { color: var(--ink); font-size: 14px; }
+
+.dw-goal-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+@media (max-width: 600px) { .dw-goal-mini-grid { grid-template-columns: 1fr; } }
+
+.dw-goal-mini {
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  border-left: 3px solid var(--mini-color, var(--blue));
+}
+.dw-goal-mini.today-m { --mini-color: var(--terra); }
+.dw-goal-mini.week-m { --mini-color: var(--blue); }
+.dw-goal-mini.pace-m { --mini-color: var(--amber); }
+
+.dw-goal-mini-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-mute); font-weight: 700; margin-bottom: 4px; }
+.dw-goal-mini-val { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 600; }
+.dw-goal-mini-val small { font-size: 12px; color: var(--ink-mute); font-weight: 400; }
+
+.dw-goal-mini-bar { height: 5px; background: var(--bg-elev); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+.dw-goal-mini-bar-fill { height: 100%; background: var(--mini-color, var(--blue)); border-radius: 3px; transition: width 0.4s ease; }
+
 /* Deep Work stats grid */
 .dw-stats-grid {
   display: grid;
@@ -2719,6 +2825,10 @@ main {
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
         Bugun
       </button>
+      <button class="nav-item" data-view="plan">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M12 14v4M10 16h4"/></svg></span>
+        Reja
+      </button>
       <button class="nav-item" data-view="deepwork">
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3 2 6M22 6l-3-3"/></svg></span>
         Deep Work
@@ -2848,6 +2958,52 @@ main {
       </div>
     </section>
 
+    <!-- PLAN (REJA) -->
+    <section class="view" id="view-plan">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Reja</h1>
+          <p class="view-sub">Kelgusi kunni oldindan rejalashtiring · Vazifalar o'sha kuni avtomatik chiqadi</p>
+        </div>
+      </div>
+
+      <div class="history-nav">
+        <button class="history-nav-btn" id="planPrev">◀</button>
+        <div class="history-date-display">
+          <div class="history-date-day" id="planDay">—</div>
+          <div class="history-date-sub" id="planSub">—</div>
+        </div>
+        <button class="history-nav-btn" id="planNext">▶</button>
+      </div>
+
+      <div class="card">
+        <div class="task-section">
+          <div class="task-section-title">
+            <div class="task-section-title-left">
+              <span class="priority-badge a">A</span>
+              <span class="task-section-title-text">Eng muhim 3 vazifa</span>
+            </div>
+          </div>
+          <div class="task-list" id="planTasksA"></div>
+        </div>
+        <div class="task-section" style="margin-top:18px;">
+          <div class="task-section-title">
+            <div class="task-section-title-left">
+              <span class="priority-badge b">B</span>
+              <span class="task-section-title-text">Qo'shimcha vazifalar</span>
+            </div>
+          </div>
+          <div class="task-list" id="planTasksB"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="card-title">Loyihalardan tezkor qo'shish</div>
+        <p class="section-desc">Loyiha vazifalarini shu kunga A yoki B sifatida biriktiring</p>
+        <div id="planProjectTasks"></div>
+      </div>
+    </section>
+
     <!-- DEEP WORK -->
     <section class="view" id="view-deepwork">
       <div class="view-header">
@@ -2855,7 +3011,10 @@ main {
           <h1 class="view-title">Deep Work</h1>
           <p class="view-sub">Chuqur ish · To'liq sessiya = ish + tanaffus tugaganida hisoblanadi</p>
         </div>
+        <button class="btn" onclick="openDwGoalModal()">🎯 Maqsadni sozlash</button>
       </div>
+
+      <div class="dw-goal-card" id="dwGoalCard"></div>
 
       <div class="timer-container">
         <div class="timer-mode" id="timerModes">
@@ -3215,6 +3374,10 @@ main {
           <div class="setting-label-wrap"><div class="setting-name">Kechki xulosa eslatmasi</div></div>
           <div class="toggle" id="tgReflectionToggle" onclick="toggleSetting('tgReflection', this)"></div>
         </div>
+        <div class="setting-row">
+          <div class="setting-label-wrap"><div class="setting-name">Uchrashuv eslatmalari</div><div class="setting-desc">Calendar uchrashuvidan 1 soat oldin</div></div>
+          <div class="toggle" id="tgMeetingToggle" onclick="toggleSetting('tgMeeting', this)"></div>
+        </div>
         <div style="margin-top: 16px;">
           <button class="btn btn-primary" onclick="testTelegram()">🔔 Test xabar</button>
         </div>
@@ -3359,6 +3522,22 @@ main {
   </div>
 </div>
 
+<div class="modal-bg" id="dwGoalModal">
+  <div class="modal">
+    <div class="modal-title">🎯 Deep Work maqsadlari</div>
+    <p class="section-desc" style="margin-bottom:14px;">Sessiya hisobi: 50/10 = 1 · 25/5 ikkitasi = 1 · 90/20 = 2 sessiya</p>
+    <div class="modal-field"><label>Oylik maqsad (sessiya)</label><input type="number" id="dwMonthly" placeholder="150" min="0"></div>
+    <div class="modal-field"><label>Ish kunlari (oyiga)</label><input type="number" id="dwWorkDays" placeholder="25" min="1" max="31"></div>
+    <div class="modal-field"><label>Kunlik maqsad (sessiya)</label><input type="number" id="dwDaily" placeholder="6" min="0"></div>
+    <div class="modal-field"><label>Haftalik maqsad (sessiya)</label><input type="number" id="dwWeekly" placeholder="36" min="0"></div>
+    <div class="unit-hint" id="dwGoalHint"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeDwGoalModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveDwGoal()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -3376,7 +3555,8 @@ const DEFAULT_DATA = {
     prayerTimes: { tahajjud: '02:00', bomdod: '04:30', quyosh: '05:50', peshin: '12:00', asr: '15:30', shom: '20:00', xufton: '21:30' },
     telegram: { token: '', chatId: '', prayerNotif: false, reflectionNotif: false, meetingNotif: false },
     timer: { sound: 'none', volume: 0.3 },
-    calendar: { icalUrl: '', lastFetch: null }
+    calendar: { icalUrl: '', lastFetch: null },
+    deepworkGoals: { monthly: 150, weekly: 36, daily: 6, workDays: 25 }
   },
   habits: [
     { id: 'h1', emoji: '🏃', name: 'Badantarbiya', color: 'terra' },
@@ -3413,7 +3593,8 @@ function loadData() {
         prayerTimes: { ...DEFAULT_DATA.settings.prayerTimes, ...(loaded.settings?.prayerTimes || {}) },
         telegram: { ...DEFAULT_DATA.settings.telegram, ...(loaded.settings?.telegram || {}) },
         timer: { ...DEFAULT_DATA.settings.timer, ...(loaded.settings?.timer || {}) },
-        calendar: { ...DEFAULT_DATA.settings.calendar, ...(loaded.settings?.calendar || {}) }
+        calendar: { ...DEFAULT_DATA.settings.calendar, ...(loaded.settings?.calendar || {}) },
+        deepworkGoals: { ...DEFAULT_DATA.settings.deepworkGoals, ...(loaded.settings?.deepworkGoals || {}) }
       },
       habits: (loaded.habits || DEFAULT_DATA.habits).map(h => ({ ...h })),
       resources: migrateResources(loaded.resources),
@@ -3573,6 +3754,7 @@ document.querySelectorAll('.nav-item').forEach(btn => {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + view).classList.add('active');
     if (view === 'today') renderToday();
+    if (view === 'plan') { planDate = dateKey(new Date(Date.now() + 86400000)); renderPlan(); }
     if (view === 'habits') renderHabits();
     if (view === 'resources') renderResources();
     if (view === 'goals') renderGoals();
@@ -4286,17 +4468,126 @@ function renderSessions() {
         <div class="dw-stat-sub">${fmtH(t.minutes)} · ${t.cycles} sikl</div>
       </div>
       <div class="dw-stat-box week">
-        <div class="dw-stat-lbl">Bu hafta (7 kun)</div>
+        <div class="dw-stat-lbl">Oxirgi 7 kun</div>
         <div class="dw-stat-num">${w.sessions}</div>
         <div class="dw-stat-sub">${fmtH(w.minutes)} · ${w.cycles} sikl</div>
       </div>
       <div class="dw-stat-box month">
-        <div class="dw-stat-lbl">Bu oy (30 kun)</div>
+        <div class="dw-stat-lbl">Oxirgi 30 kun</div>
         <div class="dw-stat-num">${m.sessions}</div>
         <div class="dw-stat-sub">${fmtH(m.minutes)} · ${m.cycles} sikl</div>
       </div>
     `;
   }
+  renderDwGoal();
+}
+
+/* === Deep Work GOAL dashboard === */
+function renderDwGoal() {
+  const card = document.getElementById('dwGoalCard');
+  if (!card) return;
+  const g = data.settings.deepworkGoals || { monthly: 150, weekly: 36, daily: 6, workDays: 25 };
+  const month = deepWorkCalendarMonth();
+  const week = deepWorkCalendarWeek();
+  const todayAgg = deepWorkAggregate(1);
+
+  const monthlyTarget = g.monthly || 0;
+  const monthPct = monthlyTarget ? Math.min(100, Math.round(month.sessions / monthlyTarget * 100)) : 0;
+
+  // Pace: where you SHOULD be by today (proportional to days elapsed)
+  const expectedByToday = monthlyTarget ? Math.round(monthlyTarget * (month.today / month.daysInMonth)) : 0;
+  const pacePct = monthlyTarget ? Math.min(100, Math.round(month.today / month.daysInMonth * 100)) : 0;
+
+  // Status
+  let status, statusClass;
+  if (monthlyTarget && month.sessions >= monthlyTarget) { status = '✓ Bajarildi!'; statusClass = 'done'; }
+  else if (month.sessions >= expectedByToday + 3) { status = '🚀 Oldindasiz'; statusClass = 'ahead'; }
+  else if (month.sessions < expectedByToday - 3) { status = '⚠️ Orqadasiz'; statusClass = 'behind'; }
+  else { status = '✓ Yo\'ldasiz'; statusClass = 'on-track'; }
+
+  // Remaining pace needed
+  const remaining = Math.max(0, monthlyTarget - month.sessions);
+  const dailyNeeded = month.daysLeft > 0 ? (remaining / month.daysLeft).toFixed(1) : remaining;
+
+  const dailyTarget = g.daily || 0;
+  const weeklyTarget = g.weekly || 0;
+  const dayPct = dailyTarget ? Math.min(100, Math.round(todayAgg.sessions / dailyTarget * 100)) : 0;
+  const weekPct = weeklyTarget ? Math.min(100, Math.round(week.sessions / weeklyTarget * 100)) : 0;
+
+  card.innerHTML = `
+    <div class="dw-goal-top">
+      <div class="dw-goal-title">${month.monthName} maqsadi</div>
+      ${monthlyTarget ? `<div class="dw-goal-status ${statusClass}">${status}</div>` : ''}
+    </div>
+    ${monthlyTarget ? `
+      <div class="dw-goal-bar-wrap">
+        <div class="dw-goal-bar-fill" style="width:${monthPct}%"></div>
+        <div class="dw-goal-pace-marker" style="left:${pacePct}%"></div>
+      </div>
+      <div class="dw-goal-numbers">
+        <span><strong>${month.sessions}</strong> / ${monthlyTarget} sessiya</span>
+        <span>${monthPct}% · ${month.daysLeft} kun qoldi</span>
+      </div>
+    ` : `<p class="section-desc" style="margin-bottom:12px;">Oylik maqsad belgilanmagan. "🎯 Maqsadni sozlash" tugmasini bosing.</p>`}
+    <div class="dw-goal-mini-grid">
+      <div class="dw-goal-mini today-m">
+        <div class="dw-goal-mini-lbl">Bugun</div>
+        <div class="dw-goal-mini-val">${todayAgg.sessions}${dailyTarget?` <small>/ ${dailyTarget}</small>`:''}</div>
+        ${dailyTarget?`<div class="dw-goal-mini-bar"><div class="dw-goal-mini-bar-fill" style="width:${dayPct}%"></div></div>`:''}
+      </div>
+      <div class="dw-goal-mini week-m">
+        <div class="dw-goal-mini-lbl">Bu hafta</div>
+        <div class="dw-goal-mini-val">${week.sessions}${weeklyTarget?` <small>/ ${weeklyTarget}</small>`:''}</div>
+        ${weeklyTarget?`<div class="dw-goal-mini-bar"><div class="dw-goal-mini-bar-fill" style="width:${weekPct}%"></div></div>`:''}
+      </div>
+      <div class="dw-goal-mini pace-m">
+        <div class="dw-goal-mini-lbl">Kunlik kerak</div>
+        <div class="dw-goal-mini-val">${monthlyTarget ? dailyNeeded : '—'} <small>sessiya</small></div>
+        ${monthlyTarget?`<div class="dw-goal-mini-bar"><div class="dw-goal-mini-bar-fill" style="width:100%"></div></div>`:''}
+      </div>
+    </div>
+  `;
+}
+
+function openDwGoalModal() {
+  const g = data.settings.deepworkGoals || {};
+  document.getElementById('dwMonthly').value = g.monthly || '';
+  document.getElementById('dwWorkDays').value = g.workDays || '';
+  document.getElementById('dwDaily').value = g.daily || '';
+  document.getElementById('dwWeekly').value = g.weekly || '';
+  updateDwGoalHint();
+  document.getElementById('dwMonthly').oninput = updateDwGoalHint;
+  document.getElementById('dwWorkDays').oninput = updateDwGoalHint;
+  document.getElementById('dwGoalModal').classList.add('show');
+}
+
+function updateDwGoalHint() {
+  const monthly = parseInt(document.getElementById('dwMonthly').value) || 0;
+  const workDays = parseInt(document.getElementById('dwWorkDays').value) || 0;
+  const hint = document.getElementById('dwGoalHint');
+  if (monthly && workDays) {
+    const perDay = (monthly / workDays).toFixed(1);
+    hint.textContent = `${monthly} sessiya ÷ ${workDays} ish kuni = kuniga ~${perDay} sessiya`;
+  } else {
+    hint.textContent = '';
+  }
+}
+
+function closeDwGoalModal() { document.getElementById('dwGoalModal').classList.remove('show'); }
+
+function saveDwGoal() {
+  const monthly = parseInt(document.getElementById('dwMonthly').value) || 0;
+  const workDays = parseInt(document.getElementById('dwWorkDays').value) || 25;
+  let daily = parseInt(document.getElementById('dwDaily').value) || 0;
+  let weekly = parseInt(document.getElementById('dwWeekly').value) || 0;
+  // Auto-fill daily/weekly if left empty but monthly is set
+  if (monthly && !daily && workDays) daily = Math.ceil(monthly / workDays);
+  if (daily && !weekly) weekly = daily * 6;
+  data.settings.deepworkGoals = { monthly, weekly, daily, workDays };
+  saveData();
+  closeDwGoalModal();
+  renderDwGoal();
+  toast('✓ Maqsadlar saqlandi');
 }
 
 function playBell() {
@@ -5392,6 +5683,44 @@ function deepWorkAggregate(days = 1) {
   return { minutes, sessions: deepWorkSessions(minutes), cycles, dayKeys };
 }
 
+// Aggregate the CURRENT CALENDAR MONTH (1st of month → today)
+function deepWorkCalendarMonth() {
+  const now = new Date();
+  const y = now.getFullYear(), m = now.getMonth();
+  let minutes = 0, cycles = 0, activeDays = 0;
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+  const today = now.getDate();
+  for (let day = 1; day <= today; day++) {
+    const k = dateKey(new Date(y, m, day));
+    const dw = (data.days[k]?.deepwork || []).filter(s => s.completed);
+    if (dw.length) activeDays++;
+    cycles += dw.length;
+    minutes += dw.reduce((s,x) => s + (x.duration||0), 0);
+  }
+  return {
+    minutes, cycles, activeDays,
+    sessions: deepWorkSessions(minutes),
+    daysInMonth, today,
+    daysLeft: daysInMonth - today,
+    monthName: monthName(m), year: y
+  };
+}
+
+// Aggregate the CURRENT WEEK (Monday → today)
+function deepWorkCalendarWeek() {
+  const now = new Date();
+  const dow = (now.getDay() + 6) % 7; // 0 = Monday
+  let minutes = 0, cycles = 0;
+  for (let i = 0; i <= dow; i++) {
+    const d = new Date(now); d.setDate(d.getDate() - (dow - i));
+    const k = dateKey(d);
+    const dw = (data.days[k]?.deepwork || []).filter(s => s.completed);
+    cycles += dw.length;
+    minutes += dw.reduce((s,x) => s + (x.duration||0), 0);
+  }
+  return { minutes, cycles, sessions: deepWorkSessions(minutes), dayOfWeek: dow + 1 };
+}
+
 function renderDeepWorkAnalytics() {
   const today = deepWorkAggregate(1);
   const week  = deepWorkAggregate(7);
@@ -5544,6 +5873,8 @@ function renderSettings() {
   document.getElementById('icalUrl').value = data.settings.calendar.icalUrl || '';
   document.getElementById('tgPrayerToggle').classList.toggle('on', data.settings.telegram.prayerNotif);
   document.getElementById('tgReflectionToggle').classList.toggle('on', data.settings.telegram.reflectionNotif);
+  const mtgToggle = document.getElementById('tgMeetingToggle');
+  if (mtgToggle) mtgToggle.classList.toggle('on', data.settings.telegram.meetingNotif);
   if ("Notification" in window) {
     document.getElementById('notifStatus').textContent = Notification.permission === 'granted' ? '✓ Yoqilgan' : (Notification.permission === 'denied' ? '✗ Rad etilgan' : 'Hali so\'ralmagan');
   } else document.getElementById('notifStatus').textContent = 'Brauzerda mavjud emas';
@@ -5567,9 +5898,11 @@ function initSettings() {
 function toggleSetting(key, el) {
   if (key === 'tgPrayer') data.settings.telegram.prayerNotif = !data.settings.telegram.prayerNotif;
   if (key === 'tgReflection') data.settings.telegram.reflectionNotif = !data.settings.telegram.reflectionNotif;
+  if (key === 'tgMeeting') data.settings.telegram.meetingNotif = !data.settings.telegram.meetingNotif;
   el.classList.toggle('on');
   saveData();
   schedulePrayerNotifications();
+  if (key === 'tgMeeting') scheduleMeetingReminders();
 }
 
 async function testTelegram() {
@@ -5969,6 +6302,145 @@ function initHistory() {
     }
   });
 }
+
+/* ============ PLAN (REJA) — plan a future day ============ */
+let planDate = dateKey(new Date(Date.now() + 86400000));
+
+function renderPlan() {
+  const d = new Date(planDate);
+  const isTomorrow = planDate === dateKey(new Date(Date.now() + 86400000));
+  document.getElementById('planDay').textContent = `${dayName(d)}, ${d.getDate()} ${monthName(d.getMonth())}`;
+  const daysAhead = Math.round((new Date(planDate) - new Date(todayKey())) / 86400000);
+  document.getElementById('planSub').textContent = isTomorrow ? 'Ertaga' : (daysAhead > 0 ? `${daysAhead} kundan keyin` : 'Bugun');
+
+  renderPlanTaskList('A');
+  renderPlanTaskList('B');
+  renderPlanProjectTasks();
+}
+
+function renderPlanTaskList(priority) {
+  const type = priority === 'A' ? 'tasksA' : 'tasksB';
+  const maxFill = priority === 'A' ? 3 : 5;
+  const day = getDay(planDate);
+  const list = day[type] || [];
+  const c = document.getElementById(priority === 'A' ? 'planTasksA' : 'planTasksB');
+  c.innerHTML = '';
+  list.forEach((task, idx) => {
+    const el = document.createElement('div');
+    el.className = 'task' + (task.done ? ' done' : '');
+    el.innerHTML = `
+      <div class="task-check" onclick="togglePlanTask('${type}',${idx})">${task.done?'✓':''}</div>
+      <input class="task-text" value="${escapeHtml(task.text)}" data-type="${type}" data-idx="${idx}" placeholder="Vazifa...">
+      <button class="task-delete" onclick="deletePlanTask('${type}',${idx})">×</button>`;
+    c.appendChild(el);
+  });
+  for (let i = list.length; i < maxFill; i++) {
+    const el = document.createElement('button');
+    el.className = 'task-add';
+    el.innerHTML = `+ ${priority==='A'?'Asosiy':'Qo\'shimcha'} vazifa qo'shish`;
+    el.onclick = () => addPlanTask(type);
+    c.appendChild(el);
+  }
+  c.querySelectorAll('.task-text').forEach(input => {
+    input.addEventListener('change', e => {
+      const tp = e.target.dataset.type;
+      const idx = parseInt(e.target.dataset.idx);
+      getDay(planDate)[tp][idx].text = e.target.value;
+      saveData();
+    });
+  });
+}
+
+function addPlanTask(type) {
+  getDay(planDate)[type].push({ text: '', done: false, id: uid() });
+  saveData();
+  renderPlanTaskList(type === 'tasksA' ? 'A' : 'B');
+  setTimeout(() => {
+    const c = document.getElementById(type === 'tasksA' ? 'planTasksA' : 'planTasksB');
+    const inputs = c.querySelectorAll('.task-text');
+    if (inputs.length) inputs[inputs.length-1].focus();
+  }, 50);
+}
+
+function togglePlanTask(type, idx) {
+  const day = getDay(planDate);
+  day[type][idx].done = !day[type][idx].done;
+  saveData();
+  renderPlanTaskList(type === 'tasksA' ? 'A' : 'B');
+}
+
+function deletePlanTask(type, idx) {
+  getDay(planDate)[type].splice(idx, 1);
+  saveData();
+  renderPlanTaskList(type === 'tasksA' ? 'A' : 'B');
+}
+
+function renderPlanProjectTasks() {
+  const c = document.getElementById('planProjectTasks');
+  const openTasks = [];
+  (data.projects || []).forEach(p => {
+    (p.tasks || []).filter(t => !t.done).forEach(t => {
+      openTasks.push({ project: p, task: t });
+    });
+  });
+  if (!openTasks.length) {
+    c.innerHTML = '<div class="empty-state" style="padding:20px;">Loyihalarda ochiq vazifa yo\'q</div>';
+    return;
+  }
+  c.innerHTML = openTasks.map(({project, task}) => `
+    <div class="project-task">
+      <div class="project-task-main">
+        <span class="project-task-priority-badge" style="background:var(--${project.color||'blue'}-bg);color:var(--${project.color||'blue'}-text);">${escapeHtml(project.name)}</span>
+        <span class="project-task-text" style="cursor:default;">${escapeHtml(task.text)}</span>
+        <div class="project-task-actions" style="opacity:1;">
+          <button class="project-task-btn" onclick="planAddProjectTask('${project.id}','${task.id}','A')" title="A ga qo'shish">A</button>
+          <button class="project-task-btn" onclick="planAddProjectTask('${project.id}','${task.id}','B')" title="B ga qo'shish">B</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function planAddProjectTask(projectId, taskId, priority) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (!t) return;
+  const day = getDay(planDate);
+  const type = priority === 'A' ? 'tasksA' : 'tasksB';
+  // Avoid duplicate
+  if ((day[type] || []).some(x => x.linkedProjectTaskId === taskId)) {
+    toast('Allaqachon qo\'shilgan');
+    return;
+  }
+  day[type].push({
+    id: uid(),
+    text: `${p.name}: ${t.text}`,
+    done: false,
+    linkedProjectTaskId: taskId,
+    linkedProjectId: projectId
+  });
+  saveData();
+  renderPlanTaskList(priority);
+  toast(`✓ ${priority} ga qo'shildi`);
+}
+
+function initPlan() {
+  document.getElementById('planPrev').addEventListener('click', () => {
+    const d = new Date(planDate);
+    d.setDate(d.getDate() - 1);
+    // Don't allow planning the past
+    if (dateKey(d) < todayKey()) { toast('O\'tgan kunni rejalashtirib bo\'lmaydi'); return; }
+    planDate = dateKey(d);
+    renderPlan();
+  });
+  document.getElementById('planNext').addEventListener('click', () => {
+    const d = new Date(planDate);
+    d.setDate(d.getDate() + 1);
+    planDate = dateKey(d);
+    renderPlan();
+  });
+}
+
 function init() {
   // Apply theme before render to avoid flash
   applyTheme(data.settings.theme || 'light');
@@ -5979,6 +6451,7 @@ function init() {
   initReflection();
   initSettings();
   initHistory();
+  initPlan();
   schedulePrayerNotifications();
 
   // Fetch live data
