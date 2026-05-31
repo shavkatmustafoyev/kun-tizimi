@@ -789,45 +789,93 @@ main {
 .habit {
   background: var(--bg-elev);
   border-radius: var(--radius-lg);
-  padding: 16px 20px;
+  padding: 18px 20px;
   box-shadow: var(--shadow-sm);
   margin-bottom: 12px;
   transition: all var(--transition);
+  border-left: 3px solid var(--habit-color, var(--green));
 }
 
 .habit-main {
-  display: grid;
-  grid-template-columns: 200px 1fr auto;
-  gap: 20px;
+  display: flex;
   align-items: center;
+  gap: 16px;
 }
 
-@media (max-width: 760px) {
-  .habit-main { grid-template-columns: 1fr; gap: 12px; }
+.habit-toggle-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
-.habit-info { min-width: 0; }
+.habit-status-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-mute);
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.habit-status-label.done { color: var(--habit-color, var(--green)); }
+.habit-status-label.cold { color: var(--ink-faint); }
+
+.habit-toggle-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: var(--bg-soft);
+  border: 2px dashed var(--line-strong);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.habit-toggle-circle:hover { transform: scale(1.06); border-color: var(--habit-color, var(--green)); }
+.habit-toggle-circle:active { transform: scale(0.94); }
+
+.habit-toggle-circle.done {
+  background: var(--habit-color, var(--green));
+  border-color: var(--habit-color, var(--green));
+  border-style: solid;
+  color: white;
+}
+
+.habit-toggle-circle.done .habit-emoji-display { display: none; }
+.habit-toggle-circle .habit-check-mark { display: none; font-size: 30px; font-weight: 700; }
+.habit-toggle-circle.done .habit-check-mark { display: block; }
+
+.habit-info { flex: 1; min-width: 0; }
 
 .habit-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
-.habit-emoji { font-size: 18px; }
+.habit-emoji { font-size: 16px; }
 
 .habit-name {
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 15px;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .habit-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   font-size: 12px;
   color: var(--ink-mute);
   font-weight: 500;
@@ -838,136 +886,116 @@ main {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  font-weight: 600;
 }
+
+.habit-streak.cold { color: var(--ink-faint); }
 
 .habit-streak-num { font-family: 'JetBrains Mono', monospace; }
 
-.habit-progress { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
-
-.habit-heatmap {
-  display: flex;
-  gap: 2px;
-  height: 28px;
-}
-
-.habit-day {
-  flex: 1;
-  border-radius: 2px;
-  background: var(--bg-soft);
-  cursor: pointer;
-  transition: all var(--transition);
-  min-width: 4px;
-}
-
-.habit-day:hover { transform: scaleY(1.15); }
-.habit-day.done { background: var(--green); }
-.habit-day.partial { background: var(--amber); }
-.habit-day.today { outline: 1.5px solid var(--ink); outline-offset: 1px; }
-
-.habit-actions { display: flex; gap: 6px; align-items: center; }
-
-.habit-toggle {
-  padding: 8px 16px;
-  border-radius: 22px;
-  background: var(--bg-soft);
-  color: var(--ink-soft);
-  font-size: 12px;
-  font-weight: 500;
-  transition: all var(--transition);
-  white-space: nowrap;
-}
-
-.habit-toggle.done { background: var(--green); color: white; }
-.habit-toggle.partial { background: var(--amber); color: white; }
-
-.habit-expand {
-  background: var(--bg-soft);
-  border: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
+.habit-best {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 4px;
   color: var(--ink-mute);
-  transition: all var(--transition);
 }
 
-.habit-expand:hover { background: var(--line); color: var(--ink); }
-.habit-expand.open { transform: rotate(180deg); }
-
-.subtasks {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 0.5px solid var(--line);
-  display: none;
-}
-
-.habit.expanded .subtasks { display: block; }
-
-.subtask {
+/* Week dots — last 7 days */
+.habit-week {
   display: flex;
+  gap: 7px;
   align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .habit-week { display: none; }
+}
+
+.habit-dot-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.habit-dot-label {
+  font-size: 9px;
+  color: var(--ink-faint);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.habit-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg-soft);
+  border: 1.5px solid var(--line);
   cursor: pointer;
   transition: all var(--transition);
-}
-
-.subtask:hover { background: var(--bg-soft); }
-.subtask.done .subtask-text { text-decoration: line-through; color: var(--ink-mute); }
-
-.subtask-check {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  border: 1.5px solid var(--line-strong);
-  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition);
-  font-size: 10px;
+  font-size: 11px;
   color: white;
 }
 
-.subtask.done .subtask-check { background: var(--green); border-color: var(--green); }
+.habit-dot:hover { transform: scale(1.15); border-color: var(--habit-color); }
+.habit-dot.done { background: var(--habit-color, var(--green)); border-color: var(--habit-color, var(--green)); }
+.habit-dot.today { box-shadow: 0 0 0 2px var(--bg-elev), 0 0 0 3.5px var(--habit-color, var(--green)); }
 
-.subtask-text {
-  flex: 1;
-  font-size: 13px;
+.habit-delete-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
   background: transparent;
-  border: none;
-  outline: none;
-}
-
-.subtask-delete {
-  opacity: 0;
-  color: var(--ink-mute);
-  padding: 4px 8px;
-  font-size: 14px;
-  transition: opacity var(--transition);
-}
-
-.subtask:hover .subtask-delete { opacity: 1; }
-
-.subtask-add {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  color: var(--ink-mute);
-  background: transparent;
-  border: 1px dashed var(--line-strong);
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  width: 100%;
+  color: var(--ink-faint);
+  font-size: 16px;
+  flex-shrink: 0;
   transition: all var(--transition);
-  margin-top: 4px;
+}
+.habit-delete-btn:hover { background: var(--terra-bg); color: var(--terra); }
+
+.habit-color-bar { display: none; }
+
+/* Habit category colors */
+.habit[data-color="green"]  { --habit-color: var(--green); }
+.habit[data-color="purple"] { --habit-color: var(--purple); }
+.habit[data-color="terra"]  { --habit-color: var(--terra); }
+.habit[data-color="blue"]   { --habit-color: var(--blue); }
+.habit[data-color="amber"]  { --habit-color: var(--amber); }
+.habit[data-color="rose"]   { --habit-color: var(--rose); }
+
+/* Expanded stats row */
+.habit-stats-row {
+  display: none;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 0.5px solid var(--line);
+  gap: 20px;
 }
 
-.subtask-add:hover { border-color: var(--terra); color: var(--terra); }
+.habit.expanded .habit-stats-row { display: flex; flex-wrap: wrap; }
+
+.habit-stat-box { text-align: center; }
+.habit-stat-num { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 600; color: var(--habit-color, var(--green)); }
+.habit-stat-lbl { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.05em; }
+
+.habit-mini-heatmap {
+  display: flex;
+  gap: 2px;
+  margin-top: 10px;
+  flex: 1;
+}
+
+.habit-mini-day {
+  flex: 1;
+  height: 20px;
+  border-radius: 3px;
+  background: var(--bg-soft);
+  min-width: 3px;
+}
+.habit-mini-day.done { background: var(--habit-color, var(--green)); }
 
 /* ============ RESOURCES ============ */
 .resources-grid {
@@ -1117,6 +1145,525 @@ main {
   color: var(--cat-color);
   background: var(--cat-bg);
 }
+
+/* Multi-item resources */
+.resource-item-row {
+  position: relative;
+  padding: 14px 16px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--cat-color);
+  margin-bottom: 8px;
+}
+
+.resource-item-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.resource-type-badge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 7px;
+  border-radius: 5px;
+  background: var(--cat-bg);
+  color: var(--cat-text);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.resource-item-titles { flex: 1; min-width: 0; }
+
+.resource-reorder {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.resource-reorder button {
+  width: 22px;
+  height: 18px;
+  font-size: 10px;
+  color: var(--ink-mute);
+  background: var(--bg-elev);
+  border: 0.5px solid var(--line);
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.resource-reorder button:hover:not(:disabled) { background: var(--cat-bg); color: var(--cat-color); }
+.resource-reorder button:disabled { opacity: 0.25; }
+
+.resource-progress-edit {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.resource-progress-edit input {
+  width: 64px;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  border: 0.5px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-elev);
+  color: var(--ink);
+  text-align: center;
+}
+
+.resource-progress-edit .unit-label {
+  font-size: 11px;
+  color: var(--ink-mute);
+}
+
+.resource-progress-edit button {
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--cat-color);
+  color: white;
+  border-radius: 6px;
+}
+
+.resource-mini-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.resource-mini-btn {
+  width: 26px; height: 26px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  border-radius: 6px;
+  background: var(--bg-elev);
+  border: 0.5px solid var(--line);
+  color: var(--ink-mute);
+}
+.resource-mini-btn:hover { color: var(--ink); background: var(--bg-soft); }
+.resource-mini-btn.done-btn:hover { color: var(--green); border-color: var(--green); }
+.resource-mini-btn.del-btn:hover { color: var(--terra); border-color: var(--terra); }
+
+.resource-add-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg-soft);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--radius);
+  color: var(--ink-mute);
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  transition: all var(--transition);
+}
+.resource-add-btn:hover { border-color: var(--cat-color); color: var(--cat-color); background: var(--cat-bg); }
+
+.resource-type-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 14px;
+}
+
+.type-opt {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.type-opt.active {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green-text);
+}
+
+.unit-hint {
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+/* Deep Work stats grid */
+.dw-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+
+@media (max-width: 600px) { .dw-stats-grid { grid-template-columns: 1fr; } }
+
+.dw-stat-box {
+  padding: 14px 16px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  text-align: center;
+  border-left: 3px solid var(--dw-color, var(--terra));
+}
+
+.dw-stat-box.today { --dw-color: var(--terra); }
+.dw-stat-box.week  { --dw-color: var(--blue); }
+.dw-stat-box.month { --dw-color: var(--green); }
+
+.dw-stat-lbl {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-mute);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.dw-stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--dw-color, var(--terra));
+  line-height: 1;
+}
+
+.dw-stat-sub {
+  font-size: 11px;
+  color: var(--ink-mute);
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.dw-month-bars {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 60px;
+  padding: 8px 0 0;
+}
+
+.dw-bar {
+  flex: 1;
+  background: var(--bg-soft);
+  border-radius: 3px 3px 0 0;
+  min-height: 4px;
+  position: relative;
+  transition: all var(--transition);
+  min-width: 4px;
+}
+
+.dw-bar:hover { background: var(--terra-bg); }
+.dw-bar.has { background: var(--terra); }
+.dw-bar.today { outline: 1.5px solid var(--ink); outline-offset: 1px; }
+
+/* Resource analytics rows */
+.res-analytics-cat { margin-bottom: 16px; }
+
+.res-analytics-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid var(--line);
+}
+
+.res-analytics-cat-name {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.res-analytics-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 12px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.res-analytics-type {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--bg-elev);
+  color: var(--ink-mute);
+}
+
+.res-analytics-title {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.res-analytics-progress {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+
+.res-analytics-status {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.res-analytics-status.fresh   { background: var(--green-bg); color: var(--green-text); }
+.res-analytics-status.recent  { background: var(--amber-bg); color: var(--amber-text); }
+.res-analytics-status.stale   { background: var(--terra-bg); color: var(--terra-text); }
+.res-analytics-status.cold    { background: rgba(184,84,58,0.15); color: var(--terra); border: 0.5px solid var(--terra); }
+
+/* ============ PROJECTS (LOYIHALAR) ============ */
+.project-card {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 14px;
+  border-left: 4px solid var(--proj-color, var(--blue));
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.project-emoji {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--proj-bg, var(--blue-bg));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.project-info { flex: 1; min-width: 0; }
+
+.project-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+.project-client { font-size: 12px; color: var(--ink-mute); }
+
+.project-stats {
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.project-actions { display: flex; gap: 6px; align-items: center; }
+
+.project-task {
+  padding: 10px 12px;
+  background: var(--bg-soft);
+  border-radius: var(--radius);
+  margin-bottom: 6px;
+}
+
+.project-task-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-task-check {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-strong);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.project-task.done .project-task-check { background: var(--green); border-color: var(--green); }
+.project-task.done .project-task-text { text-decoration: line-through; color: var(--ink-mute); }
+
+.project-task-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  outline: none;
+  min-width: 0;
+}
+
+.project-task-due {
+  font-size: 10px;
+  color: var(--terra);
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--terra-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.project-task-due.overdue { color: white; background: var(--terra); }
+.project-task-due.today { color: var(--amber-text); background: var(--amber-bg); }
+
+.project-task-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.project-task:hover .project-task-actions { opacity: 1; }
+
+.project-task-btn {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  background: var(--bg-elev);
+  border: 0.5px solid var(--line);
+  color: var(--ink-mute);
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-task-btn:hover { color: var(--ink); background: var(--bg-soft); }
+.project-task-btn.promoted { color: var(--terra); border-color: var(--terra); background: var(--terra-bg); }
+.project-task-btn.promoted-b { color: var(--blue); border-color: var(--blue); background: var(--blue-bg); }
+
+.project-task-priority-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.project-task-priority-badge.a { background: var(--terra-bg); color: var(--terra-text); }
+.project-task-priority-badge.b { background: var(--blue-bg); color: var(--blue-text); }
+
+.project-subtasks {
+  margin-left: 30px;
+  margin-top: 4px;
+  padding-left: 10px;
+  border-left: 1.5px solid var(--line);
+}
+
+.project-subtask {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+}
+
+.project-subtask:hover { background: var(--bg-elev); }
+.project-subtask.done { color: var(--ink-mute); text-decoration: line-through; }
+
+.project-subtask-check {
+  width: 14px; height: 14px;
+  border-radius: 4px;
+  border: 1.5px solid var(--line-strong);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: white;
+  cursor: pointer;
+}
+
+.project-subtask.done .project-subtask-check { background: var(--green); border-color: var(--green); }
+
+.project-subtask-text {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 12px;
+  min-width: 0;
+}
+
+.project-subtask-del {
+  color: var(--ink-faint);
+  opacity: 0;
+  font-size: 14px;
+  padding: 0 4px;
+}
+.project-subtask:hover .project-subtask-del { opacity: 1; }
+
+.project-add-task {
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  color: var(--ink-mute);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 4px;
+  transition: all var(--transition);
+}
+.project-add-task:hover { border-color: var(--proj-color); color: var(--proj-color); }
+
+.project-toggle-arrow {
+  background: var(--bg-soft);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-mute);
+  transition: transform var(--transition);
+}
+.project-card.expanded .project-toggle-arrow { transform: rotate(180deg); }
+
+.project-tasks-wrap { display: none; margin-top: 8px; padding-top: 10px; border-top: 0.5px solid var(--line); }
+.project-card.expanded .project-tasks-wrap { display: block; }
+
+.project-card[data-color="blue"]   { --proj-color: var(--blue);   --proj-bg: var(--blue-bg); }
+.project-card[data-color="terra"]  { --proj-color: var(--terra);  --proj-bg: var(--terra-bg); }
+.project-card[data-color="green"]  { --proj-color: var(--green);  --proj-bg: var(--green-bg); }
+.project-card[data-color="purple"] { --proj-color: var(--purple); --proj-bg: var(--purple-bg); }
+.project-card[data-color="amber"]  { --proj-color: var(--amber);  --proj-bg: var(--amber-bg); }
+.project-card[data-color="rose"]   { --proj-color: var(--rose);   --proj-bg: var(--rose-bg); }
+
+.project-add-subtask {
+  font-size: 11px;
+  color: var(--ink-faint);
+  padding: 4px 8px;
+  margin-left: 22px;
+  transition: color var(--transition);
+}
+.project-add-subtask:hover { color: var(--proj-color); }
 
 .resource-empty-icon { font-size: 28px; margin-bottom: 4px; display: block; }
 .resource-empty-text { font-size: 12px; font-weight: 500; }
@@ -2176,6 +2723,10 @@ main {
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2M5 3 2 6M22 6l-3-3"/></svg></span>
         Deep Work
       </button>
+      <button class="nav-item" data-view="projects">
+        <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+        Loyihalar
+      </button>
       <button class="nav-item" data-view="habits">
         <span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/></svg></span>
         Odatlar
@@ -2360,6 +2911,11 @@ main {
       </div>
 
       <div class="card">
+        <div class="card-title">📊 Progress · Bugun / Hafta / Oy</div>
+        <div class="dw-stats-grid" id="dwStatsGridLocal"></div>
+      </div>
+
+      <div class="card">
         <div class="card-title">
           <span>Bugungi to'liq sessiyalar</span>
           <span id="todaySessionsCount">0 ta · 0 min</span>
@@ -2373,7 +2929,7 @@ main {
       <div class="view-header">
         <div>
           <h1 class="view-title">Odatlar</h1>
-          <p class="view-sub">Subtaskli odatlar · 30 kunlik tarix · Streak counter</p>
+          <p class="view-sub">Katta dumaloq tugmani bosib bugungi holatni belgilang · O'ngdagi 7 ta nuqta o'tgan kunlar</p>
         </div>
         <button class="btn btn-primary" onclick="openHabitModal()">+ Odat qo'shish</button>
       </div>
@@ -2502,6 +3058,18 @@ main {
         <div class="week-chart-bars" id="weekChartBars"></div>
       </div>
 
+      <div class="card" style="margin-top:14px;">
+        <div class="card-title">⏱️ Deep Work · Bugun / Hafta / Oy</div>
+        <div class="dw-stats-grid" id="dwStatsGrid"></div>
+        <div class="dw-month-bars" id="dwMonthBars" style="margin-top:14px;"></div>
+      </div>
+
+      <div class="card" style="margin-top:14px;">
+        <div class="card-title">📚 Manbalar holati · Davomiylik</div>
+        <p class="section-desc" style="margin-top:0;margin-bottom:12px;">Har yo'nalishdagi manbalarni qancha vaqtdan beri o'qiyapsiz, oxirgi marta qachon bajarilgan</p>
+        <div id="resourceAnalytics"></div>
+      </div>
+
       <div class="grid grid-2">
         <div class="card">
           <div class="card-title">Namoz davomiyligi</div>
@@ -2534,6 +3102,19 @@ main {
       </div>
 
       <div id="histContent"></div>
+    </section>
+
+    <!-- PROJECTS (LOYIHALAR) -->
+    <section class="view" id="view-projects">
+      <div class="view-header">
+        <div>
+          <h1 class="view-title">Loyihalar</h1>
+          <p class="view-sub">Freelance loyihalar va vazifalar · Asosiyga belgilab Bugun bo'limiga qo'shing</p>
+        </div>
+        <button class="btn btn-primary" onclick="openProjectModal()">+ Loyiha qo'shish</button>
+      </div>
+
+      <div id="projectsList"></div>
     </section>
 
     <!-- SETTINGS -->
@@ -2688,6 +3269,7 @@ main {
     <div class="modal-title" id="habitModalTitle">Yangi odat</div>
     <div class="modal-field"><label>Emoji</label><input type="text" id="habitEmoji" placeholder="📖" maxlength="2"></div>
     <div class="modal-field"><label>Odat nomi</label><input type="text" id="habitName" placeholder="Masalan: Kitob o'qish"></div>
+    <div class="modal-field"><label>Rang</label><div class="resource-type-select" id="habitColorSelect"></div></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeHabitModal()">Bekor</button>
       <button class="btn btn-primary" onclick="saveHabit()">Saqlash</button>
@@ -2739,13 +3321,40 @@ main {
 <div class="modal-bg" id="resourceModal">
   <div class="modal">
     <div class="modal-title" id="resourceModalTitle">Yangi manba</div>
+    <div class="modal-field"><label>Turi</label><div class="resource-type-select" id="resTypeSelect"></div></div>
     <div class="modal-field"><label>Nomi</label><input type="text" id="resTitle" placeholder="Masalan: Atomic Habits"></div>
-    <div class="modal-field"><label>Muallif (ixtiyoriy)</label><input type="text" id="resAuthor" placeholder="James Clear"></div>
-    <div class="modal-field"><label>Manba (ixtiyoriy)</label><input type="text" id="resSource" placeholder="Audible · YouTube · PDF"></div>
-    <div class="modal-field"><label>Jami bo'limlar/sahifalar (ixtiyoriy)</label><input type="number" id="resTotal" placeholder="200"></div>
+    <div class="modal-field"><label>Muallif / Manba (ixtiyoriy)</label><input type="text" id="resAuthor" placeholder="James Clear · YouTube · Udemy"></div>
+    <div class="modal-field"><label>Jami hajmi (ixtiyoriy)</label><input type="number" id="resTotal" placeholder="200"></div>
+    <div class="unit-hint" id="resUnitHint"></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeResourceModal()">Bekor</button>
-      <button class="btn btn-primary" onclick="saveResource()">Qo'shish</button>
+      <button class="btn btn-primary" onclick="saveResource()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="projectModal">
+  <div class="modal">
+    <div class="modal-title" id="projectModalTitle">Yangi loyiha</div>
+    <div class="modal-field"><label>Loyiha nomi</label><input type="text" id="projectName" placeholder="Masalan: Klient X · Reklama"></div>
+    <div class="modal-field"><label>Mijoz / izoh (ixtiyoriy)</label><input type="text" id="projectClient" placeholder="Apple Inc."></div>
+    <div class="modal-field"><label>Rang</label><div class="resource-type-select" id="projectColorSelect"></div></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeProjectModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveProject()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="taskEditModal">
+  <div class="modal">
+    <div class="modal-title">Vazifa</div>
+    <div class="modal-field"><label>Vazifa matni</label><input type="text" id="taskEditText" placeholder="Reklama kreativlarini tayyorlash"></div>
+    <div class="modal-field"><label>Tavsif (ixtiyoriy)</label><textarea id="taskEditDesc" rows="2" placeholder="Qo'shimcha izoh..."></textarea></div>
+    <div class="modal-field"><label>Muddat (ixtiyoriy)</label><input type="date" id="taskEditDue"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeTaskEditModal()">Bekor</button>
+      <button class="btn btn-primary" onclick="saveTaskEdit()">Saqlash</button>
     </div>
   </div>
 </div>
@@ -2770,25 +3379,19 @@ const DEFAULT_DATA = {
     calendar: { icalUrl: '', lastFetch: null }
   },
   habits: [
-    {
-      id: 'h1', emoji: '🏃', name: 'Badantarbiya',
-      subtasks: [
-        { id: 'st1', name: 'Abs (20 takror × 3)' },
-        { id: 'st2', name: 'Push-up (20 takror × 3)' },
-        { id: 'st3', name: 'Squats (30 takror × 3)' }
-      ]
-    },
-    { id: 'h2', emoji: '📖', name: 'Diniy ta\'lim (25 min)', subtasks: [] },
-    { id: 'h3', emoji: '📚', name: 'Kitob o\'qish (10 min)', subtasks: [] },
-    { id: 'h4', emoji: '🎓', name: 'Soha o\'rganish (50 min)', subtasks: [] },
-    { id: 'h5', emoji: '🌐', name: 'Til o\'rganish (25 min)', subtasks: [] },
+    { id: 'h1', emoji: '🏃', name: 'Badantarbiya', color: 'terra' },
+    { id: 'h2', emoji: '📖', name: 'Diniy ta\'lim (25 min)', color: 'green' },
+    { id: 'h3', emoji: '📚', name: 'Kitob o\'qish (10 min)', color: 'purple' },
+    { id: 'h4', emoji: '🎓', name: 'Soha o\'rganish (90 min)', color: 'amber' },
+    { id: 'h5', emoji: '🌐', name: 'Til o\'rganish (25 min)', color: 'blue' },
   ],
   resources: {
-    islam: { active: null, completed: [] },
-    book: { active: null, completed: [] },
-    field: { active: null, completed: [] },
-    language: { active: null, completed: [] }
+    islam: { items: [], completed: [] },
+    book: { items: [], completed: [] },
+    field: { items: [], completed: [] },
+    language: { items: [], completed: [] }
   },
+  projects: [],
   goals: [],
   days: {},
   prayerCache: { date: null, times: null },
@@ -2796,7 +3399,6 @@ const DEFAULT_DATA = {
 };
 
 let data = loadData();
-let activeResourceCat = null; // for modal
 
 function loadData() {
   try {
@@ -2813,13 +3415,9 @@ function loadData() {
         timer: { ...DEFAULT_DATA.settings.timer, ...(loaded.settings?.timer || {}) },
         calendar: { ...DEFAULT_DATA.settings.calendar, ...(loaded.settings?.calendar || {}) }
       },
-      habits: (loaded.habits || DEFAULT_DATA.habits).map(h => ({ subtasks: [], ...h })),
-      resources: {
-        islam: { active: null, completed: [], ...(loaded.resources?.islam || {}) },
-        book: { active: null, completed: [], ...(loaded.resources?.book || {}) },
-        field: { active: null, completed: [], ...(loaded.resources?.field || {}) },
-        language: { active: null, completed: [], ...(loaded.resources?.language || {}) }
-      },
+      habits: (loaded.habits || DEFAULT_DATA.habits).map(h => ({ ...h })),
+      resources: migrateResources(loaded.resources),
+      projects: loaded.projects || [],
       goals: loaded.goals || [],
       days: loaded.days || {},
       prayerCache: loaded.prayerCache || { date: null, times: null },
@@ -2830,9 +3428,34 @@ function loadData() {
   }
 }
 
-function saveData() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+function migrateResources(loaded) {
+  const cats = ['islam', 'book', 'field', 'language'];
+  const result = {};
+  const defaultType = { islam: 'book', book: 'book', field: 'course', language: 'course' };
+  cats.forEach(cat => {
+    const src = loaded?.[cat] || {};
+    let items = [];
+    // New format already has items array
+    if (Array.isArray(src.items)) {
+      items = src.items;
+    } else if (src.active) {
+      // Old format: single active resource -> migrate to items array
+      items = [{
+        id: src.active.id || uid(),
+        title: src.active.title || '',
+        author: src.active.author || '',
+        type: src.active.type || defaultType[cat],
+        total: src.active.total || null,
+        progress: src.active.progress || 0,
+        order: 0,
+        startedAt: src.active.startedAt || new Date().toISOString().split('T')[0]
+      }];
+    }
+    result[cat] = { items, completed: src.completed || [] };
+  });
+  return result;
 }
+
 
 /* HELPERS */
 function todayKey() {
@@ -2878,21 +3501,17 @@ function escapeHtml(text) {
 
 /* HABIT HELPERS */
 function getHabitStatus(habit, dayKey) {
-  // Returns: 'none' | 'partial' | 'done'
+  // Returns: 'none' | 'done' (binary habits)
   const d = data.days[dayKey];
   if (!d || !d.habits) return 'none';
   const v = d.habits[habit.id];
   if (!v) return 'none';
-  if (!habit.subtasks || !habit.subtasks.length) {
-    return v === true ? 'done' : 'none';
+  // Legacy subtask object support
+  if (typeof v === 'object') {
+    const vals = Object.values(v);
+    return vals.length && vals.every(x => x === true) ? 'done' : (vals.some(x => x === true) ? 'partial' : 'none');
   }
-  // With subtasks
-  if (typeof v !== 'object') return 'none';
-  const total = habit.subtasks.length;
-  const done = habit.subtasks.filter(st => v[st.id] === true).length;
-  if (done === 0) return 'none';
-  if (done === total) return 'done';
-  return 'partial';
+  return v === true ? 'done' : 'none';
 }
 
 function getHabitProgress(habit, dayKey) {
@@ -2921,6 +3540,26 @@ function calcHabitStreak(habit) {
   return streak;
 }
 
+function calcBestStreak(habit) {
+  let best = 0, current = 0;
+  const now = new Date();
+  for (let i = 365; i >= 0; i--) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const status = getHabitStatus(habit, dateKey(d));
+    if (status === 'done') { current++; best = Math.max(best, current); }
+    else current = 0;
+  }
+  return best;
+}
+
+function calcHabitTotal(habit) {
+  let total = 0;
+  Object.keys(data.days).forEach(k => {
+    if (getHabitStatus(habit, k) === 'done') total++;
+  });
+  return total;
+}
+
 /* NAVIGATION */
 document.querySelectorAll('.nav-item').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -2937,6 +3576,7 @@ document.querySelectorAll('.nav-item').forEach(btn => {
     if (view === 'stats') renderStats();
     if (view === 'settings') renderSettings();
     if (view === 'deepwork') renderSessions();
+    if (view === 'projects') renderProjects();
     if (view === 'history') { historyDate = todayKey(); renderHistory(); }
     window.scrollTo(0, 0);
   });
@@ -3149,14 +3789,13 @@ function addTask(type) {
   renderQuickStats();
 }
 
-function toggleTask(type, idx) { today()[type][idx].done = !today()[type][idx].done; saveData(); renderTaskList(type, type==='tasksA'?3:5); renderQuickStats(); }
 function deleteTask(type, idx) { today()[type].splice(idx, 1); saveData(); renderTaskList(type, type==='tasksA'?3:5); renderQuickStats(); }
 
 /* ============ ASOS SECTION ============ */
 const ASOS_MAP = [
-  { catKey: 'islam', habitId: 'h2', cat: 'Diniy', time: 25, color: 'green' },
+  { catKey: 'islam', habitId: 'h2', cat: 'Diniy', time: 25, color: 'green', daysOnly: [1, 4] }, // Mon=1, Thu=4
   { catKey: 'book', habitId: 'h3', cat: 'Kitob', time: 10, color: 'purple' },
-  { catKey: 'field', habitId: 'h4', cat: 'Soha', time: 50, color: 'terra' },
+  { catKey: 'field', habitId: 'h4', cat: 'Soha', time: 90, color: 'terra' },
   { catKey: 'language', habitId: 'h5', cat: 'Til', time: 25, color: 'blue' }
 ];
 
@@ -3165,24 +3804,41 @@ function renderAsos() {
   if (!c) return;
   const tKey = todayKey();
   const t = today();
+  const dayOfWeek = new Date().getDay(); // 0=Sun, 1=Mon, ..., 4=Thu
   let doneCount = 0;
-  const items = ASOS_MAP.map(item => {
+  let visibleCount = 0;
+
+  const items = [];
+  ASOS_MAP.forEach(item => {
+    // Diniy ta'lim only on specified days (Mon & Thu) — otherwise hidden
+    if (item.daysOnly && !item.daysOnly.includes(dayOfWeek)) return;
+    visibleCount++;
+
     const resource = data.resources[item.catKey];
-    const activeTitle = resource.active ? resource.active.title : null;
+    const activeItems = (resource.items || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
+    const firstActive = activeItems[0];
     const habit = data.habits.find(h => h.id === item.habitId);
     const done = habit ? getHabitStatus(habit, tKey) === 'done' : false;
     if (done) doneCount++;
-    const text = activeTitle 
-      ? `${activeTitle}` 
-      : `<span style="color:var(--ink-mute); font-style:italic;">Manbalar bo'limidan ${item.cat.toLowerCase()} qo'shing</span>`;
-    return `<div class="asos-item ${done?'done':''}" onclick="toggleAsos('${item.habitId}')" style="--cat-color: var(--${item.color}); --cat-bg: var(--${item.color}-bg);">
+
+    let text;
+    if (firstActive) {
+      const type = RESOURCE_TYPES[firstActive.type] || RESOURCE_TYPES.book;
+      text = `${escapeHtml(firstActive.title)}`;
+      if (activeItems.length > 1) text += ` <span style="color:var(--ink-faint);">+${activeItems.length-1}</span>`;
+    } else {
+      text = `<span style="color:var(--ink-mute); font-style:italic;">Manbalar bo'limidan ${item.cat.toLowerCase()} qo'shing</span>`;
+    }
+    items.push(`<div class="asos-item ${done?'done':''}" onclick="toggleAsos('${item.habitId}')" style="--cat-color: var(--${item.color}); --cat-bg: var(--${item.color}-bg);">
       <div class="asos-check">${done?'✓':''}</div>
       <span class="asos-cat">${item.cat}</span>
       <span class="asos-text">${text}</span>
       <span class="asos-time">${item.time} min</span>
-    </div>`;
+    </div>`);
   });
-  // 5th item: reflection
+
+  // Last item: reflection (always visible)
+  visibleCount++;
   const reflectionDone = t.reflection && t.reflection.savedAt;
   if (reflectionDone) doneCount++;
   items.push(`<div class="asos-item ${reflectionDone?'done':''}" onclick="goToReflection()" style="--cat-color: var(--rose); --cat-bg: var(--rose-bg);">
@@ -3191,8 +3847,9 @@ function renderAsos() {
     <span class="asos-text">Kechki kunlik xulosani to'ldirish</span>
     <span class="asos-time">5-10 min</span>
   </div>`);
+
   c.innerHTML = items.join('');
-  document.getElementById('asosProgress').textContent = doneCount + '/5';
+  document.getElementById('asosProgress').textContent = doneCount + '/' + visibleCount;
 }
 
 function toggleAsos(habitId) {
@@ -3255,8 +3912,92 @@ let timer = {
   total: 50 * 60,
   interval: null,
   task: '',
+  endsAt: null,        // absolute timestamp (ms) when current phase ends
   workStartedAt: null,
 };
+
+const TIMER_PERSIST_KEY = 'kun_tizimi_timer_state';
+
+// Persist timer state so it survives reload/sleep/tab-close
+function persistTimerState() {
+  if (timer.running) {
+    localStorage.setItem(TIMER_PERSIST_KEY, JSON.stringify({
+      mode: timer.mode,
+      state: timer.state,
+      task: timer.task,
+      endsAt: timer.endsAt,
+      total: timer.total,
+      workStartedAt: timer.workStartedAt
+    }));
+  } else {
+    localStorage.removeItem(TIMER_PERSIST_KEY);
+  }
+}
+
+// On load, restore a running timer and fast-forward through any phases
+// that completed while the page was closed / computer was asleep.
+function restoreTimerState() {
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem(TIMER_PERSIST_KEY)); } catch(e) { saved = null; }
+  if (!saved || !saved.endsAt) return;
+
+  timer.mode = saved.mode || '50-10';
+  timer.state = saved.state;
+  timer.task = saved.task || 'Deep Work';
+  timer.endsAt = saved.endsAt;
+  timer.total = saved.total;
+  timer.workStartedAt = saved.workStartedAt;
+
+  // Set the active mode button
+  document.querySelectorAll('#timerModes button').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === timer.mode);
+  });
+
+  resolveTimerPhases(); // fast-forward based on real elapsed time
+}
+
+// Advance the timer through completed phases based on real clock time.
+function resolveTimerPhases() {
+  const now = Date.now();
+
+  // Loop in case multiple phases elapsed while away
+  while (timer.endsAt && now >= timer.endsAt) {
+    if (timer.state === 'work') {
+      // Work finished -> begin break
+      const breakMin = timer.modes[timer.mode].break;
+      timer.state = 'break';
+      timer.total = breakMin * 60;
+      timer.endsAt = timer.endsAt + breakMin * 60 * 1000;
+      playBell();
+      sendNotification('🎉 Ish vaqti tugadi', 'Tanaffus vaqti boshlandi.');
+    } else if (timer.state === 'break') {
+      // Break finished -> log full session, stop
+      const workDur = timer.modes[timer.mode].work;
+      logCompletedSession(timer.task, workDur, timer.mode);
+      sendNotification('✓ To\'liq sessiya bajarildi', `${workDur} daqiqa Deep Work + tanaffus tugadi.`);
+      finalizeStop();
+      return;
+    } else {
+      finalizeStop();
+      return;
+    }
+  }
+
+  // Still running in a phase
+  if (timer.endsAt && now < timer.endsAt) {
+    timer.running = true;
+    timer.remaining = Math.round((timer.endsAt - now) / 1000);
+    document.getElementById('timerStart').classList.add('hidden');
+    document.getElementById('timerStop').classList.remove('hidden');
+    if (timer.state === 'work' && data.settings.timer.sound !== 'none') startSound(data.settings.timer.sound);
+    // Resume smooth ring for the remaining portion
+    startSmoothRingFromRemaining(timer.remaining, timer.total);
+    if (timer.interval) clearInterval(timer.interval);
+    timer.interval = setInterval(tickTimer, 250);
+    persistTimerState();
+    updateTimerDisplay();
+  }
+}
 
 function initTimer() {
   updateTimerDisplay();
@@ -3311,6 +4052,15 @@ function initTimer() {
     setVolume(data.settings.timer.volume);
     saveData();
   });
+
+  // Re-sync timer whenever tab becomes visible again (sleep/background fix)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && timer.running) resolveTimerPhases();
+  });
+  window.addEventListener('focus', () => { if (timer.running) resolveTimerPhases(); });
+
+  // Restore a running timer from a previous session
+  restoreTimerState();
 }
 
 function renderTaskSuggestions() {
@@ -3334,14 +4084,15 @@ function renderTaskSuggestions() {
   // Asos items (with active resource titles)
   ASOS_MAP.forEach(item => {
     const res = data.resources[item.catKey];
-    if (res.active) {
-      const text = `${item.cat} | ${item.time} daqiqa "${res.active.title}"`;
+    const activeItems = (res.items || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
+    activeItems.forEach(resItem => {
+      const text = `${item.cat} | ${item.time} daqiqa "${resItem.title}"`;
       if (!q || text.toLowerCase().includes(q)) {
         const habit = data.habits.find(h => h.id === item.habitId);
         const done = habit ? getHabitStatus(habit, todayKey()) === 'done' : false;
         items.push({ badge: 'ASOS', cls: 'asos', text, done });
       }
-    }
+    });
   });
 
   if (!items.length) {
@@ -3369,16 +4120,19 @@ function startTimer() {
   if (timer.running) return;
   timer.task = document.getElementById('timerTask').value.trim() || 'Deep Work';
   timer.state = 'work';
-  timer.remaining = timer.modes[timer.mode].work * 60;
-  timer.total = timer.remaining;
+  const workSec = timer.modes[timer.mode].work * 60;
+  timer.total = workSec;
+  timer.remaining = workSec;
+  timer.endsAt = Date.now() + workSec * 1000;
   timer.workStartedAt = Date.now();
   timer.running = true;
   document.getElementById('timerStart').classList.add('hidden');
   document.getElementById('timerStop').classList.remove('hidden');
-  timer.interval = setInterval(tickTimer, 1000);
+  if (timer.interval) clearInterval(timer.interval);
+  timer.interval = setInterval(tickTimer, 250);
   if (data.settings.timer.sound !== 'none') startSound(data.settings.timer.sound);
-  // Smooth full-duration ring animation
   startSmoothRing(timer.total);
+  persistTimerState();
   toast('▶ Ish boshlandi');
   updateTimerDisplay();
 }
@@ -3386,13 +4140,22 @@ function startTimer() {
 function startSmoothRing(durationSec) {
   const ring = document.getElementById('timerRing');
   const c = 2 * Math.PI * 46;
-  // Reset to full instantly
   ring.style.transition = 'none';
   ring.style.strokeDashoffset = '0';
-  // Force reflow
   void ring.getBoundingClientRect();
-  // Smoothly animate to empty over full duration
   ring.style.transition = `stroke-dashoffset ${durationSec}s linear`;
+  ring.style.strokeDashoffset = String(c);
+}
+
+// Resume ring partway through (after sleep/reload)
+function startSmoothRingFromRemaining(remainingSec, totalSec) {
+  const ring = document.getElementById('timerRing');
+  const c = 2 * Math.PI * 46;
+  const elapsedFraction = Math.max(0, Math.min(1, 1 - (remainingSec / totalSec)));
+  ring.style.transition = 'none';
+  ring.style.strokeDashoffset = String(c * elapsedFraction);
+  void ring.getBoundingClientRect();
+  ring.style.transition = `stroke-dashoffset ${remainingSec}s linear`;
   ring.style.strokeDashoffset = String(c);
 }
 
@@ -3402,54 +4165,63 @@ function resetSmoothRing() {
   ring.style.strokeDashoffset = '0';
 }
 
+// Tick computes remaining from absolute end time (sleep-proof)
 function tickTimer() {
-  timer.remaining--;
+  if (!timer.endsAt) return;
+  const now = Date.now();
+  timer.remaining = Math.max(0, Math.round((timer.endsAt - now) / 1000));
   updateTimerDisplay();
-  if (timer.remaining <= 0) {
+
+  if (now >= timer.endsAt) {
     if (timer.state === 'work') {
-      // Work done — start break
+      const breakSec = timer.modes[timer.mode].break * 60;
       timer.state = 'break';
-      timer.remaining = timer.modes[timer.mode].break * 60;
-      timer.total = timer.remaining;
+      timer.total = breakSec;
+      timer.remaining = breakSec;
+      timer.endsAt = now + breakSec * 1000;
       stopSound();
       playBell();
-      // Start new smooth ring for break (green color)
       startSmoothRing(timer.total);
+      persistTimerState();
       sendNotification('🎉 Ish vaqti tugadi', 'Tanaffus vaqti boshlandi.');
       toast('🎉 Ajoyib! Tanaffus boshlandi.');
+      updateTimerDisplay();
     } else {
-      // Break complete — log fully completed cycle
       const workDur = timer.modes[timer.mode].work;
       logCompletedSession(timer.task, workDur, timer.mode);
-      stopTimer(false);
       playBell();
       sendNotification('✓ To\'liq sessiya bajarildi', `${workDur} daqiqa Deep Work + tanaffus tugadi.`);
+      finalizeStop();
       toast('✅ To\'liq sessiya hisoblandi!');
     }
-    updateTimerDisplay();
   }
 }
 
 function confirmStopTimer() {
   const phase = timer.state === 'work' ? 'ishlash' : 'tanaffus';
   if (confirm(`Hozir ${phase} vaqtidasiz. To'xtatish — bu sessiya hisoblanmaydi (chala ish = qilinmagan ish). Davom etamizmi?`)) {
-    stopTimer(true);
+    finalizeStop();
     toast('⚠️ Sessiya bekor qilindi · Hisoblanmadi');
   }
 }
 
-function stopTimer(showRestore) {
-  clearInterval(timer.interval);
+// Shared stop logic — resets to idle and clears persisted state
+function finalizeStop() {
+  if (timer.interval) { clearInterval(timer.interval); timer.interval = null; }
   timer.running = false;
   timer.state = 'idle';
+  timer.endsAt = null;
   timer.remaining = timer.modes[timer.mode].work * 60;
   timer.total = timer.remaining;
   document.getElementById('timerStart').classList.remove('hidden');
   document.getElementById('timerStop').classList.add('hidden');
   stopSound();
   resetSmoothRing();
+  persistTimerState();
   updateTimerDisplay();
 }
+
+function stopTimer(showRestore) { finalizeStop(); }
 
 function logCompletedSession(task, dur, mode) {
   const t = today();
@@ -3482,19 +4254,45 @@ function renderSessions() {
   const c = document.getElementById('sessionLog');
   if (!sessions.length) {
     c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">⏱️</span>Bugun hali to\'liq sessiya yo\'q.<br>50 daqiqa = 1 sessiya hisobi</div>';
-    return;
+  } else {
+    c.innerHTML = sessions.slice().reverse().map(s => {
+      const t = new Date(s.completedAt);
+      const time = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
+      return `<div class="session-row">
+        <div class="session-info">
+          <div class="session-name">${escapeHtml(s.task)}</div>
+          <div class="session-meta">${time} · ${s.mode}</div>
+        </div>
+        <div class="session-duration">✓ ${s.duration} min</div>
+      </div>`;
+    }).join('');
   }
-  c.innerHTML = sessions.slice().reverse().map(s => {
-    const t = new Date(s.completedAt);
-    const time = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
-    return `<div class="session-row">
-      <div class="session-info">
-        <div class="session-name">${escapeHtml(s.task)}</div>
-        <div class="session-meta">${time} · ${s.mode}</div>
+
+  // Also render the local stats grid on Deep Work view
+  const localEl = document.getElementById('dwStatsGridLocal');
+  if (localEl) {
+    const t = deepWorkAggregate(1);
+    const w = deepWorkAggregate(7);
+    const m = deepWorkAggregate(30);
+    const fmtH = mins => mins >= 60 ? `${Math.floor(mins/60)}h ${mins%60}m` : `${mins}m`;
+    localEl.innerHTML = `
+      <div class="dw-stat-box today">
+        <div class="dw-stat-lbl">Bugun</div>
+        <div class="dw-stat-num">${t.sessions}</div>
+        <div class="dw-stat-sub">${fmtH(t.minutes)} · ${t.cycles} sikl</div>
       </div>
-      <div class="session-duration">✓ ${s.duration} min</div>
-    </div>`;
-  }).join('');
+      <div class="dw-stat-box week">
+        <div class="dw-stat-lbl">Bu hafta (7 kun)</div>
+        <div class="dw-stat-num">${w.sessions}</div>
+        <div class="dw-stat-sub">${fmtH(w.minutes)} · ${w.cycles} sikl</div>
+      </div>
+      <div class="dw-stat-box month">
+        <div class="dw-stat-lbl">Bu oy (30 kun)</div>
+        <div class="dw-stat-num">${m.sessions}</div>
+        <div class="dw-stat-sub">${fmtH(m.minutes)} · ${m.cycles} sikl</div>
+      </div>
+    `;
+  }
 }
 
 function playBell() {
@@ -3609,6 +4407,14 @@ function stopSound() {
 function setVolume(v) { if (soundGain) soundGain.gain.value = v; }
 
 /* ============ HABITS ============ */
+// Color assignment per default habits
+const HABIT_COLORS = { h1: 'terra', h2: 'green', h3: 'purple', h4: 'amber', h5: 'blue' };
+const WEEKDAY_LABELS = ['Ya', 'Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh'];
+
+function habitColor(habit) {
+  return habit.color || HABIT_COLORS[habit.id] || 'green';
+}
+
 function renderHabits() {
   const c = document.getElementById('habitsGrid');
   if (!data.habits.length) {
@@ -3620,89 +4426,77 @@ function renderHabits() {
 
 function habitHTML(habit) {
   const streak = calcHabitStreak(habit);
-  const heatmap = buildHeatmap(habit, 30);
+  const best = calcBestStreak(habit);
+  const total = calcHabitTotal(habit);
   const status = getHabitStatus(habit, todayKey());
-  const progress = getHabitProgress(habit, todayKey());
-  const hasSubtasks = habit.subtasks && habit.subtasks.length > 0;
-  const toggleLabel = status === 'done' ? '✓ Bajarildi' : (status === 'partial' ? `${progress.done}/${progress.total}` : 'Bajarish');
-  const toggleClass = status === 'done' ? 'done' : (status === 'partial' ? 'partial' : '');
+  const done = status === 'done';
+  const color = habitColor(habit);
 
-  let subtasksHTML = '';
-  if (hasSubtasks) {
-    const t = today();
-    const v = t.habits[habit.id] || {};
-    subtasksHTML = `<div class="subtasks">
-      ${habit.subtasks.map((st, idx) => {
-        const done = typeof v === 'object' && v[st.id] === true;
-        return `<div class="subtask ${done ? 'done' : ''}" onclick="toggleSubtask('${habit.id}','${st.id}')">
-          <div class="subtask-check">${done ? '✓' : ''}</div>
-          <input class="subtask-text" value="${escapeHtml(st.name)}" data-habit="${habit.id}" data-st="${st.id}" onclick="event.stopPropagation()">
-          <button class="subtask-delete" onclick="event.stopPropagation(); deleteSubtask('${habit.id}','${st.id}')">×</button>
-        </div>`;
-      }).join('')}
-      <button class="subtask-add" onclick="addSubtask('${habit.id}')">+ Subtask qo'shish</button>
+  // Last 7 days dots
+  const now = new Date();
+  let weekDots = '';
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const k = dateKey(d);
+    const st = getHabitStatus(habit, k);
+    const isToday = k === todayKey();
+    weekDots += `<div class="habit-dot-wrap">
+      <span class="habit-dot-label">${WEEKDAY_LABELS[d.getDay()]}</span>
+      <div class="habit-dot ${st==='done'?'done':''} ${isToday?'today':''}" onclick="toggleHabitDay('${habit.id}','${k}')" title="${k}">${st==='done'?'✓':''}</div>
     </div>`;
-  } else {
-    subtasksHTML = `<div class="subtasks"><button class="subtask-add" onclick="addSubtask('${habit.id}')">+ Bu odatni bo'limlarga ajratish (masalan: Abs, Push-up, Squats)</button></div>`;
   }
 
-  return `<div class="habit" id="habit-${habit.id}">
+  // 30-day mini heatmap (expanded view)
+  let miniHeat = '';
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const st = getHabitStatus(habit, dateKey(d));
+    miniHeat += `<div class="habit-mini-day ${st==='done'?'done':''}" title="${dateKey(d)}"></div>`;
+  }
+
+  return `<div class="habit" id="habit-${habit.id}" data-color="${color}">
     <div class="habit-main">
-      <div class="habit-info">
-        <div class="habit-header"><span class="habit-emoji">${habit.emoji || '🎯'}</span><span class="habit-name">${escapeHtml(habit.name)}</span></div>
+      <div class="habit-toggle-wrap">
+        <div class="habit-toggle-circle ${done?'done':''}" onclick="toggleHabit('${habit.id}')" title="Bosing: bajardim/bekor qilish">
+          <span class="habit-emoji-display">${habit.emoji || '🎯'}</span>
+          <span class="habit-check-mark">✓</span>
+        </div>
+        <div class="habit-status-label ${done?'done':(streak===0?'cold':'')}">${done?'BUGUN ✓':'BOSING'}</div>
+      </div>
+      <div class="habit-info" onclick="toggleHabitExpand('${habit.id}')" style="cursor:pointer;">
+        <div class="habit-header"><span class="habit-name">${escapeHtml(habit.name)}</span></div>
         <div class="habit-meta">
-          <span class="habit-streak">🔥 <span class="habit-streak-num">${streak}</span> kun</span>
-          ${hasSubtasks ? `<span class="habit-progress">${progress.done}/${progress.total} bugun</span>` : ''}
+          <span class="habit-streak ${streak===0?'cold':''}">🔥 <span class="habit-streak-num">${streak}</span> kun ketma-ket</span>
+          <span class="habit-best">🏆 Eng yaxshi: ${best}</span>
+          <span class="habit-best">Σ Jami: ${total}</span>
         </div>
       </div>
-      <div class="habit-heatmap" title="So'nggi 30 kun">${heatmap}</div>
-      <div class="habit-actions">
-        <button class="habit-toggle ${toggleClass}" onclick="toggleHabit('${habit.id}')">${toggleLabel}</button>
-        <button class="habit-expand" onclick="toggleHabitExpand('${habit.id}')">▾</button>
-        <button class="btn-ghost" onclick="deleteHabit('${habit.id}')" style="font-size:16px;">×</button>
-      </div>
+      <div class="habit-week">${weekDots}</div>
+      <button class="habit-delete-btn" onclick="deleteHabit('${habit.id}')">×</button>
     </div>
-    ${subtasksHTML}
+    <div class="habit-stats-row">
+      <div class="habit-stat-box"><div class="habit-stat-num">${streak}</div><div class="habit-stat-lbl">Joriy</div></div>
+      <div class="habit-stat-box"><div class="habit-stat-num">${best}</div><div class="habit-stat-lbl">Eng yaxshi</div></div>
+      <div class="habit-stat-box"><div class="habit-stat-num">${total}</div><div class="habit-stat-lbl">Jami kun</div></div>
+      <div class="habit-mini-heatmap" title="So'nggi 30 kun">${miniHeat}</div>
+    </div>
   </div>`;
 }
 
-function buildHeatmap(habit, days) {
-  let html = '';
-  const tKey = todayKey();
-  for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(); d.setDate(d.getDate() - i);
-    const k = dateKey(d);
-    const status = getHabitStatus(habit, k);
-    const cls = status === 'done' ? 'done' : (status === 'partial' ? 'partial' : '');
-    html += `<div class="habit-day ${cls} ${k===tKey?'today':''}" title="${k}"></div>`;
-  }
-  return html;
-}
-
 function toggleHabit(id) {
-  const habit = data.habits.find(h => h.id === id);
   const t = today();
   if (!t.habits) t.habits = {};
-  if (!habit.subtasks || !habit.subtasks.length) {
-    t.habits[id] = !t.habits[id];
-  } else {
-    // Toggle all subtasks: if any not done → mark all done; if all done → unmark all
-    const currentVal = (typeof t.habits[id] === 'object') ? t.habits[id] : {};
-    const allDone = habit.subtasks.every(st => currentVal[st.id] === true);
-    const newVal = {};
-    if (!allDone) habit.subtasks.forEach(st => newVal[st.id] = true);
-    t.habits[id] = newVal;
-  }
+  t.habits[id] = !t.habits[id];
   saveData();
   renderHabits();
   renderQuickStats();
+  if (document.getElementById('view-today').classList.contains('active')) renderAsos();
 }
 
-function toggleSubtask(habitId, subtaskId) {
-  const t = today();
-  if (!t.habits) t.habits = {};
-  if (typeof t.habits[habitId] !== 'object') t.habits[habitId] = {};
-  t.habits[habitId][subtaskId] = !t.habits[habitId][subtaskId];
+function toggleHabitDay(id, dayKey) {
+  const d = getDay(dayKey);
+  if (!d.habits) d.habits = {};
+  d.habits[id] = !d.habits[id];
   saveData();
   renderHabits();
   renderQuickStats();
@@ -3711,42 +4505,28 @@ function toggleSubtask(habitId, subtaskId) {
 function toggleHabitExpand(id) {
   const el = document.getElementById('habit-' + id);
   el.classList.toggle('expanded');
-  el.querySelector('.habit-expand').classList.toggle('open');
 }
 
-function addSubtask(habitId) {
-  const name = prompt('Subtask nomini kiriting:');
-  if (!name) return;
-  const habit = data.habits.find(h => h.id === habitId);
-  if (!habit.subtasks) habit.subtasks = [];
-  habit.subtasks.push({ id: uid(), name: name.trim() });
-  saveData();
-  renderHabits();
-  // Auto-expand after adding
-  document.getElementById('habit-' + habitId).classList.add('expanded');
+let selectedHabitColor = 'green';
+const HABIT_COLOR_OPTS = [
+  { key: 'green', label: '🟢' }, { key: 'purple', label: '🟣' }, { key: 'terra', label: '🟠' },
+  { key: 'blue', label: '🔵' }, { key: 'amber', label: '🟡' }, { key: 'rose', label: '🌸' }
+];
+
+function openHabitModal() {
+  selectedHabitColor = 'green';
+  renderHabitColorSelect();
+  document.getElementById('habitModal').classList.add('show');
+  document.getElementById('habitName').focus();
 }
-
-function deleteSubtask(habitId, stId) {
-  if (!confirm('Bu subtaskni o\'chirasizmi?')) return;
-  const habit = data.habits.find(h => h.id === habitId);
-  habit.subtasks = habit.subtasks.filter(st => st.id !== stId);
-  saveData();
-  renderHabits();
-  document.getElementById('habit-' + habitId).classList.add('expanded');
+function renderHabitColorSelect() {
+  const c = document.getElementById('habitColorSelect');
+  if (!c) return;
+  c.innerHTML = HABIT_COLOR_OPTS.map(o =>
+    `<button type="button" class="type-opt ${o.key===selectedHabitColor?'active':''}" onclick="selectHabitColor('${o.key}')">${o.label}</button>`
+  ).join('');
 }
-
-// Subtask name editing (event delegation)
-document.addEventListener('change', e => {
-  if (e.target.classList.contains('subtask-text')) {
-    const habitId = e.target.dataset.habit;
-    const stId = e.target.dataset.st;
-    const habit = data.habits.find(h => h.id === habitId);
-    const st = habit.subtasks.find(s => s.id === stId);
-    if (st) { st.name = e.target.value.trim(); saveData(); }
-  }
-});
-
-function openHabitModal() { document.getElementById('habitModal').classList.add('show'); document.getElementById('habitName').focus(); }
+function selectHabitColor(key) { selectedHabitColor = key; renderHabitColorSelect(); }
 function closeHabitModal() {
   document.getElementById('habitModal').classList.remove('show');
   document.getElementById('habitEmoji').value = '';
@@ -3756,7 +4536,7 @@ function saveHabit() {
   const emoji = document.getElementById('habitEmoji').value.trim() || '🎯';
   const name = document.getElementById('habitName').value.trim();
   if (!name) { toast('Odat nomini kiriting'); return; }
-  data.habits.push({ id: uid(), emoji, name, subtasks: [] });
+  data.habits.push({ id: uid(), emoji, name, color: selectedHabitColor });
   saveData();
   closeHabitModal();
   renderHabits();
@@ -3768,13 +4548,27 @@ function deleteHabit(id) {
   renderHabits();
 }
 
-/* ============ RESOURCES ============ */
+/* ============ RESOURCES (multi-item, typed) ============ */
 const RESOURCE_CATS = {
-  islam: { emoji: '📖', name: 'Diniy ta\'lim', time: 'Kunlik 25 daqiqa' },
+  islam: { emoji: '📖', name: 'Diniy ta\'lim', time: 'Dushanba & Payshanba · 25 daqiqa' },
   book: { emoji: '📚', name: 'Kitob', time: 'Kunlik 10 daqiqa' },
-  field: { emoji: '🎓', name: 'Soha kursi', time: 'Kunlik 50 daqiqa' },
+  field: { emoji: '🎓', name: 'Soha', time: 'Kunlik 90 daqiqa' },
   language: { emoji: '🌐', name: 'Til o\'rganish', time: 'Kunlik 25 daqiqa' },
 };
+
+// Resource types with their unit of measure
+const RESOURCE_TYPES = {
+  book:    { emoji: '📚', label: 'Kitob', unit: 'bet', unitFull: 'bet' },
+  course:  { emoji: '🎓', label: 'Video kurs', unit: 'dars', unitFull: 'dars' },
+  podcast: { emoji: '🎙️', label: 'Podcast', unit: 'daq', unitFull: 'daqiqa' },
+  audio:   { emoji: '🎧', label: 'Audio', unit: 'daq', unitFull: 'daqiqa' },
+  video:   { emoji: '🎬', label: 'Video', unit: 'daq', unitFull: 'daqiqa' },
+  article: { emoji: '📄', label: 'Maqola', unit: 'dona', unitFull: 'dona' },
+};
+
+let activeResourceCat = null;
+let editingResourceId = null;
+let selectedResType = 'book';
 
 function renderResources() {
   const c = document.getElementById('resourcesGrid');
@@ -3784,33 +4578,43 @@ function renderResources() {
 function resourceCatHTML(catKey) {
   const cat = RESOURCE_CATS[catKey];
   const r = data.resources[catKey];
-  const active = r.active;
+  const items = (r.items || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
   const completed = r.completed || [];
 
-  let activeHTML;
-  if (active) {
-    const pct = active.total ? Math.min(100, Math.round((active.progress / active.total) * 100)) : 0;
-    const days = active.startedAt ? Math.max(1, Math.round((new Date() - new Date(active.startedAt)) / 86400000)) : 0;
-    activeHTML = `<div class="resource-active">
-      <div class="resource-title">${escapeHtml(active.title)}</div>
-      ${active.author ? `<div class="resource-author">${escapeHtml(active.author)}</div>` : ''}
-      <div class="resource-source-line">${active.source ? escapeHtml(active.source) + ' · ' : ''}${days} kun</div>
-      ${active.total ? `
+  let itemsHTML = items.map((item, idx) => {
+    const type = RESOURCE_TYPES[item.type] || RESOURCE_TYPES.book;
+    const pct = item.total ? Math.min(100, Math.round((item.progress / item.total) * 100)) : 0;
+    const days = item.startedAt ? Math.max(1, Math.round((new Date() - new Date(item.startedAt)) / 86400000)) : 0;
+    return `<div class="resource-item-row">
+      <div class="resource-item-top">
+        <div class="resource-reorder">
+          <button onclick="moveResource('${catKey}','${item.id}',-1)" ${idx===0?'disabled':''} title="Yuqoriga">▲</button>
+          <button onclick="moveResource('${catKey}','${item.id}',1)" ${idx===items.length-1?'disabled':''} title="Pastga">▼</button>
+        </div>
+        <span class="resource-type-badge">${type.emoji} ${type.label}</span>
+        <div class="resource-item-titles">
+          <div class="resource-title">${escapeHtml(item.title)}</div>
+          ${item.author ? `<div class="resource-author">${escapeHtml(item.author)}</div>` : ''}
+        </div>
+        <div class="resource-mini-actions">
+          <button class="resource-mini-btn" onclick="editResource('${catKey}','${item.id}')" title="Tahrirlash">✎</button>
+          <button class="resource-mini-btn done-btn" onclick="completeResource('${catKey}','${item.id}')" title="Tugatdim">✓</button>
+          <button class="resource-mini-btn del-btn" onclick="deleteResource('${catKey}','${item.id}')" title="O'chirish">×</button>
+        </div>
+      </div>
+      ${item.total ? `
         <div class="resource-progress-bar"><div class="resource-progress-fill" style="width:${pct}%"></div></div>
-        <div class="resource-progress-labels"><span>${active.progress || 0} / ${active.total}</span><span>${pct}%</span></div>
-      ` : ''}
-      <div class="resource-actions">
-        ${active.total ? `<button class="resource-btn" onclick="incrementProgress('${catKey}')">+1 bo'lim</button>` : ''}
-        <button class="resource-btn" onclick="editResource('${catKey}')">✎ Tahrirlash</button>
-        <button class="resource-btn complete" onclick="completeResource('${catKey}')">✓ Tugatdim</button>
+        <div class="resource-progress-labels"><span>${item.progress || 0} / ${item.total} ${type.unitFull}</span><span>${pct}% · ${days} kun</span></div>
+      ` : `<div class="resource-source-line">${days} kun davom etmoqda</div>`}
+      <div class="resource-progress-edit">
+        <input type="number" min="0" ${item.total?`max="${item.total}"`:''} value="${item.progress||0}" id="prog-${item.id}" placeholder="0">
+        <span class="unit-label">${type.unitFull}gacha o'qildi</span>
+        <button onclick="setResourceProgress('${catKey}','${item.id}')">Saqlash</button>
       </div>
     </div>`;
-  } else {
-    activeHTML = `<div class="resource-empty" onclick="openResourceModal('${catKey}')">
-      <span class="resource-empty-icon">+</span>
-      <span class="resource-empty-text">Yangi ${cat.name.toLowerCase()} qo'shing</span>
-    </div>`;
-  }
+  }).join('');
+
+  const addBtn = `<button class="resource-add-btn" onclick="openResourceModal('${catKey}')">+ ${cat.name} qo'shish</button>`;
 
   let completedHTML = '';
   if (completed.length) {
@@ -3819,8 +4623,9 @@ function resourceCatHTML(catKey) {
       <div class="resource-completed-list">
         ${completed.slice().reverse().map(c => {
           const days = c.startedAt && c.completedAt ? Math.round((new Date(c.completedAt) - new Date(c.startedAt)) / 86400000) : 0;
+          const type = RESOURCE_TYPES[c.type] || RESOURCE_TYPES.book;
           return `<div class="resource-done-item">
-            <span class="resource-done-item-title">${escapeHtml(c.title)}</span>
+            <span class="resource-done-item-title">${type.emoji} ${escapeHtml(c.title)}</span>
             <span class="resource-done-item-meta">${days > 0 ? days + ' kun' : ''}</span>
           </div>`;
         }).join('')}
@@ -3836,83 +4641,483 @@ function resourceCatHTML(catKey) {
         <div class="resource-cat-time">${cat.time}</div>
       </div>
     </div>
-    ${activeHTML}
+    ${itemsHTML}
+    ${addBtn}
     ${completedHTML}
   </div>`;
 }
 
-function openResourceModal(catKey, edit = false) {
+function openResourceModal(catKey, itemId = null) {
   activeResourceCat = catKey;
+  editingResourceId = itemId;
   const r = data.resources[catKey];
-  document.getElementById('resourceModalTitle').textContent = edit ? 'Tahrirlash' : `Yangi · ${RESOURCE_CATS[catKey].name}`;
-  if (edit && r.active) {
-    document.getElementById('resTitle').value = r.active.title || '';
-    document.getElementById('resAuthor').value = r.active.author || '';
-    document.getElementById('resSource').value = r.active.source || '';
-    document.getElementById('resTotal').value = r.active.total || '';
-  } else {
-    document.getElementById('resTitle').value = '';
-    document.getElementById('resAuthor').value = '';
-    document.getElementById('resSource').value = '';
-    document.getElementById('resTotal').value = '';
-  }
+  const item = itemId ? r.items.find(i => i.id === itemId) : null;
+
+  // Default type per category
+  const catDefaultType = { islam: 'book', book: 'book', field: 'course', language: 'course' };
+  selectedResType = item ? item.type : (catDefaultType[catKey] || 'book');
+
+  document.getElementById('resourceModalTitle').textContent = item ? 'Tahrirlash' : `Yangi · ${RESOURCE_CATS[catKey].name}`;
+  document.getElementById('resTitle').value = item ? (item.title || '') : '';
+  document.getElementById('resAuthor').value = item ? (item.author || '') : '';
+  document.getElementById('resTotal').value = item ? (item.total || '') : '';
+  renderTypeSelector();
   document.getElementById('resourceModal').classList.add('show');
   document.getElementById('resTitle').focus();
 }
 
-function closeResourceModal() { document.getElementById('resourceModal').classList.remove('show'); activeResourceCat = null; }
+function renderTypeSelector() {
+  const c = document.getElementById('resTypeSelect');
+  if (!c) return;
+  c.innerHTML = Object.keys(RESOURCE_TYPES).map(key => {
+    const t = RESOURCE_TYPES[key];
+    return `<button type="button" class="type-opt ${key===selectedResType?'active':''}" onclick="selectResType('${key}')">${t.emoji} ${t.label}</button>`;
+  }).join('');
+  updateUnitHint();
+}
+
+function selectResType(key) {
+  selectedResType = key;
+  renderTypeSelector();
+}
+
+function updateUnitHint() {
+  const hint = document.getElementById('resUnitHint');
+  if (hint) {
+    const t = RESOURCE_TYPES[selectedResType];
+    hint.textContent = `Hajmi "${t.unitFull}" da o'lchanadi (masalan: kitob 250 ${t.unitFull})`;
+  }
+  const totalInput = document.getElementById('resTotal');
+  if (totalInput) {
+    const t = RESOURCE_TYPES[selectedResType];
+    totalInput.placeholder = `Jami ${t.unitFull} (ixtiyoriy)`;
+  }
+}
+
+function closeResourceModal() {
+  document.getElementById('resourceModal').classList.remove('show');
+  activeResourceCat = null;
+  editingResourceId = null;
+}
 
 function saveResource() {
   if (!activeResourceCat) return;
   const title = document.getElementById('resTitle').value.trim();
   if (!title) { toast('Nomini kiriting'); return; }
   const author = document.getElementById('resAuthor').value.trim();
-  const source = document.getElementById('resSource').value.trim();
   const total = parseInt(document.getElementById('resTotal').value) || null;
   const r = data.resources[activeResourceCat];
-  if (r.active) {
-    // Edit
-    r.active = { ...r.active, title, author, source, total };
+  if (!r.items) r.items = [];
+
+  if (editingResourceId) {
+    const item = r.items.find(i => i.id === editingResourceId);
+    if (item) {
+      item.title = title; item.author = author; item.total = total; item.type = selectedResType;
+      if (item.total && item.progress > item.total) item.progress = item.total;
+    }
   } else {
-    r.active = {
-      id: uid(), title, author, source, total,
-      progress: 0,
+    const maxOrder = r.items.reduce((m,i) => Math.max(m, i.order||0), -1);
+    r.items.push({
+      id: uid(), title, author, type: selectedResType, total,
+      progress: 0, order: maxOrder + 1,
       startedAt: new Date().toISOString().split('T')[0]
-    };
+    });
   }
   saveData();
   closeResourceModal();
   renderResources();
+  toast('✓ Saqlandi');
 }
 
-function editResource(catKey) { openResourceModal(catKey, true); }
+function editResource(catKey, itemId) { openResourceModal(catKey, itemId); }
 
-function incrementProgress(catKey) {
+function setResourceProgress(catKey, itemId) {
   const r = data.resources[catKey];
-  if (!r.active) return;
-  r.active.progress = (r.active.progress || 0) + 1;
-  if (r.active.total && r.active.progress >= r.active.total) {
-    if (confirm('Maqsadga yetdingiz! Tugatishni belgilaymizmi?')) {
-      completeResource(catKey);
+  const item = r.items.find(i => i.id === itemId);
+  if (!item) return;
+  const val = parseInt(document.getElementById('prog-' + itemId).value);
+  if (isNaN(val) || val < 0) { toast('To\'g\'ri son kiriting'); return; }
+  item.progress = item.total ? Math.min(val, item.total) : val;
+  saveData();
+  if (item.total && item.progress >= item.total) {
+    if (confirm(`Maqsadga yetdingiz! "${item.title}" ni tugatdim deb belgilaymizmi?`)) {
+      completeResource(catKey, itemId);
       return;
     }
   }
-  saveData();
   renderResources();
+  toast('✓ Progress yangilandi');
 }
 
-function completeResource(catKey) {
+function moveResource(catKey, itemId, dir) {
   const r = data.resources[catKey];
-  if (!r.active) return;
-  if (!confirm(`"${r.active.title}" ni tugatdim deb belgilaymizmi?`)) return;
-  r.completed.push({ ...r.active, completedAt: new Date().toISOString().split('T')[0] });
-  r.active = null;
+  const items = r.items.slice().sort((a,b) => (a.order||0) - (b.order||0));
+  const idx = items.findIndex(i => i.id === itemId);
+  const swapIdx = idx + dir;
+  if (swapIdx < 0 || swapIdx >= items.length) return;
+  const o1 = items[idx].order || 0;
+  const o2 = items[swapIdx].order || 0;
+  items[idx].order = o2;
+  items[swapIdx].order = o1;
   saveData();
   renderResources();
-  toast('🎉 Tabriklaymiz! Yangi manba qo\'shing.');
 }
 
-/* ============ GOALS ============ */
+function deleteResource(catKey, itemId) {
+  const r = data.resources[catKey];
+  const item = r.items.find(i => i.id === itemId);
+  if (!item) return;
+  if (!confirm(`"${item.title}" ni o'chirasizmi?`)) return;
+  r.items = r.items.filter(i => i.id !== itemId);
+  saveData();
+  renderResources();
+}
+
+function completeResource(catKey, itemId) {
+  const r = data.resources[catKey];
+  const item = r.items.find(i => i.id === itemId);
+  if (!item) return;
+  if (!confirm(`"${item.title}" ni tugatdim deb belgilaymizmi?`)) return;
+  r.completed.push({ ...item, completedAt: new Date().toISOString().split('T')[0] });
+  r.items = r.items.filter(i => i.id !== itemId);
+  saveData();
+  renderResources();
+  toast('🎉 Tabriklaymiz!');
+}
+
+/* ============ PROJECTS (LOYIHALAR) ============ */
+const PROJECT_COLORS = ['blue', 'terra', 'green', 'purple', 'amber', 'rose'];
+let editingProjectId = null;
+let editingTaskRef = null; // { projectId, taskId } or null
+let selectedProjectColor = 'blue';
+let expandedProjects = new Set();
+
+function renderProjects() {
+  const c = document.getElementById('projectsList');
+  if (!data.projects || !data.projects.length) {
+    c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">📁</span>Hali loyiha yo\'q. <a href="#" onclick="openProjectModal(); return false;">Birinchisini qo\'shing</a></div>';
+    return;
+  }
+  c.innerHTML = data.projects.map(p => projectHTML(p)).join('');
+}
+
+function projectHTML(p) {
+  const tasks = p.tasks || [];
+  const doneCount = tasks.filter(t => t.done).length;
+  const totalCount = tasks.length;
+  const pct = totalCount ? Math.round(doneCount/totalCount*100) : 0;
+  const isExpanded = expandedProjects.has(p.id);
+
+  const tasksHTML = tasks.map(t => projectTaskHTML(p, t)).join('');
+
+  return `<div class="project-card ${isExpanded?'expanded':''}" data-color="${p.color || 'blue'}" id="project-${p.id}">
+    <div class="project-header">
+      <div class="project-emoji">${p.emoji || '📁'}</div>
+      <div class="project-info" onclick="toggleProjectExpand('${p.id}')" style="cursor:pointer;">
+        <div class="project-name">${escapeHtml(p.name)}</div>
+        ${p.client ? `<div class="project-client">${escapeHtml(p.client)}</div>` : ''}
+        <div class="project-stats">
+          <span>📋 ${doneCount}/${totalCount} vazifa</span>
+          ${pct > 0 ? `<span>· ${pct}%</span>` : ''}
+        </div>
+      </div>
+      <div class="project-actions">
+        <button class="resource-mini-btn" onclick="editProject('${p.id}')" title="Tahrirlash">✎</button>
+        <button class="resource-mini-btn del-btn" onclick="deleteProject('${p.id}')" title="O'chirish">×</button>
+        <button class="project-toggle-arrow" onclick="toggleProjectExpand('${p.id}')">▾</button>
+      </div>
+    </div>
+    <div class="project-tasks-wrap">
+      ${tasksHTML}
+      <button class="project-add-task" onclick="addProjectTask('${p.id}')">+ Vazifa qo'shish</button>
+    </div>
+  </div>`;
+}
+
+function projectTaskHTML(project, task) {
+  const subtasks = task.subtasks || [];
+  const due = task.due ? new Date(task.due) : null;
+  let dueClass = '';
+  let dueText = '';
+  if (due) {
+    const tKey = todayKey();
+    const dueKey = dateKey(due);
+    if (dueKey < tKey) dueClass = 'overdue';
+    else if (dueKey === tKey) dueClass = 'today';
+    dueText = `${due.getDate()} ${monthName(due.getMonth())}`;
+  }
+
+  // Promote badges
+  const tToday = today();
+  const inA = (tToday.tasksA || []).some(x => x.linkedProjectTaskId === task.id);
+  const inB = (tToday.tasksB || []).some(x => x.linkedProjectTaskId === task.id);
+
+  const subtasksHTML = subtasks.map(st => `
+    <div class="project-subtask ${st.done?'done':''}">
+      <div class="project-subtask-check" onclick="toggleProjectSubtask('${project.id}','${task.id}','${st.id}')">${st.done?'✓':''}</div>
+      <input class="project-subtask-text" value="${escapeHtml(st.text)}" onchange="updateProjectSubtask('${project.id}','${task.id}','${st.id}',this.value)">
+      <button class="project-subtask-del" onclick="deleteProjectSubtask('${project.id}','${task.id}','${st.id}')">×</button>
+    </div>
+  `).join('');
+
+  return `<div class="project-task ${task.done?'done':''}" id="ptask-${task.id}">
+    <div class="project-task-main">
+      <div class="project-task-check" onclick="toggleProjectTask('${project.id}','${task.id}')">${task.done?'✓':''}</div>
+      <input class="project-task-text" value="${escapeHtml(task.text)}" onchange="updateProjectTaskText('${project.id}','${task.id}',this.value)">
+      ${dueText ? `<span class="project-task-due ${dueClass}">${dueText}</span>` : ''}
+      ${inA ? '<span class="project-task-priority-badge a">A</span>' : ''}
+      ${inB ? '<span class="project-task-priority-badge b">B</span>' : ''}
+      <div class="project-task-actions">
+        <button class="project-task-btn ${inA?'promoted':''}" onclick="promoteToToday('${project.id}','${task.id}','A')" title="Bugun → Asosiy (A)">A</button>
+        <button class="project-task-btn ${inB?'promoted-b':''}" onclick="promoteToToday('${project.id}','${task.id}','B')" title="Bugun → Qo'shimcha (B)">B</button>
+        <button class="project-task-btn" onclick="openTaskEdit('${project.id}','${task.id}')" title="Tahrirlash">✎</button>
+        <button class="project-task-btn" onclick="addProjectSubtask('${project.id}','${task.id}')" title="Subtask">+</button>
+        <button class="project-task-btn" onclick="deleteProjectTask('${project.id}','${task.id}')" title="O'chirish">×</button>
+      </div>
+    </div>
+    ${subtasks.length ? `<div class="project-subtasks">${subtasksHTML}</div>` : ''}
+  </div>`;
+}
+
+function toggleProjectExpand(id) {
+  if (expandedProjects.has(id)) expandedProjects.delete(id);
+  else expandedProjects.add(id);
+  renderProjects();
+}
+
+function openProjectModal(id = null) {
+  editingProjectId = id;
+  if (id) {
+    const p = data.projects.find(x => x.id === id);
+    document.getElementById('projectModalTitle').textContent = 'Tahrirlash';
+    document.getElementById('projectName').value = p.name || '';
+    document.getElementById('projectClient').value = p.client || '';
+    selectedProjectColor = p.color || 'blue';
+  } else {
+    document.getElementById('projectModalTitle').textContent = 'Yangi loyiha';
+    document.getElementById('projectName').value = '';
+    document.getElementById('projectClient').value = '';
+    selectedProjectColor = 'blue';
+  }
+  renderProjectColorSelect();
+  document.getElementById('projectModal').classList.add('show');
+  document.getElementById('projectName').focus();
+}
+
+function renderProjectColorSelect() {
+  const c = document.getElementById('projectColorSelect');
+  if (!c) return;
+  const labels = { blue: '🔵', terra: '🟠', green: '🟢', purple: '🟣', amber: '🟡', rose: '🌸' };
+  c.innerHTML = PROJECT_COLORS.map(col =>
+    `<button type="button" class="type-opt ${col===selectedProjectColor?'active':''}" onclick="selectProjectColor('${col}')">${labels[col]}</button>`
+  ).join('');
+}
+
+function selectProjectColor(c) { selectedProjectColor = c; renderProjectColorSelect(); }
+
+function closeProjectModal() {
+  document.getElementById('projectModal').classList.remove('show');
+  editingProjectId = null;
+}
+
+function saveProject() {
+  const name = document.getElementById('projectName').value.trim();
+  if (!name) { toast('Loyiha nomini kiriting'); return; }
+  const client = document.getElementById('projectClient').value.trim();
+  if (!data.projects) data.projects = [];
+  if (editingProjectId) {
+    const p = data.projects.find(x => x.id === editingProjectId);
+    if (p) { p.name = name; p.client = client; p.color = selectedProjectColor; }
+  } else {
+    data.projects.push({
+      id: uid(), name, client, color: selectedProjectColor,
+      emoji: '📁', tasks: [], createdAt: new Date().toISOString()
+    });
+  }
+  saveData();
+  closeProjectModal();
+  renderProjects();
+  toast('✓ Saqlandi');
+}
+
+function editProject(id) { openProjectModal(id); }
+
+function deleteProject(id) {
+  const p = data.projects.find(x => x.id === id);
+  if (!p) return;
+  if (!confirm(`"${p.name}" loyihasini va undagi barcha vazifalarni o'chirasizmi?`)) return;
+  data.projects = data.projects.filter(x => x.id !== id);
+  saveData();
+  renderProjects();
+}
+
+function addProjectTask(projectId) {
+  const p = data.projects.find(x => x.id === projectId);
+  if (!p) return;
+  if (!p.tasks) p.tasks = [];
+  p.tasks.push({ id: uid(), text: '', done: false, subtasks: [], createdAt: new Date().toISOString() });
+  expandedProjects.add(projectId);
+  saveData();
+  renderProjects();
+  // Focus new input
+  setTimeout(() => {
+    const inputs = document.querySelectorAll(`#project-${projectId} .project-task-text`);
+    if (inputs.length) inputs[inputs.length-1].focus();
+  }, 50);
+}
+
+function toggleProjectTask(projectId, taskId) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (!t) return;
+  t.done = !t.done;
+  saveData();
+  renderProjects();
+  // Also reflect in today's tasks if linked
+  syncTodayPromotedTasks();
+}
+
+function updateProjectTaskText(projectId, taskId, text) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (t) { t.text = text; saveData(); syncTodayPromotedTasks(); }
+}
+
+function deleteProjectTask(projectId, taskId) {
+  if (!confirm('Bu vazifani o\'chirasizmi?')) return;
+  const p = data.projects.find(x => x.id === projectId);
+  if (p) p.tasks = p.tasks.filter(x => x.id !== taskId);
+  // Also remove from today's A/B if promoted
+  const t = today();
+  t.tasksA = (t.tasksA || []).filter(x => x.linkedProjectTaskId !== taskId);
+  t.tasksB = (t.tasksB || []).filter(x => x.linkedProjectTaskId !== taskId);
+  saveData();
+  renderProjects();
+}
+
+function openTaskEdit(projectId, taskId) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (!t) return;
+  editingTaskRef = { projectId, taskId };
+  document.getElementById('taskEditText').value = t.text || '';
+  document.getElementById('taskEditDesc').value = t.desc || '';
+  document.getElementById('taskEditDue').value = t.due || '';
+  document.getElementById('taskEditModal').classList.add('show');
+}
+
+function closeTaskEditModal() {
+  document.getElementById('taskEditModal').classList.remove('show');
+  editingTaskRef = null;
+}
+
+function saveTaskEdit() {
+  if (!editingTaskRef) return;
+  const { projectId, taskId } = editingTaskRef;
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (!t) return;
+  t.text = document.getElementById('taskEditText').value.trim();
+  t.desc = document.getElementById('taskEditDesc').value.trim();
+  t.due = document.getElementById('taskEditDue').value || null;
+  saveData();
+  closeTaskEditModal();
+  renderProjects();
+  syncTodayPromotedTasks();
+}
+
+function addProjectSubtask(projectId, taskId) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (!t) return;
+  if (!t.subtasks) t.subtasks = [];
+  const name = prompt('Subtask nomi:');
+  if (!name || !name.trim()) return;
+  t.subtasks.push({ id: uid(), text: name.trim(), done: false });
+  saveData();
+  renderProjects();
+}
+
+function toggleProjectSubtask(projectId, taskId, stId) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  const st = t?.subtasks?.find(x => x.id === stId);
+  if (st) { st.done = !st.done; saveData(); renderProjects(); }
+}
+
+function updateProjectSubtask(projectId, taskId, stId, text) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  const st = t?.subtasks?.find(x => x.id === stId);
+  if (st) { st.text = text; saveData(); }
+}
+
+function deleteProjectSubtask(projectId, taskId, stId) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (t) t.subtasks = t.subtasks.filter(x => x.id !== stId);
+  saveData();
+  renderProjects();
+}
+
+// Promote a project task to today's A or B list
+function promoteToToday(projectId, taskId, priority) {
+  const p = data.projects.find(x => x.id === projectId);
+  const t = p?.tasks?.find(x => x.id === taskId);
+  if (!t) return;
+  const tDay = today();
+  // Remove from both lists first to avoid duplicates
+  tDay.tasksA = (tDay.tasksA || []).filter(x => x.linkedProjectTaskId !== taskId);
+  tDay.tasksB = (tDay.tasksB || []).filter(x => x.linkedProjectTaskId !== taskId);
+  const text = `${p.name}: ${t.text}`;
+  const taskEntry = {
+    id: uid(),
+    text,
+    done: t.done,
+    linkedProjectTaskId: taskId,
+    linkedProjectId: projectId
+  };
+  if (priority === 'A') tDay.tasksA.push(taskEntry);
+  else tDay.tasksB.push(taskEntry);
+  saveData();
+  renderProjects();
+  toast(`✓ ${priority} ga qo'shildi`);
+}
+
+// Keep promoted task texts/done state in sync with their project source
+function syncTodayPromotedTasks() {
+  const t = today();
+  ['tasksA', 'tasksB'].forEach(list => {
+    (t[list] || []).forEach(taskEntry => {
+      if (taskEntry.linkedProjectTaskId) {
+        const proj = data.projects.find(p => p.id === taskEntry.linkedProjectId);
+        const src = proj?.tasks?.find(x => x.id === taskEntry.linkedProjectTaskId);
+        if (src) {
+          taskEntry.text = `${proj.name}: ${src.text}`;
+          taskEntry.done = src.done;
+        }
+      }
+    });
+  });
+  saveData();
+}
+
+// Override toggleTask to also reflect back to project source if linked
+function toggleTask(type, idx) {
+  const task = today()[type][idx];
+  task.done = !task.done;
+  // Reflect back to project task if linked
+  if (task.linkedProjectTaskId) {
+    const proj = data.projects.find(p => p.id === task.linkedProjectId);
+    const src = proj?.tasks?.find(x => x.id === task.linkedProjectTaskId);
+    if (src) src.done = task.done;
+  }
+  saveData();
+  renderTaskList(type, type==='tasksA'?3:5);
+  renderQuickStats();
+}
+
+
 function renderGoals() {
   const c = document.getElementById('goalsList');
   if (!data.goals.length) {
@@ -4161,6 +5366,160 @@ function renderStats() {
       </div>`;
     }).join('');
   }
+
+  renderDeepWorkAnalytics();
+  renderResourceAnalytics();
+}
+
+/* === Deep Work analytics (today / week / month) === */
+function deepWorkAggregate(days = 1) {
+  // returns { minutes, sessions, cycles, dayKeys } for the last `days` days
+  let minutes = 0, cycles = 0;
+  const now = new Date();
+  const dayKeys = [];
+  for (let i = 0; i < days; i++) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const k = dateKey(d);
+    dayKeys.push(k);
+    const dw = (data.days[k]?.deepwork || []).filter(s => s.completed);
+    cycles += dw.length;
+    minutes += dw.reduce((s,x) => s + (x.duration||0), 0);
+  }
+  return { minutes, sessions: deepWorkSessions(minutes), cycles, dayKeys };
+}
+
+function renderDeepWorkAnalytics() {
+  const today = deepWorkAggregate(1);
+  const week  = deepWorkAggregate(7);
+  const month = deepWorkAggregate(30);
+
+  const fmtH = m => m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m}m`;
+
+  const html = `
+    <div class="dw-stat-box today">
+      <div class="dw-stat-lbl">Bugun</div>
+      <div class="dw-stat-num">${today.sessions}</div>
+      <div class="dw-stat-sub">${fmtH(today.minutes)} · ${today.cycles} sikl</div>
+    </div>
+    <div class="dw-stat-box week">
+      <div class="dw-stat-lbl">Bu hafta (7 kun)</div>
+      <div class="dw-stat-num">${week.sessions}</div>
+      <div class="dw-stat-sub">${fmtH(week.minutes)} · ${week.cycles} sikl</div>
+    </div>
+    <div class="dw-stat-box month">
+      <div class="dw-stat-lbl">Bu oy (30 kun)</div>
+      <div class="dw-stat-num">${month.sessions}</div>
+      <div class="dw-stat-sub">${fmtH(month.minutes)} · ${month.cycles} sikl</div>
+    </div>
+  `;
+  const elStats = document.getElementById('dwStatsGrid');
+  if (elStats) elStats.innerHTML = html;
+
+  // Last 30 days bars
+  const tKey = todayKey();
+  const now = new Date();
+  let monthHTML = '';
+  let maxMin = 1;
+  const dayMinutes = [];
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const k = dateKey(d);
+    const min = (data.days[k]?.deepwork || []).filter(s=>s.completed).reduce((s,x)=>s+x.duration,0);
+    dayMinutes.push({ k, d, min });
+    if (min > maxMin) maxMin = min;
+  }
+  monthHTML = dayMinutes.map(({k, d, min}) => {
+    const height = Math.max(4, Math.round(min / maxMin * 50));
+    const isToday = k === tKey;
+    const dStr = d.getDate() + ' ' + monthName(d.getMonth()).slice(0,3);
+    return `<div class="dw-bar ${min>0?'has':''} ${isToday?'today':''}" style="height:${height}px" title="${dStr}: ${min} min"></div>`;
+  }).join('');
+  const elBars = document.getElementById('dwMonthBars');
+  if (elBars) elBars.innerHTML = monthHTML;
+}
+
+/* === Resource analytics: how long, last activity, status === */
+function lastResourceActivityDate(catKey) {
+  // Use the habit completion mapping to find last "active" day for that category
+  const map = { islam: 'h2', book: 'h3', field: 'h4', language: 'h5' };
+  const habitId = map[catKey];
+  if (!habitId) return null;
+  const now = new Date();
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const k = dateKey(d);
+    if (data.days[k]?.habits?.[habitId] === true) return { date: d, key: k, daysAgo: i };
+  }
+  return null;
+}
+
+function renderResourceAnalytics() {
+  const c = document.getElementById('resourceAnalytics');
+  if (!c) return;
+  const cats = ['islam', 'book', 'field', 'language'];
+  const habitMap = { islam: 'h2', book: 'h3', field: 'h4', language: 'h5' };
+
+  let html = '';
+  let hasAny = false;
+  cats.forEach(catKey => {
+    const cat = RESOURCE_CATS[catKey];
+    const r = data.resources[catKey];
+    const items = (r.items || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
+    const completed = r.completed || [];
+    if (!items.length && !completed.length) return;
+    hasAny = true;
+
+    // Per-category last activity
+    const last = lastResourceActivityDate(catKey);
+    let catStreak = 0;
+    const habit = data.habits.find(h => h.id === habitMap[catKey]);
+    if (habit) catStreak = calcHabitStreak(habit);
+
+    let lastBadge;
+    if (!last) lastBadge = `<span class="res-analytics-status cold">Hech qachon bajarilmagan</span>`;
+    else if (last.daysAgo === 0) lastBadge = `<span class="res-analytics-status fresh">✓ Bugun bajarildi</span>`;
+    else if (last.daysAgo === 1) lastBadge = `<span class="res-analytics-status recent">Kecha bajarildi</span>`;
+    else if (last.daysAgo <= 3) lastBadge = `<span class="res-analytics-status recent">${last.daysAgo} kun avval</span>`;
+    else if (last.daysAgo <= 7) lastBadge = `<span class="res-analytics-status stale">${last.daysAgo} kun avval bajarilgan</span>`;
+    else lastBadge = `<span class="res-analytics-status cold">⚠ ${last.daysAgo} kundan beri bajarilmagan</span>`;
+
+    html += `<div class="res-analytics-cat">
+      <div class="res-analytics-header">
+        <span style="font-size:16px;">${cat.emoji}</span>
+        <span class="res-analytics-cat-name">${cat.name}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--ink-mute);">🔥 ${catStreak} kun ketma-ket</span>
+        ${lastBadge}
+      </div>`;
+
+    // Active items
+    if (items.length) {
+      items.forEach(item => {
+        const type = RESOURCE_TYPES[item.type] || RESOURCE_TYPES.book;
+        const days = item.startedAt ? Math.max(1, Math.round((new Date() - new Date(item.startedAt)) / 86400000)) : 0;
+        const progStr = item.total
+          ? `${item.progress||0}/${item.total} ${type.unitFull} · ${Math.round((item.progress||0)/item.total*100)}%`
+          : `${item.progress||0} ${type.unitFull}`;
+        html += `<div class="res-analytics-row">
+          <span class="res-analytics-type">${type.emoji} ${type.label}</span>
+          <span class="res-analytics-title">${escapeHtml(item.title)}</span>
+          <span class="res-analytics-progress">${progStr}</span>
+          <span class="res-analytics-progress">${days} kun</span>
+        </div>`;
+      });
+    }
+
+    // Completed items
+    if (completed.length) {
+      const recent = completed.slice(-3).reverse();
+      html += `<div style="font-size:11px;color:var(--ink-mute);margin-top:6px;">✓ Tugatilganlar: ${completed.length} ta`;
+      if (recent.length) html += ` · so'nggilari: ${recent.map(c => escapeHtml(c.title)).join(', ')}`;
+      html += `</div>`;
+    }
+
+    html += '</div>';
+  });
+
+  c.innerHTML = hasAny ? html : '<div class="empty-state">Manbalar bo\'limidan kitob/kurs qo\'shing — bu yerda davomiylik kuzatiladi</div>';
 }
 
 /* ============ SETTINGS ============ */
