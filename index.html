@@ -6113,21 +6113,38 @@ async function manualFetchPrayers() {
 }
 
 /* ============ GOOGLE CALENDAR (iCal) ============ */
+// Multiple CORS proxies — tried in order until one works
+const CORS_PROXIES = [
+  u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u => `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(u)}`,
+  u => `https://thingproxy.freeboard.io/fetch/${u}`,
+];
+
+async function fetchICalText(url) {
+  for (const proxyFn of CORS_PROXIES) {
+    try {
+      const res = await fetch(proxyFn(url));
+      if (!res.ok) continue;
+      const text = await res.text();
+      if (text && text.indexOf('BEGIN:VCALENDAR') !== -1) return text;
+    } catch(e) { /* try next proxy */ }
+  }
+  return null;
+}
+
 async function fetchCalendarEvents() {
-  const url = data.settings.calendar.icalUrl;
-  if (!url || !url.startsWith('https://')) return;
+  const url = (data.settings.calendar.icalUrl || '').trim();
+  if (!url || !url.startsWith('https://')) return null;
   try {
-    // Use CORS proxy via allorigins.win for browser CORS issue
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-    const res = await fetch(proxyUrl);
-    if (!res.ok) throw new Error('iCal fetch failed');
-    const text = await res.text();
+    const text = await fetchICalText(url);
+    if (text === null) return null; // all proxies failed
     const events = parseICalEvents(text);
     data.calendarEvents = events;
     data.settings.calendar.lastFetch = new Date().toISOString();
     saveData();
     scheduleMeetingReminders();
-    return events;
+    return events; // may be [] if no upcoming events
   } catch(e) {
     console.error('Calendar fetch failed:', e);
     return null;
@@ -6135,34 +6152,41 @@ async function fetchCalendarEvents() {
 }
 
 function parseICalEvents(text) {
+  // Unfold folded lines (RFC 5545: continuation lines start with space/tab)
+  const unfolded = text.replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
   const events = [];
-  const blocks = text.split('BEGIN:VEVENT');
+  const blocks = unfolded.split('BEGIN:VEVENT');
   for (let i = 1; i < blocks.length; i++) {
     const block = blocks[i].split('END:VEVENT')[0];
     const get = (key) => {
-      const re = new RegExp(key + '[^\\r\\n]*:([^\\r\\n]+)', 'i');
+      // Match KEY possibly with ;params, then : then value (until line end)
+      const re = new RegExp('(?:^|\\n)' + key + '(?:;[^:\\r\\n]*)?:([^\\r\\n]+)', 'i');
       const m = block.match(re);
       return m ? m[1].trim() : '';
     };
     const summary = get('SUMMARY');
     const start = get('DTSTART');
     const end = get('DTEND');
+    const location = get('LOCATION');
     if (summary && start) {
       const startDate = parseICalDate(start);
       if (startDate) {
         events.push({
           id: uid(),
-          title: summary,
+          title: summary.replace(/\\,/g, ',').replace(/\\;/g, ';').replace(/\\n/gi, ' '),
+          location: location ? location.replace(/\\,/g, ',') : '',
           start: startDate.toISOString(),
-          end: end ? parseICalDate(end)?.toISOString() : null
+          end: end ? (parseICalDate(end)?.toISOString() || null) : null
         });
       }
     }
   }
-  // Only future + today events, sorted
+  // Only today + future events, sorted by start
   const now = new Date();
-  const cutoff = new Date(now.getTime() - 24*60*60*1000);
-  return events.filter(e => new Date(e.start) > cutoff).sort((a,b) => a.start.localeCompare(b.start));
+  const cutoff = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // start of today
+  return events
+    .filter(e => new Date(e.start) >= cutoff)
+    .sort((a,b) => a.start.localeCompare(b.start));
 }
 
 function parseICalDate(str) {
@@ -6180,13 +6204,16 @@ function parseICalDate(str) {
 
 async function manualFetchCalendar() {
   if (!data.settings.calendar.icalUrl) { toast('Avval iCal URL kiriting'); return; }
-  toast('Calendar olinmoqda...');
+  toast('📅 Calendar olinmoqda... (bir necha soniya)');
   const events = await fetchCalendarEvents();
-  if (events) {
-    toast(`✓ ${events.length} ta uchrashuv topildi`);
+  if (events === null) {
+    toast('❌ Ulanib bo\'lmadi. Internetni tekshiring yoki birozdan keyin urinib ko\'ring');
+  } else if (events.length === 0) {
+    toast('⚠️ Ulanish ishladi, lekin yaqin kunlarda uchrashuv topilmadi');
     renderMeetings();
   } else {
-    toast('❌ Xato. URL ni tekshiring');
+    toast(`✓ ${events.length} ta uchrashuv topildi`);
+    renderMeetings();
   }
 }
 
