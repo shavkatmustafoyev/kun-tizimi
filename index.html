@@ -461,6 +461,120 @@ main {
 
 .priority-badge.a { background: var(--terra-bg); color: var(--terra-text); }
 .priority-badge.b { background: var(--blue-bg); color: var(--blue-text); }
+.priority-badge.c { background: var(--bg-soft); color: var(--ink-mute); }
+
+/* === Unified task system === */
+.utask-add-btn {
+  float: right;
+  background: var(--green); color: white; border: none;
+  border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+}
+.utask-add-btn:hover { background: #245843; }
+.utask-priority-groups { margin-top: 6px; }
+.utask-group { margin-bottom: 14px; }
+.utask-group:last-child { margin-bottom: 0; }
+.utask-group-head {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--ink-mute); font-weight: 600; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.utask-group-count { margin-left: auto; font-family: 'JetBrains Mono', monospace; }
+.utask {
+  background: var(--bg-soft); border-radius: var(--radius);
+  margin-bottom: 6px; overflow: hidden;
+}
+.utask.done { opacity: 0.6; }
+.utask-main { display: flex; align-items: center; gap: 10px; padding: 9px 12px; }
+.utask-check {
+  width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--ink-mute);
+  flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: white; transition: all 0.15s ease;
+}
+.utask.done .utask-check { background: var(--green); border-color: var(--green); }
+.utask.done .utask-text { text-decoration: line-through; }
+.utask-pri {
+  font-size: 11px; font-weight: 700; width: 20px; height: 20px; flex-shrink: 0;
+  border-radius: 5px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; user-select: none;
+}
+.utask-pri.pri-A { background: var(--terra-bg); color: var(--terra-text); }
+.utask-pri.pri-B { background: var(--blue-bg); color: var(--blue-text); }
+.utask-pri.pri-C { background: var(--bg-elev); color: var(--ink-mute); border: 1px solid var(--ink-mute); }
+.utask-text {
+  flex: 1; border: none; background: transparent; font-size: 14px; color: var(--ink);
+  outline: none; font-family: 'Inter', sans-serif; min-width: 0;
+}
+.utask-proj {
+  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+  background: color-mix(in srgb, var(--pc) 15%, transparent); color: var(--pc);
+  white-space: nowrap; border: 1px solid color-mix(in srgb, var(--pc) 30%, transparent);
+}
+.utask-actions { display: flex; gap: 2px; flex-shrink: 0; }
+.utask-act {
+  background: none; border: none; cursor: pointer; font-size: 14px; color: var(--ink-mute);
+  width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s ease;
+}
+.utask-act:hover { background: var(--bg-elev); color: var(--ink); }
+.utask-act.del:hover { color: var(--terra); }
+.utask-subs { padding: 0 12px 10px 42px; }
+.utask-sub { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.utask-sub.done { opacity: 0.55; }
+.utask-sub.done .utask-sub-text { text-decoration: line-through; }
+.utask-sub-check {
+  width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--ink-mute);
+  flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: white;
+}
+.utask-sub.done .utask-sub-check { background: var(--green); border-color: var(--green); }
+.utask-sub-text { flex: 1; border: none; background: transparent; font-size: 13px; color: var(--ink); outline: none; }
+.utask-sub-del { background: none; border: none; color: var(--ink-mute); cursor: pointer; font-size: 15px; opacity: 0; }
+.utask-sub:hover .utask-sub-del { opacity: 0.6; }
+.utask-sub-count { font-size: 10px; color: var(--ink-mute); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
+.inbox-card { border-left: 3px solid var(--amber); }
+.manual-dw-card { border-left: 3px solid var(--terra); }
+.manual-dw-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.manual-dw-row input[type="text"] { flex: 1; min-width: 160px; padding: 9px 12px; border: 1px solid var(--line, rgba(0,0,0,0.1)); border-radius: var(--radius); font-size: 14px; background: var(--bg-soft); color: var(--ink); outline: none; }
+.manual-dw-row select { padding: 9px 12px; border: 1px solid var(--line, rgba(0,0,0,0.1)); border-radius: var(--radius); font-size: 14px; background: var(--bg-soft); color: var(--ink); cursor: pointer; }
+.session-manual-tag { font-size: 9px; background: var(--terra-bg); color: var(--terra-text); padding: 1px 6px; border-radius: 4px; font-weight: 700; vertical-align: middle; }
+.session-del { background: none; border: none; color: var(--ink-mute); cursor: pointer; font-size: 18px; padding: 0 6px; opacity: 0.5; }
+.session-del:hover { opacity: 1; color: var(--terra); }
+/* Reflection redesign */
+.reflect-quote {
+  background: linear-gradient(135deg, var(--green) 0%, #1f4d3a 100%);
+  color: #f5f0e6; border-radius: var(--radius-lg); padding: 22px 26px; margin-bottom: 18px;
+  position: relative; overflow: hidden;
+}
+.reflect-quote-mark { font-family: 'Fraunces', serif; font-size: 60px; line-height: 0.5; opacity: 0.25; position: absolute; top: 24px; left: 14px; }
+.reflect-quote-text { font-family: 'Fraunces', serif; font-size: 18px; line-height: 1.45; font-style: italic; position: relative; padding-left: 18px; }
+.reflect-quote-author { font-size: 13px; opacity: 0.85; margin-top: 10px; text-align: right; }
+.rating-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.rating-btn {
+  width: 38px; height: 38px; border-radius: 10px; border: 1.5px solid var(--line, rgba(0,0,0,0.1));
+  background: var(--bg-soft); color: var(--ink); font-weight: 600; font-family: 'JetBrains Mono', monospace;
+  cursor: pointer; transition: all 0.15s ease;
+}
+.rating-btn:hover { border-color: var(--terra); }
+.rating-btn.active { background: var(--terra); color: white; border-color: var(--terra); }
+.reflect-subcard { background: var(--bg-soft); border-radius: var(--radius-lg); padding: 16px 18px; margin: 16px 0; }
+.reflect-subcard-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-mute); font-weight: 700; margin-bottom: 12px; }
+.sleep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+.sleep-seg { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sleep-seg-lbl { font-size: 12px; color: var(--ink-mute); }
+.sleep-seg input[type="time"] { padding: 6px 10px; border: 1px solid var(--line, rgba(0,0,0,0.1)); border-radius: 8px; background: var(--bg-elev); color: var(--ink); font-family: 'JetBrains Mono', monospace; }
+.sleep-seg-del { background: none; border: none; color: var(--ink-mute); cursor: pointer; font-size: 18px; }
+.sleep-seg-del:hover { color: var(--terra); }
+.sleep-add-btn { background: none; border: 1px dashed var(--line, rgba(0,0,0,0.15)); color: var(--ink-mute); border-radius: 8px; padding: 7px 12px; font-size: 12px; cursor: pointer; }
+.sleep-add-btn:hover { color: var(--ink); border-color: var(--terra); }
+.sleep-total { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--terra); margin-top: 10px; }
+.reflect-questions { display: flex; flex-direction: column; gap: 14px; }
+.reflect-q-label { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.project-task-priority-badge.a { background: var(--terra-bg); color: var(--terra-text); }
+.project-task-priority-badge.b { background: var(--blue-bg); color: var(--blue-text); }
+.project-task-priority-badge.c { background: var(--bg-soft); color: var(--ink-mute); }
+.project-task-due.nodate { cursor: pointer; opacity: 0.6; font-style: italic; }
+.project-task-due.nodate:hover { opacity: 1; }
 
 .task-section-title-text {
   font-size: 11px;
@@ -2519,6 +2633,83 @@ main {
 }
 
 /* ============ ASOS SECTION ============ */
+.today-habits-card { margin-top: 14px; border-left: 3px solid var(--purple); }
+/* Resource dashboard */
+.res-dashboard {
+  background: var(--bg-elev);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 16px;
+}
+.res-dashboard-title { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500; margin-bottom: 14px; }
+.res-dash-hint { font-size: 11px; color: var(--ink-mute); font-family: 'Inter',sans-serif; font-weight: 400; }
+.res-dash-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+@media (max-width: 700px) { .res-dash-grid { grid-template-columns: 1fr 1fr; } }
+.res-dash-card { background: var(--bg-soft); border-radius: var(--radius); padding: 12px; border-top: 3px solid var(--c, var(--green)); }
+.res-dash-top { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.res-dash-emoji { font-size: 16px; }
+.res-dash-cat { font-size: 12px; font-weight: 600; flex: 1; }
+.res-dash-streak { font-size: 12px; font-family: 'JetBrains Mono',monospace; color: var(--terra); font-weight: 700; }
+.res-dash-active { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 8px; min-height: 18px; line-height: 1.3; }
+.res-dash-bar { height: 5px; background: var(--bg-elev); border-radius: 3px; overflow: hidden; }
+.res-dash-bar-fill { height: 100%; background: var(--c, var(--green)); border-radius: 3px; }
+.res-dash-pct { font-size: 10px; color: var(--ink-mute); font-family: 'JetBrains Mono',monospace; margin-top: 4px; }
+/* Active resource button */
+.resource-active-btn {
+  background: var(--bg-soft); border: 1px solid transparent; border-radius: 999px;
+  padding: 3px 10px; font-size: 11px; font-weight: 600; cursor: pointer; color: var(--ink-mute);
+  white-space: nowrap; transition: all 0.15s ease;
+}
+.resource-active-btn:hover { background: var(--bg-softer); }
+.resource-active-btn.on { background: var(--amber-bg, #f7ecd0); color: var(--amber); border-color: var(--amber); }
+.resource-item-row.is-active { box-shadow: inset 3px 0 0 var(--amber); }
+/* Asos streak + rest note */
+.asos-streak { font-size: 11px; font-family: 'JetBrains Mono',monospace; color: var(--terra); font-weight: 600; margin-left: auto; padding-right: 8px; }
+.asos-rest-note { background: var(--bg-soft); border-radius: var(--radius); padding: 12px 14px; font-size: 13px; color: var(--ink-mute); text-align: center; }
+.today-habits-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.th-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-soft);
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  padding: 7px 14px 7px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.th-chip:hover { background: var(--bg-softer); }
+.th-chip.done { background: var(--green-bg, #e3f0e9); border-color: var(--green); }
+.th-chip-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; line-height: 1;
+  background: var(--bg-elev);
+  border: 1.5px solid var(--ink-mute);
+  color: white;
+  flex-shrink: 0;
+}
+.th-chip.done .th-chip-check { background: var(--green); border-color: var(--green); }
+.th-chip-emoji { font-size: 15px; }
+.th-chip-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+.th-chip-streak {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--terra);
+  font-weight: 600;
+  background: var(--terra-bg, #f5e3dd);
+  padding: 1px 7px;
+  border-radius: 999px;
+}
+.th-chip-streak.cold { color: var(--ink-mute); background: var(--bg-elev); }
+
 .asos-card {
   background: var(--bg-elev);
   border-radius: var(--radius-lg);
@@ -2924,31 +3115,21 @@ main {
         </div>
       </div>
 
+      <div class="card today-habits-card">
+        <div class="card-title">🔁 Bugungi odatlar <span id="todayHabitsProgress">0/0</span></div>
+        <div class="today-habits-list" id="todayHabitsList"></div>
+      </div>
+
       <div class="asos-card">
         <div class="card-title">🌱 Asos · Har kungi qaytariladigan ishlar <span id="asosProgress">0/5</span></div>
         <div class="asos-list" id="asosList"></div>
       </div>
 
-      <div class="card" style="margin-top: 14px;">
-        <div class="task-section">
-          <div class="task-section-title">
-            <div class="task-section-title-left">
-              <span class="priority-badge a">A</span>
-              <span class="task-section-title-text">Eng muhim 3 vazifa</span>
-            </div>
-          </div>
-          <div class="task-list" id="tasksA"></div>
+      <div class="card today-tasks-card" style="margin-top: 14px;">
+        <div class="card-title">📋 Bugungi vazifalar <span id="todayTasksCount">0</span>
+          <button class="utask-add-btn" onclick="addUnifiedTask(todayKey())" title="Vazifa qo'shish">+ Vazifa</button>
         </div>
-
-        <div class="task-section" style="margin-top: 20px; margin-bottom: 0;">
-          <div class="task-section-title">
-            <div class="task-section-title-left">
-              <span class="priority-badge b">B</span>
-              <span class="task-section-title-text">Qo'shimcha 5 vazifa</span>
-            </div>
-          </div>
-          <div class="task-list" id="tasksB"></div>
-        </div>
+        <div class="utask-priority-groups" id="todayTasks"></div>
       </div>
 
       <div class="card" style="margin-top: 14px;">
@@ -2963,7 +3144,7 @@ main {
       <div class="view-header">
         <div>
           <h1 class="view-title">Reja</h1>
-          <p class="view-sub">Kelgusi kunni oldindan rejalashtiring · Vazifalar o'sha kuni avtomatik chiqadi</p>
+          <p class="view-sub">Vazifalarni sana va prioritet bilan rejalashtiring · O'sha kuni avtomatik chiqadi</p>
         </div>
       </div>
 
@@ -2977,30 +3158,18 @@ main {
       </div>
 
       <div class="card">
-        <div class="task-section">
-          <div class="task-section-title">
-            <div class="task-section-title-left">
-              <span class="priority-badge a">A</span>
-              <span class="task-section-title-text">Eng muhim 3 vazifa</span>
-            </div>
-          </div>
-          <div class="task-list" id="planTasksA"></div>
+        <div class="card-title">📋 Shu kun vazifalari <span id="planTasksCount">0</span>
+          <button class="utask-add-btn" onclick="addUnifiedTask(planDate)" title="Vazifa qo'shish">+ Vazifa</button>
         </div>
-        <div class="task-section" style="margin-top:18px;">
-          <div class="task-section-title">
-            <div class="task-section-title-left">
-              <span class="priority-badge b">B</span>
-              <span class="task-section-title-text">Qo'shimcha vazifalar</span>
-            </div>
-          </div>
-          <div class="task-list" id="planTasksB"></div>
-        </div>
+        <div class="utask-priority-groups" id="planTasks"></div>
       </div>
 
-      <div class="card" style="margin-top:14px;">
-        <div class="card-title">Loyihalardan tezkor qo'shish</div>
-        <p class="section-desc">Loyiha vazifalarini shu kunga A yoki B sifatida biriktiring</p>
-        <div id="planProjectTasks"></div>
+      <div class="card inbox-card" style="margin-top:14px;">
+        <div class="card-title">📥 Inbox · Sanasiz vazifalar <span id="inboxCount">0</span>
+          <button class="utask-add-btn" onclick="addUnifiedTask(null)" title="Sanasiz vazifa qo'shish">+ Vazifa</button>
+        </div>
+        <p class="section-desc">Sana belgilanmagan vazifalar shu yerda turadi. 📅 bosib sana bersangiz, o'sha kunga ketadi.</p>
+        <div class="utask-priority-groups" id="inboxTasks"></div>
       </div>
     </section>
 
@@ -3074,6 +3243,20 @@ main {
         <div class="dw-stats-grid" id="dwStatsGridLocal"></div>
       </div>
 
+      <div class="card manual-dw-card">
+        <div class="card-title">✍️ Qo'lda sessiya qo'shish</div>
+        <p class="section-desc">Boshqa ilova/timer ishlatgan bo'lsangiz, sessiyani shu yerda qo'shing.</p>
+        <div class="manual-dw-row">
+          <input type="text" id="manualDwTask" placeholder="Nima ustida ishladingiz? (ixtiyoriy)" autocomplete="off">
+          <select id="manualDwFormat">
+            <option value="25-5">25 / 5</option>
+            <option value="50-10" selected>50 / 10</option>
+            <option value="90-20">90 / 20</option>
+          </select>
+          <button class="btn btn-primary" onclick="addManualSession()">+ Qo'shish</button>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-title">
           <span>Bugungi to'liq sessiyalar</span>
@@ -3131,44 +3314,53 @@ main {
       </div>
 
       <div class="reflection-form">
+        <div class="reflect-quote">
+          <div class="reflect-quote-mark">"</div>
+          <div class="reflect-quote-text" id="reflectQuoteText">Shavkat, hisob-kitob qilinishingdan oldin, o'zingni hisob-kitob qil!</div>
+          <div class="reflect-quote-author" id="reflectQuoteAuthor">— Hazrati Umar roziallohu anhu</div>
+        </div>
+
         <div class="reflect-section">
-          <div class="reflect-label">Kayfiyat</div>
-          <div class="mood-selector" id="moodSelector">
-            <div class="mood" data-mood="great"><span class="mood-emoji">🔥</span><div class="mood-label">Ajoyib</div></div>
-            <div class="mood" data-mood="good"><span class="mood-emoji">😊</span><div class="mood-label">Yaxshi</div></div>
-            <div class="mood" data-mood="ok"><span class="mood-emoji">😐</span><div class="mood-label">O'rtacha</div></div>
-            <div class="mood" data-mood="bad"><span class="mood-emoji">😔</span><div class="mood-label">Yomon</div></div>
-            <div class="mood" data-mood="tired"><span class="mood-emoji">😴</span><div class="mood-label">Charchadim</div></div>
+          <div class="reflect-label">Bugungi kun bahosi: <span id="ratingValue" style="color:var(--terra); font-family:'JetBrains Mono', monospace;">—</span> / 10</div>
+          <div class="rating-row" id="ratingRow"></div>
+        </div>
+
+        <div class="reflect-subcard">
+          <div class="reflect-subcard-title">Kayfiyat · Energiya · Shukr</div>
+          <div class="reflect-section">
+            <div class="reflect-label">Kayfiyat</div>
+            <div class="mood-selector" id="moodSelector">
+              <div class="mood" data-mood="great"><span class="mood-emoji">🔥</span><div class="mood-label">Ajoyib</div></div>
+              <div class="mood" data-mood="good"><span class="mood-emoji">😊</span><div class="mood-label">Yaxshi</div></div>
+              <div class="mood" data-mood="ok"><span class="mood-emoji">😐</span><div class="mood-label">O'rtacha</div></div>
+              <div class="mood" data-mood="bad"><span class="mood-emoji">😔</span><div class="mood-label">Yomon</div></div>
+              <div class="mood" data-mood="tired"><span class="mood-emoji">😴</span><div class="mood-label">Charchadim</div></div>
+            </div>
+          </div>
+          <div class="reflect-section">
+            <div class="reflect-label">Energiya: <span id="energyValue" style="color:var(--terra); font-family:'JetBrains Mono', monospace;">3</span> / 5</div>
+            <input type="range" min="1" max="5" value="3" class="energy-slider" id="energySlider">
+          </div>
+          <div class="reflect-section">
+            <div class="reflect-label">Shukr (3 narsa)</div>
+            <div class="gratitudes" id="gratitudes">
+              <div class="gratitude-input"><span class="gratitude-num">1.</span><input type="text" data-grat="0" placeholder="Bugun nimaga shukur qildim?"></div>
+              <div class="gratitude-input"><span class="gratitude-num">2.</span><input type="text" data-grat="1" placeholder="Yana nima yaxshi bo'ldi?"></div>
+              <div class="gratitude-input"><span class="gratitude-num">3.</span><input type="text" data-grat="2" placeholder="Va yana..."></div>
+            </div>
           </div>
         </div>
 
         <div class="reflect-section">
-          <div class="reflect-label">Energiya: <span id="energyValue" style="color:var(--terra); font-family:'JetBrains Mono', monospace;">3</span> / 5</div>
-          <input type="range" min="1" max="5" value="3" class="energy-slider" id="energySlider">
+          <div class="reflect-label">😴 Uyqu</div>
+          <div class="sleep-list" id="sleepList"></div>
+          <button class="sleep-add-btn" onclick="addSleepSegment()">+ Uyqu oralig'i qo'shish</button>
+          <div class="sleep-total" id="sleepTotal">Jami: 0 soat</div>
         </div>
 
         <div class="reflect-section">
-          <div class="reflect-label">Shukr (3 narsa)</div>
-          <div class="gratitudes" id="gratitudes">
-            <div class="gratitude-input"><span class="gratitude-num">1.</span><input type="text" data-grat="0" placeholder="Bugun nimaga shukur qildim?"></div>
-            <div class="gratitude-input"><span class="gratitude-num">2.</span><input type="text" data-grat="1" placeholder="Yana nima yaxshi bo'ldi?"></div>
-            <div class="gratitude-input"><span class="gratitude-num">3.</span><input type="text" data-grat="2" placeholder="Va yana..."></div>
-          </div>
-        </div>
-
-        <div class="reflect-section">
-          <div class="reflect-label">Bugun nima yaxshi ketdi?</div>
-          <textarea class="reflect-textarea" id="reflectGood" placeholder="Eng katta yutuq..."></textarea>
-        </div>
-
-        <div class="reflect-section">
-          <div class="reflect-label">Nima yaxshi ketmadi? Keyingi safar nima qilaman?</div>
-          <textarea class="reflect-textarea" id="reflectBad" placeholder="To'siqlar, dars olganlarim..."></textarea>
-        </div>
-
-        <div class="reflect-section">
-          <div class="reflect-label">Ertangi TOP 3 vazifa</div>
-          <textarea class="reflect-textarea" id="reflectTomorrow" placeholder="1.&#10;2.&#10;3."></textarea>
+          <div class="reflect-label">Kunlik savollar</div>
+          <div class="reflect-questions" id="reflectQuestions"></div>
         </div>
 
         <div class="row">
@@ -3515,6 +3707,7 @@ main {
     <div class="modal-field"><label>Vazifa matni</label><input type="text" id="taskEditText" placeholder="Reklama kreativlarini tayyorlash"></div>
     <div class="modal-field"><label>Tavsif (ixtiyoriy)</label><textarea id="taskEditDesc" rows="2" placeholder="Qo'shimcha izoh..."></textarea></div>
     <div class="modal-field"><label>Muddat (ixtiyoriy)</label><input type="date" id="taskEditDue"></div>
+    <div class="modal-field"><label>Prioritet</label><select id="taskEditPriority"><option value="A">Yuqori (A)</option><option value="B" selected>O'rta (B)</option><option value="C">Past (C)</option></select></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeTaskEditModal()">Bekor</button>
       <button class="btn btn-primary" onclick="saveTaskEdit()">Saqlash</button>
@@ -3573,6 +3766,7 @@ const DEFAULT_DATA = {
   },
   projects: [],
   goals: [],
+  tasks: [],
   days: {},
   prayerCache: { date: null, times: null },
   calendarEvents: []
@@ -3600,9 +3794,11 @@ function loadData() {
       resources: migrateResources(loaded.resources),
       projects: loaded.projects || [],
       goals: loaded.goals || [],
+      tasks: migrateTasks(loaded),
       days: loaded.days || {},
       prayerCache: loaded.prayerCache || { date: null, times: null },
-      calendarEvents: loaded.calendarEvents || []
+      calendarEvents: loaded.calendarEvents || [],
+      __tasksMigrated: true
     };
   } catch (e) {
     return JSON.parse(JSON.stringify(DEFAULT_DATA));
@@ -3632,9 +3828,44 @@ function migrateResources(loaded) {
         startedAt: src.active.startedAt || new Date().toISOString().split('T')[0]
       }];
     }
-    result[cat] = { items, completed: src.completed || [] };
+    result[cat] = { items, completed: src.completed || [], activeId: src.activeId || null };
   });
   return result;
+}
+
+// Build the global task pool. One-time migration of legacy day.tasksA/tasksB into
+// the unified pool (each task gets a date + priority). Project-linked tasks instead
+// stamp due/priority onto their source project task (no duplication).
+function migrateTasks(loaded) {
+  let pool = Array.isArray(loaded.tasks) ? loaded.tasks.slice() : [];
+  if (loaded.__tasksMigrated) return pool;
+  const days = loaded.days || {};
+  Object.keys(days).forEach(dayKey => {
+    const day = days[dayKey];
+    [['tasksA','A'], ['tasksB','B']].forEach(([listName, pri]) => {
+      (day[listName] || []).forEach(tk => {
+        if (tk.linkedProjectTaskId) {
+          // Reflect the date+priority onto the source project task
+          const proj = (loaded.projects || []).find(p => p.id === tk.linkedProjectId);
+          const src = proj?.tasks?.find(x => x.id === tk.linkedProjectTaskId);
+          if (src && !src.due) { src.due = dayKey; src.priority = pri; }
+        } else if (tk.text && tk.text.trim()) {
+          pool.push({
+            id: tk.id || uid(),
+            text: tk.text,
+            priority: pri,
+            date: dayKey,
+            done: !!tk.done,
+            subtasks: tk.subtasks || [],
+            createdAt: tk.createdAt || new Date().toISOString()
+          });
+        }
+      });
+      // Clear legacy arrays after migration so they don't double-count
+      day[listName] = [];
+    });
+  });
+  return pool;
 }
 
 function saveData() {
@@ -3801,6 +4032,7 @@ function renderToday() {
   renderPrayers();
   renderPrayerExtras();
   renderQuickStats();
+  renderTodayHabits();
   renderTasks();
   renderAsos();
   renderMeetings();
@@ -3916,114 +4148,307 @@ function deepWorkSessions(minutes) {
 function renderQuickStats() {
   const t = today();
   const totalMin = (t.deepwork || []).filter(s => s.completed).reduce((s,x) => s + x.duration, 0);
-  document.getElementById('qsDeep').textContent = deepWorkSessions(totalMin);
+  const eDeep = document.getElementById('qsDeep');
+  if (eDeep) eDeep.textContent = deepWorkSessions(totalMin);
 
+  const pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
   let habitsDone = 0;
-  data.habits.forEach(h => { if (getHabitStatus(h, todayKey()) === 'done') habitsDone++; });
-  document.getElementById('qsHabits').textContent = habitsDone + '/' + data.habits.length;
+  pureHabits.forEach(h => { if (getHabitStatus(h, todayKey()) === 'done') habitsDone++; });
+  const eHab = document.getElementById('qsHabits');
+  if (eHab) eHab.textContent = habitsDone + '/' + pureHabits.length;
 
-  const tA = t.tasksA.filter(x => x.done).length;
-  document.getElementById('qsTasksA').textContent = tA + '/' + Math.max(3, t.tasksA.length);
-  const tB = t.tasksB.filter(x => x.done).length;
-  document.getElementById('qsTasksB').textContent = tB + '/' + Math.max(5, t.tasksB.length);
+  const all = tasksForDate(todayKey());
+  const aTasks = all.filter(x => (x.priority||'B') === 'A');
+  const bcTasks = all.filter(x => (x.priority||'B') !== 'A');
+  const eA = document.getElementById('qsTasksA');
+  if (eA) eA.textContent = aTasks.filter(x=>x.done).length + '/' + aTasks.length;
+  const eB = document.getElementById('qsTasksB');
+  if (eB) eB.textContent = bcTasks.filter(x=>x.done).length + '/' + bcTasks.length;
+}
+
+/* ============ UNIFIED DATE-BASED TASKS ============ */
+const PRIORITIES = ['A', 'B', 'C'];
+const PRIORITY_LABEL = { A: 'Yuqori (A)', B: 'O\'rta (B)', C: 'Past (C)' };
+
+// All tasks for a given date = pool tasks (date===D) + project tasks (due===D)
+function tasksForDate(dateStr) {
+  const result = [];
+  (data.tasks || []).forEach(t => {
+    if (t.date === dateStr) result.push(Object.assign({}, t, { source: 'pool' }));
+  });
+  (data.projects || []).forEach(p => {
+    (p.tasks || []).forEach(t => {
+      if (t.due === dateStr) {
+        result.push({
+          id: t.id, text: t.text, priority: t.priority || 'B', date: t.due,
+          done: t.done, subtasks: t.subtasks || [],
+          source: 'project', projectId: p.id, projectName: p.name, projectColor: p.color || 'blue'
+        });
+      }
+    });
+  });
+  const ord = { A: 0, B: 1, C: 2 };
+  result.sort((a, b) => (ord[a.priority] ?? 9) - (ord[b.priority] ?? 9) || (a.createdAt || '').localeCompare(b.createdAt || ''));
+  return result;
+}
+
+function unassignedTasks() {
+  return (data.tasks || []).filter(t => !t.date);
+}
+
+// Find a unified task (pool or project) by id; returns { task, isProject, project }
+function findUnifiedTask(id) {
+  const pool = (data.tasks || []).find(t => t.id === id);
+  if (pool) return { task: pool, isProject: false };
+  for (const p of (data.projects || [])) {
+    const t = (p.tasks || []).find(x => x.id === id);
+    if (t) return { task: t, isProject: true, project: p };
+  }
+  return null;
+}
+
+// Render one task row (works for pool & project tasks)
+function unifiedTaskRowHTML(task) {
+  const isProject = task.source === 'project';
+  const subtasks = task.subtasks || [];
+  const subDone = subtasks.filter(s => s.done).length;
+  const projTag = isProject ? `<span class="utask-proj" style="--pc:var(--${task.projectColor||'blue'});">${escapeHtml(task.projectName)}</span>` : '';
+  const subtasksHTML = subtasks.map(st => `
+    <div class="utask-sub ${st.done?'done':''}">
+      <div class="utask-sub-check" onclick="toggleUnifiedSubtask('${task.id}','${st.id}')">${st.done?'✓':''}</div>
+      <input class="utask-sub-text" value="${escapeHtml(st.text)}" onchange="editUnifiedSubtask('${task.id}','${st.id}',this.value)" placeholder="Kichik vazifa...">
+      <button class="utask-sub-del" onclick="deleteUnifiedSubtask('${task.id}','${st.id}')">×</button>
+    </div>`).join('');
+  return `<div class="utask ${task.done?'done':''}" data-id="${task.id}">
+    <div class="utask-main">
+      <div class="utask-check" onclick="toggleUnifiedTask('${task.id}')">${task.done?'✓':''}</div>
+      <span class="utask-pri pri-${task.priority||'B'}" onclick="cycleUnifiedPriority('${task.id}')" title="Prioritetni o'zgartirish">${task.priority||'B'}</span>
+      <input class="utask-text" value="${escapeHtml(task.text)}" onchange="editUnifiedTaskText('${task.id}',this.value)" placeholder="Vazifa matni..." ${isProject?'title="Loyiha vazifasi"':''}>
+      ${projTag}
+      <div class="utask-actions">
+        <button class="utask-act" onclick="addUnifiedSubtask('${task.id}')" title="Kichik vazifa qo'shish">+</button>
+        <button class="utask-act" onclick="openUnifiedDate('${task.id}')" title="Sanani o'zgartirish">📅</button>
+        ${isProject ? '' : `<button class="utask-act del" onclick="deleteUnifiedTask('${task.id}')" title="O'chirish">×</button>`}
+      </div>
+    </div>
+    ${subtasks.length ? `<div class="utask-subs">${subtasksHTML}<div class="utask-sub-count">${subDone}/${subtasks.length} bajarildi</div></div>` : ''}
+  </div>`;
+}
+
+// Render tasks grouped by priority into a container
+function renderTaskGroups(containerId, dateStr, emptyMsg) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  const tasks = tasksForDate(dateStr);
+  if (!tasks.length) {
+    c.innerHTML = `<div class="empty-state" style="padding:16px;">${emptyMsg||'Bu kunda vazifa yo\'q. "+ Vazifa" bilan qo\'shing.'}</div>`;
+    return;
+  }
+  let html = '';
+  PRIORITIES.forEach(pri => {
+    const group = tasks.filter(t => (t.priority||'B') === pri);
+    if (!group.length) return;
+    html += `<div class="utask-group">
+      <div class="utask-group-head"><span class="priority-badge ${pri.toLowerCase()}">${pri}</span> ${PRIORITY_LABEL[pri]} <span class="utask-group-count">${group.filter(t=>t.done).length}/${group.length}</span></div>
+      ${group.map(unifiedTaskRowHTML).join('')}
+    </div>`;
+  });
+  c.innerHTML = html;
 }
 
 function renderTasks() {
-  renderTaskList('tasksA', 3);
-  renderTaskList('tasksB', 5);
-}
-
-function renderTaskList(type, maxFill) {
-  const t = today();
-  const list = t[type];
-  const c = document.getElementById(type);
-  c.innerHTML = '';
-  list.forEach((task, idx) => {
-    const el = document.createElement('div');
-    el.className = 'task' + (task.done ? ' done' : '');
-    el.innerHTML = `
-      <div class="task-check" onclick="toggleTask('${type}',${idx})">${task.done?'✓':''}</div>
-      <input class="task-text" value="${escapeHtml(task.text)}" data-type="${type}" data-idx="${idx}" placeholder="Vazifa...">
-      <button class="task-delete" onclick="deleteTask('${type}',${idx})">×</button>`;
-    c.appendChild(el);
-  });
-  for (let i = list.length; i < maxFill; i++) {
-    const el = document.createElement('button');
-    el.className = 'task-add';
-    el.innerHTML = `+ ${type==='tasksA'?'Asosiy':'Qo\'shimcha'} vazifa qo'shish`;
-    el.onclick = () => addTask(type);
-    c.appendChild(el);
+  renderTaskGroups('todayTasks', todayKey());
+  const cnt = document.getElementById('todayTasksCount');
+  if (cnt) {
+    const all = tasksForDate(todayKey());
+    cnt.textContent = all.filter(t=>t.done).length + '/' + all.length;
   }
-  c.querySelectorAll('.task-text').forEach(input => {
-    input.addEventListener('change', e => {
-      const tp = e.target.dataset.type;
-      const idx = parseInt(e.target.dataset.idx);
-      today()[tp][idx].text = e.target.value;
-      saveData();
-    });
-  });
 }
 
-function addTask(type) {
-  today()[type].push({ text: '', done: false, id: uid() });
+// Add a new pool task for a given date (null = inbox). Priority defaults to B.
+function addUnifiedTask(dateStr, priority) {
+  const task = { id: uid(), text: '', priority: priority || 'B', date: dateStr || null, done: false, subtasks: [], createdAt: new Date().toISOString() };
+  data.tasks.push(task);
   saveData();
-  renderTaskList(type, type==='tasksA'?3:5);
+  refreshTaskViews();
   setTimeout(() => {
-    const inputs = document.querySelectorAll(`#${type} .task-text`);
-    if (inputs.length) inputs[inputs.length-1].focus();
+    const row = document.querySelector(`.utask[data-id="${task.id}"] .utask-text`);
+    if (row) row.focus();
   }, 50);
+}
+
+function toggleUnifiedTask(id) {
+  const found = findUnifiedTask(id);
+  if (!found) return;
+  found.task.done = !found.task.done;
+  saveData();
+  refreshTaskViews();
+}
+
+function editUnifiedTaskText(id, text) {
+  const found = findUnifiedTask(id);
+  if (!found) return;
+  found.task.text = text;
+  saveData();
+}
+
+function cycleUnifiedPriority(id) {
+  const found = findUnifiedTask(id);
+  if (!found) return;
+  const cur = found.task.priority || 'B';
+  const next = PRIORITIES[(PRIORITIES.indexOf(cur) + 1) % PRIORITIES.length];
+  found.task.priority = next;
+  saveData();
+  refreshTaskViews();
+}
+
+function deleteUnifiedTask(id) {
+  const idx = (data.tasks || []).findIndex(t => t.id === id);
+  if (idx >= 0) { data.tasks.splice(idx, 1); saveData(); refreshTaskViews(); }
+}
+
+function openUnifiedDate(id) {
+  const found = findUnifiedTask(id);
+  if (!found) return;
+  const cur = found.isProject ? (found.task.due || '') : (found.task.date || '');
+  const val = prompt('Sana (YYYY-MM-DD), bo\'sh qoldirilsa — sanasiz (inbox):', cur);
+  if (val === null) return;
+  const clean = val.trim();
+  if (clean && !/^\d{4}-\d{2}-\d{2}$/.test(clean)) { toast('Format: YYYY-MM-DD'); return; }
+  if (found.isProject) found.task.due = clean || null;
+  else found.task.date = clean || null;
+  saveData();
+  refreshTaskViews();
+  toast(clean ? `✓ ${clean} ga ko'chirildi` : '✓ Sanasiz (inbox) ga o\'tkazildi');
+}
+
+/* Subtasks (unified) */
+function addUnifiedSubtask(id) {
+  const found = findUnifiedTask(id);
+  if (!found) return;
+  if (!found.task.subtasks) found.task.subtasks = [];
+  found.task.subtasks.push({ id: uid(), text: '', done: false });
+  saveData();
+  refreshTaskViews();
+  setTimeout(() => {
+    const subs = document.querySelectorAll(`.utask[data-id="${id}"] .utask-sub-text`);
+    if (subs.length) subs[subs.length-1].focus();
+  }, 50);
+}
+function toggleUnifiedSubtask(id, stId) {
+  const found = findUnifiedTask(id);
+  const st = found?.task?.subtasks?.find(s => s.id === stId);
+  if (st) { st.done = !st.done; saveData(); refreshTaskViews(); }
+}
+function editUnifiedSubtask(id, stId, text) {
+  const found = findUnifiedTask(id);
+  const st = found?.task?.subtasks?.find(s => s.id === stId);
+  if (st) { st.text = text; saveData(); }
+}
+function deleteUnifiedSubtask(id, stId) {
+  const found = findUnifiedTask(id);
+  if (found?.task?.subtasks) { found.task.subtasks = found.task.subtasks.filter(s => s.id !== stId); saveData(); refreshTaskViews(); }
+}
+
+// Refresh whichever task views are currently visible
+function refreshTaskViews() {
+  if (document.getElementById('view-today')?.classList.contains('active')) renderTasks();
+  if (document.getElementById('view-plan')?.classList.contains('active')) renderPlan();
+  if (document.getElementById('view-projects')?.classList.contains('active')) renderProjects();
   renderQuickStats();
 }
 
-function deleteTask(type, idx) { today()[type].splice(idx, 1); saveData(); renderTaskList(type, type==='tasksA'?3:5); renderQuickStats(); }
-
 /* ============ ASOS SECTION ============ */
+// Resource streak: counts consecutive STUDY days (Mon-Sat). Sundays are rest:
+// they never break and never count. Today, if not yet marked, is given grace.
+function calcResourceStreak(habitId) {
+  const habit = data.habits.find(h => h.id === habitId);
+  if (!habit) return 0;
+  let streak = 0;
+  const now = new Date();
+  for (let i = 0; i < 400; i++) {
+    const d = new Date(now); d.setDate(d.getDate() - i);
+    const dow = d.getDay(); // 0 = Sunday
+    if (dow === 0) continue; // Sunday: rest, skip entirely
+    const done = getHabitStatus(habit, dateKey(d)) === 'done';
+    if (done) { streak++; }
+    else { if (i === 0) continue; /* today grace */ break; }
+  }
+  return streak;
+}
+
+function getActiveResource(catKey) {
+  const r = data.resources[catKey];
+  if (!r || !r.items || !r.items.length) return null;
+  const sorted = r.items.slice().sort((a,b) => (a.order||0) - (b.order||0));
+  if (r.activeId) {
+    const active = sorted.find(i => i.id === r.activeId);
+    if (active) return active;
+  }
+  return sorted[0]; // fallback: first by order
+}
+
+function setActiveResource(catKey, itemId) {
+  const r = data.resources[catKey];
+  if (!r) return;
+  r.activeId = itemId;
+  saveData();
+  renderResources();
+  toast('✓ Aktiv manba tanlandi');
+}
+
 const ASOS_MAP = [
-  { catKey: 'islam', habitId: 'h2', cat: 'Diniy', time: 25, color: 'green', daysOnly: [1, 4] }, // Mon=1, Thu=4
-  { catKey: 'book', habitId: 'h3', cat: 'Kitob', time: 10, color: 'purple' },
-  { catKey: 'field', habitId: 'h4', cat: 'Soha', time: 90, color: 'terra' },
-  { catKey: 'language', habitId: 'h5', cat: 'Til', time: 25, color: 'blue' }
+  { catKey: 'field', habitId: 'h4', cat: 'Soha', time: 90, color: 'amber' },
+  { catKey: 'book', habitId: 'h3', cat: 'Kitob', time: 25, color: 'purple' },
+  { catKey: 'language', habitId: 'h5', cat: 'Til', time: 50, color: 'blue' },
+  { catKey: 'islam', habitId: 'h2', cat: 'Diniy', time: 25, color: 'green' }
 ];
+// These habit IDs are resource-linked → shown in Manbalar/Asos, not in the pure habits card
+const RESOURCE_HABIT_IDS = ['h2', 'h3', 'h4', 'h5'];
 
 function renderAsos() {
   const c = document.getElementById('asosList');
   if (!c) return;
   const tKey = todayKey();
   const t = today();
-  const dayOfWeek = new Date().getDay(); // 0=Sun, 1=Mon, ..., 4=Thu
+  const dayOfWeek = new Date().getDay(); // 0=Sun
+  const isSunday = dayOfWeek === 0;
   let doneCount = 0;
   let visibleCount = 0;
 
   const items = [];
-  ASOS_MAP.forEach(item => {
-    // Diniy ta'lim only on specified days (Mon & Thu) — otherwise hidden
-    if (item.daysOnly && !item.daysOnly.includes(dayOfWeek)) return;
-    visibleCount++;
 
-    const resource = data.resources[item.catKey];
-    const activeItems = (resource.items || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
-    const firstActive = activeItems[0];
-    const habit = data.habits.find(h => h.id === item.habitId);
-    const done = habit ? getHabitStatus(habit, tKey) === 'done' : false;
-    if (done) doneCount++;
+  if (isSunday) {
+    // Sunday = rest day for resources (they don't send to Today)
+    items.push(`<div class="asos-rest-note">🌙 Yakshanba — dam olish kuni. Manbalar bugun dam oladi (odatlar va xulosa davom etadi).</div>`);
+  } else {
+    ASOS_MAP.forEach(item => {
+      visibleCount++;
+      const active = getActiveResource(item.catKey);
+      const habit = data.habits.find(h => h.id === item.habitId);
+      const done = habit ? getHabitStatus(habit, tKey) === 'done' : false;
+      if (done) doneCount++;
+      const streak = calcResourceStreak(item.habitId);
 
-    let text;
-    if (firstActive) {
-      const type = RESOURCE_TYPES[firstActive.type] || RESOURCE_TYPES.book;
-      text = `${escapeHtml(firstActive.title)}`;
-      if (activeItems.length > 1) text += ` <span style="color:var(--ink-faint);">+${activeItems.length-1}</span>`;
-    } else {
-      text = `<span style="color:var(--ink-mute); font-style:italic;">Manbalar bo'limidan ${item.cat.toLowerCase()} qo'shing</span>`;
-    }
-    items.push(`<div class="asos-item ${done?'done':''}" onclick="toggleAsos('${item.habitId}')" style="--cat-color: var(--${item.color}); --cat-bg: var(--${item.color}-bg);">
-      <div class="asos-check">${done?'✓':''}</div>
-      <span class="asos-cat">${item.cat}</span>
-      <span class="asos-text">${text}</span>
-      <span class="asos-time">${item.time} min</span>
-    </div>`);
-  });
+      let text;
+      if (active) {
+        text = `${escapeHtml(active.title)}`;
+        const others = (data.resources[item.catKey].items || []).length - 1;
+        if (others > 0) text += ` <span style="color:var(--ink-faint);">+${others}</span>`;
+      } else {
+        text = `<span style="color:var(--ink-mute); font-style:italic;">Manbalar bo'limidan ${item.cat.toLowerCase()} qo'shing</span>`;
+      }
+      items.push(`<div class="asos-item ${done?'done':''}" onclick="toggleAsos('${item.habitId}')" style="--cat-color: var(--${item.color}); --cat-bg: var(--${item.color}-bg);">
+        <div class="asos-check">${done?'✓':''}</div>
+        <span class="asos-cat">${item.cat}</span>
+        <span class="asos-text">${text}</span>
+        <span class="asos-streak" title="Uzluksiz (yakshanba hisobga olinmaydi)">🔥${streak}</span>
+        <span class="asos-time">${item.time} min</span>
+      </div>`);
+    });
+  }
 
-  // Last item: reflection (always visible)
+  // Reflection (always visible, every day)
   visibleCount++;
   const reflectionDone = t.reflection && t.reflection.savedAt;
   if (reflectionDone) doneCount++;
@@ -4432,6 +4857,33 @@ function updateTimerDisplay() {
   // Note: stroke-dashoffset is now controlled by CSS transition started in startSmoothRing
 }
 
+function addManualSession() {
+  const taskInput = document.getElementById('manualDwTask');
+  const fmt = document.getElementById('manualDwFormat').value || '50-10';
+  const workMin = parseInt(fmt.split('-')[0]) || 50;
+  const task = (taskInput.value || '').trim() || 'Qo\'lda kiritilgan';
+  if (!today().deepwork) today().deepwork = [];
+  today().deepwork.push({
+    task, mode: fmt, duration: workMin, completed: true,
+    completedAt: new Date().toISOString(), manual: true
+  });
+  saveData();
+  taskInput.value = '';
+  renderSessions();
+  renderQuickStats();
+  toast(`✓ ${workMin} min sessiya qo'shildi`);
+}
+
+function deleteSession(idx) {
+  const dw = today().deepwork || [];
+  if (idx < 0 || idx >= dw.length) return;
+  if (!confirm('Bu sessiyani o\'chirasizmi?')) return;
+  dw.splice(idx, 1);
+  saveData();
+  renderSessions();
+  renderQuickStats();
+}
+
 function renderSessions() {
   const sessions = (today().deepwork || []).filter(s => s.completed);
   const totalMin = sessions.reduce((s,x)=>s+x.duration, 0);
@@ -4441,15 +4893,17 @@ function renderSessions() {
   if (!sessions.length) {
     c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">⏱️</span>Bugun hali to\'liq sessiya yo\'q.<br>50 daqiqa = 1 sessiya hisobi</div>';
   } else {
-    c.innerHTML = sessions.slice().reverse().map(s => {
+    c.innerHTML = sessions.slice().reverse().map((s, i) => {
+      const realIdx = (today().deepwork || []).indexOf(s);
       const t = new Date(s.completedAt);
       const time = String(t.getHours()).padStart(2,'0') + ':' + String(t.getMinutes()).padStart(2,'0');
       return `<div class="session-row">
         <div class="session-info">
-          <div class="session-name">${escapeHtml(s.task)}</div>
+          <div class="session-name">${escapeHtml(s.task || 'Sessiya')}${s.manual?' <span class="session-manual-tag">qo\'lda</span>':''}</div>
           <div class="session-meta">${time} · ${s.mode}</div>
         </div>
         <div class="session-duration">✓ ${s.duration} min</div>
+        <button class="session-del" onclick="deleteSession(${realIdx})" title="O'chirish">×</button>
       </div>`;
     }).join('');
   }
@@ -4710,19 +5164,42 @@ function habitColor(habit) {
   return habit.color || HABIT_COLORS[habit.id] || 'green';
 }
 
+function renderTodayHabits() {
+  const c = document.getElementById('todayHabitsList');
+  if (!c) return;
+  const pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
+  if (!pureHabits.length) {
+    c.innerHTML = '<div class="empty-state" style="padding:14px;">Hali odat yo\'q. <a href="#" onclick="document.querySelector(\'.nav-item[data-view=habits]\').click(); return false;">Odatlar bo\'limidan qo\'shing</a></div>';
+    document.getElementById('todayHabitsProgress').textContent = '0/0';
+    return;
+  }
+  let doneCount = 0;
+  c.innerHTML = pureHabits.map(habit => {
+    const done = getHabitStatus(habit, todayKey()) === 'done';
+    if (done) doneCount++;
+    const streak = calcHabitStreak(habit);
+    return `<div class="th-chip ${done?'done':''}" onclick="toggleHabit('${habit.id}')">
+      <div class="th-chip-check">${done?'✓':''}</div>
+      <span class="th-chip-emoji">${habit.emoji || '🎯'}</span>
+      <span class="th-chip-name">${escapeHtml(habit.name)}</span>
+      <span class="th-chip-streak ${streak===0?'cold':''}">🔥${streak}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('todayHabitsProgress').textContent = doneCount + '/' + pureHabits.length;
+}
+
 function renderHabits() {
   const c = document.getElementById('habitsGrid');
-  if (!data.habits.length) {
+  const pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
+  if (!pureHabits.length) {
     c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">🔁</span>Hali odat yo\'q. <a href="#" onclick="openHabitModal(); return false;">Birinchisini qo\'shing</a></div>';
     return;
   }
-  c.innerHTML = data.habits.map(habit => habitHTML(habit)).join('');
+  c.innerHTML = pureHabits.map(habit => habitHTML(habit)).join('');
 }
 
 function habitHTML(habit) {
   const streak = calcHabitStreak(habit);
-  const best = calcBestStreak(habit);
-  const total = calcHabitTotal(habit);
   const status = getHabitStatus(habit, todayKey());
   const done = status === 'done';
   const color = habitColor(habit);
@@ -4761,18 +5238,14 @@ function habitHTML(habit) {
       <div class="habit-info" onclick="toggleHabitExpand('${habit.id}')" style="cursor:pointer;">
         <div class="habit-header"><span class="habit-name">${escapeHtml(habit.name)}</span></div>
         <div class="habit-meta">
-          <span class="habit-streak ${streak===0?'cold':''}">🔥 <span class="habit-streak-num">${streak}</span> kun ketma-ket</span>
-          <span class="habit-best">🏆 Eng yaxshi: ${best}</span>
-          <span class="habit-best">Σ Jami: ${total}</span>
+          <span class="habit-streak ${streak===0?'cold':''}">🔥 <span class="habit-streak-num">${streak}</span> kundan beri uzluksiz</span>
         </div>
       </div>
       <div class="habit-week">${weekDots}</div>
       <button class="habit-delete-btn" onclick="deleteHabit('${habit.id}')">×</button>
     </div>
     <div class="habit-stats-row">
-      <div class="habit-stat-box"><div class="habit-stat-num">${streak}</div><div class="habit-stat-lbl">Joriy</div></div>
-      <div class="habit-stat-box"><div class="habit-stat-num">${best}</div><div class="habit-stat-lbl">Eng yaxshi</div></div>
-      <div class="habit-stat-box"><div class="habit-stat-num">${total}</div><div class="habit-stat-lbl">Jami kun</div></div>
+      <div class="habit-stat-box"><div class="habit-stat-num">${streak}</div><div class="habit-stat-lbl">Kun ketma-ket</div></div>
       <div class="habit-mini-heatmap" title="So'nggi 30 kun">${miniHeat}</div>
     </div>
   </div>`;
@@ -4784,6 +5257,7 @@ function toggleHabit(id) {
   t.habits[id] = !t.habits[id];
   saveData();
   renderHabits();
+  renderTodayHabits();
   renderQuickStats();
   if (document.getElementById('view-today').classList.contains('active')) renderAsos();
 }
@@ -4794,6 +5268,7 @@ function toggleHabitDay(id, dayKey) {
   d.habits[id] = !d.habits[id];
   saveData();
   renderHabits();
+  renderTodayHabits();
   renderQuickStats();
 }
 
@@ -4845,10 +5320,10 @@ function deleteHabit(id) {
 
 /* ============ RESOURCES (multi-item, typed) ============ */
 const RESOURCE_CATS = {
-  islam: { emoji: '📖', name: 'Diniy ta\'lim', time: 'Dushanba & Payshanba · 25 daqiqa' },
-  book: { emoji: '📚', name: 'Kitob', time: 'Kunlik 10 daqiqa' },
   field: { emoji: '🎓', name: 'Soha', time: 'Kunlik 90 daqiqa' },
-  language: { emoji: '🌐', name: 'Til o\'rganish', time: 'Kunlik 25 daqiqa' },
+  book: { emoji: '📚', name: 'Kitob', time: 'Kunlik 25 daqiqa' },
+  language: { emoji: '🌐', name: 'Til o\'rganish', time: 'Kunlik 50 daqiqa' },
+  islam: { emoji: '📖', name: 'Diniy ta\'lim', time: 'Kunlik 25 daqiqa' },
 };
 
 // Resource types with their unit of measure
@@ -4867,7 +5342,36 @@ let selectedResType = 'book';
 
 function renderResources() {
   const c = document.getElementById('resourcesGrid');
-  c.innerHTML = Object.keys(RESOURCE_CATS).map(key => resourceCatHTML(key)).join('');
+  c.innerHTML = resourceDashboardHTML() + Object.keys(RESOURCE_CATS).map(key => resourceCatHTML(key)).join('');
+}
+
+function resourceDashboardHTML() {
+  // Continuity dashboard: active resource + streak per category
+  const cards = Object.keys(RESOURCE_CATS).map(catKey => {
+    const cat = RESOURCE_CATS[catKey];
+    const map = ASOS_MAP.find(m => m.catKey === catKey);
+    const streak = map ? calcResourceStreak(map.habitId) : 0;
+    const active = getActiveResource(catKey);
+    const activeName = active ? escapeHtml(active.title) : '<span style="opacity:0.5;font-style:italic;">manba yo\'q</span>';
+    let pct = 0, pctLabel = '';
+    if (active && active.total) {
+      pct = Math.min(100, Math.round((active.progress / active.total) * 100));
+      pctLabel = `${pct}%`;
+    }
+    return `<div class="res-dash-card" style="--c: var(--${map?map.color:'green'});">
+      <div class="res-dash-top">
+        <span class="res-dash-emoji">${cat.emoji}</span>
+        <span class="res-dash-cat">${cat.name}</span>
+        <span class="res-dash-streak">🔥${streak}</span>
+      </div>
+      <div class="res-dash-active">${activeName}</div>
+      ${active && active.total ? `<div class="res-dash-bar"><div class="res-dash-bar-fill" style="width:${pct}%"></div></div><div class="res-dash-pct">${active.progress||0}/${active.total} · ${pctLabel}</div>` : '<div class="res-dash-pct" style="opacity:0.6;">hajm belgilanmagan</div>'}
+    </div>`;
+  }).join('');
+  return `<div class="res-dashboard">
+    <div class="res-dashboard-title">📊 Davomiylik · Aktiv manbalar <span class="res-dash-hint">(yakshanba hisobga olinmaydi)</span></div>
+    <div class="res-dash-grid">${cards}</div>
+  </div>`;
 }
 
 function resourceCatHTML(catKey) {
@@ -4876,16 +5380,19 @@ function resourceCatHTML(catKey) {
   const items = (r.items || []).slice().sort((a,b) => (a.order||0) - (b.order||0));
   const completed = r.completed || [];
 
+  const activeId = r.activeId || (items[0] && items[0].id);
   let itemsHTML = items.map((item, idx) => {
     const type = RESOURCE_TYPES[item.type] || RESOURCE_TYPES.book;
     const pct = item.total ? Math.min(100, Math.round((item.progress / item.total) * 100)) : 0;
     const days = item.startedAt ? Math.max(1, Math.round((new Date() - new Date(item.startedAt)) / 86400000)) : 0;
-    return `<div class="resource-item-row">
+    const isActive = item.id === activeId;
+    return `<div class="resource-item-row ${isActive?'is-active':''}">
       <div class="resource-item-top">
         <div class="resource-reorder">
           <button onclick="moveResource('${catKey}','${item.id}',-1)" ${idx===0?'disabled':''} title="Yuqoriga">▲</button>
           <button onclick="moveResource('${catKey}','${item.id}',1)" ${idx===items.length-1?'disabled':''} title="Pastga">▼</button>
         </div>
+        <button class="resource-active-btn ${isActive?'on':''}" onclick="setActiveResource('${catKey}','${item.id}')" title="${isActive?'Hozir aktiv':'Aktiv qilib tanlash'}">${isActive?'★ Aktiv':'☆'}</button>
         <span class="resource-type-badge">${type.emoji} ${type.label}</span>
         <div class="resource-item-titles">
           <div class="resource-title">${escapeHtml(item.title)}</div>
@@ -5141,11 +5648,7 @@ function projectTaskHTML(project, task) {
     else if (dueKey === tKey) dueClass = 'today';
     dueText = `${due.getDate()} ${monthName(due.getMonth())}`;
   }
-
-  // Promote badges
-  const tToday = today();
-  const inA = (tToday.tasksA || []).some(x => x.linkedProjectTaskId === task.id);
-  const inB = (tToday.tasksB || []).some(x => x.linkedProjectTaskId === task.id);
+  const pri = task.priority || 'B';
 
   const subtasksHTML = subtasks.map(st => `
     <div class="project-subtask ${st.done?'done':''}">
@@ -5159,13 +5662,10 @@ function projectTaskHTML(project, task) {
     <div class="project-task-main">
       <div class="project-task-check" onclick="toggleProjectTask('${project.id}','${task.id}')">${task.done?'✓':''}</div>
       <input class="project-task-text" value="${escapeHtml(task.text)}" onchange="updateProjectTaskText('${project.id}','${task.id}',this.value)">
-      ${dueText ? `<span class="project-task-due ${dueClass}">${dueText}</span>` : ''}
-      ${inA ? '<span class="project-task-priority-badge a">A</span>' : ''}
-      ${inB ? '<span class="project-task-priority-badge b">B</span>' : ''}
+      <span class="project-task-priority-badge ${pri.toLowerCase()}" title="Prioritet">${pri}</span>
+      ${dueText ? `<span class="project-task-due ${dueClass}">${dueText}</span>` : '<span class="project-task-due nodate" onclick="openTaskEdit(\''+project.id+'\',\''+task.id+'\')">sanasiz</span>'}
       <div class="project-task-actions">
-        <button class="project-task-btn ${inA?'promoted':''}" onclick="promoteToToday('${project.id}','${task.id}','A')" title="Bugun → Asosiy (A)">A</button>
-        <button class="project-task-btn ${inB?'promoted-b':''}" onclick="promoteToToday('${project.id}','${task.id}','B')" title="Bugun → Qo'shimcha (B)">B</button>
-        <button class="project-task-btn" onclick="openTaskEdit('${project.id}','${task.id}')" title="Tahrirlash">✎</button>
+        <button class="project-task-btn" onclick="openTaskEdit('${project.id}','${task.id}')" title="Sana & prioritet">📅</button>
         <button class="project-task-btn" onclick="addProjectSubtask('${project.id}','${task.id}')" title="Subtask">+</button>
         <button class="project-task-btn" onclick="deleteProjectTask('${project.id}','${task.id}')" title="O'chirish">×</button>
       </div>
@@ -5267,27 +5767,21 @@ function toggleProjectTask(projectId, taskId) {
   if (!t) return;
   t.done = !t.done;
   saveData();
-  renderProjects();
-  // Also reflect in today's tasks if linked
-  syncTodayPromotedTasks();
+  refreshTaskViews();
 }
 
 function updateProjectTaskText(projectId, taskId, text) {
   const p = data.projects.find(x => x.id === projectId);
   const t = p?.tasks?.find(x => x.id === taskId);
-  if (t) { t.text = text; saveData(); syncTodayPromotedTasks(); }
+  if (t) { t.text = text; saveData(); }
 }
 
 function deleteProjectTask(projectId, taskId) {
   if (!confirm('Bu vazifani o\'chirasizmi?')) return;
   const p = data.projects.find(x => x.id === projectId);
   if (p) p.tasks = p.tasks.filter(x => x.id !== taskId);
-  // Also remove from today's A/B if promoted
-  const t = today();
-  t.tasksA = (t.tasksA || []).filter(x => x.linkedProjectTaskId !== taskId);
-  t.tasksB = (t.tasksB || []).filter(x => x.linkedProjectTaskId !== taskId);
   saveData();
-  renderProjects();
+  refreshTaskViews();
 }
 
 function openTaskEdit(projectId, taskId) {
@@ -5298,6 +5792,8 @@ function openTaskEdit(projectId, taskId) {
   document.getElementById('taskEditText').value = t.text || '';
   document.getElementById('taskEditDesc').value = t.desc || '';
   document.getElementById('taskEditDue').value = t.due || '';
+  const priSel = document.getElementById('taskEditPriority');
+  if (priSel) priSel.value = t.priority || 'B';
   document.getElementById('taskEditModal').classList.add('show');
 }
 
@@ -5315,10 +5811,12 @@ function saveTaskEdit() {
   t.text = document.getElementById('taskEditText').value.trim();
   t.desc = document.getElementById('taskEditDesc').value.trim();
   t.due = document.getElementById('taskEditDue').value || null;
+  const priSel = document.getElementById('taskEditPriority');
+  if (priSel) t.priority = priSel.value || 'B';
   saveData();
   closeTaskEditModal();
-  renderProjects();
-  syncTodayPromotedTasks();
+  refreshTaskViews();
+  toast(t.due ? `✓ ${t.due} · ${t.priority} prioritet` : '✓ Saqlandi (sanasiz)');
 }
 
 function addProjectSubtask(projectId, taskId) {
@@ -5326,18 +5824,20 @@ function addProjectSubtask(projectId, taskId) {
   const t = p?.tasks?.find(x => x.id === taskId);
   if (!t) return;
   if (!t.subtasks) t.subtasks = [];
-  const name = prompt('Subtask nomi:');
-  if (!name || !name.trim()) return;
-  t.subtasks.push({ id: uid(), text: name.trim(), done: false });
+  t.subtasks.push({ id: uid(), text: '', done: false });
   saveData();
   renderProjects();
+  setTimeout(() => {
+    const subs = document.querySelectorAll(`#ptask-${taskId} .project-subtask-text`);
+    if (subs.length) subs[subs.length-1].focus();
+  }, 50);
 }
 
 function toggleProjectSubtask(projectId, taskId, stId) {
   const p = data.projects.find(x => x.id === projectId);
   const t = p?.tasks?.find(x => x.id === taskId);
   const st = t?.subtasks?.find(x => x.id === stId);
-  if (st) { st.done = !st.done; saveData(); renderProjects(); }
+  if (st) { st.done = !st.done; saveData(); refreshTaskViews(); }
 }
 
 function updateProjectSubtask(projectId, taskId, stId, text) {
@@ -5355,63 +5855,8 @@ function deleteProjectSubtask(projectId, taskId, stId) {
   renderProjects();
 }
 
-// Promote a project task to today's A or B list
-function promoteToToday(projectId, taskId, priority) {
-  const p = data.projects.find(x => x.id === projectId);
-  const t = p?.tasks?.find(x => x.id === taskId);
-  if (!t) return;
-  const tDay = today();
-  // Remove from both lists first to avoid duplicates
-  tDay.tasksA = (tDay.tasksA || []).filter(x => x.linkedProjectTaskId !== taskId);
-  tDay.tasksB = (tDay.tasksB || []).filter(x => x.linkedProjectTaskId !== taskId);
-  const text = `${p.name}: ${t.text}`;
-  const taskEntry = {
-    id: uid(),
-    text,
-    done: t.done,
-    linkedProjectTaskId: taskId,
-    linkedProjectId: projectId
-  };
-  if (priority === 'A') tDay.tasksA.push(taskEntry);
-  else tDay.tasksB.push(taskEntry);
-  saveData();
-  renderProjects();
-  toast(`✓ ${priority} ga qo'shildi`);
-}
-
-// Keep promoted task texts/done state in sync with their project source
-function syncTodayPromotedTasks() {
-  const t = today();
-  ['tasksA', 'tasksB'].forEach(list => {
-    (t[list] || []).forEach(taskEntry => {
-      if (taskEntry.linkedProjectTaskId) {
-        const proj = data.projects.find(p => p.id === taskEntry.linkedProjectId);
-        const src = proj?.tasks?.find(x => x.id === taskEntry.linkedProjectTaskId);
-        if (src) {
-          taskEntry.text = `${proj.name}: ${src.text}`;
-          taskEntry.done = src.done;
-        }
-      }
-    });
-  });
-  saveData();
-}
-
-// Override toggleTask to also reflect back to project source if linked
-function toggleTask(type, idx) {
-  const task = today()[type][idx];
-  task.done = !task.done;
-  // Reflect back to project task if linked
-  if (task.linkedProjectTaskId) {
-    const proj = data.projects.find(p => p.id === task.linkedProjectId);
-    const src = proj?.tasks?.find(x => x.id === task.linkedProjectTaskId);
-    if (src) src.done = task.done;
-  }
-  saveData();
-  renderTaskList(type, type==='tasksA'?3:5);
-  renderQuickStats();
-}
-
+// Legacy no-ops (kept so any stray references don't error)
+function syncTodayPromotedTasks() {}
 
 function renderGoals() {
   const c = document.getElementById('goalsList');
@@ -5525,18 +5970,102 @@ function saveGoalUpdate() {
 }
 
 /* ============ REFLECTION ============ */
+const REFLECT_QUESTIONS = [
+  'O\'zi nimalar bo\'ldi bugun?',
+  'Bugun nima qilmoqchi edim va nimalarni qildim?',
+  'Bugun nima ishlar yaxshi bajarildi?',
+  'Bugun asosiy maqsadimga erishish uchun nima qildim?',
+  'Bugun nimalarni yaxshiroq qilishim mumkin edi?',
+  'Qayerda nima xatolar qildim?',
+  'Nimalar bo\'lyapti o\'zi hayotimda?',
+  'Kayfiyatim qanaqa bo\'ldi va nega o\'zi bunaqa bo\'ldi?',
+  'Bugungi kun menga nimalarni o\'rgatdi...'
+];
+
+let sleepSegments = []; // working copy for the form
+
+function sleepTotalHours(segments) {
+  let mins = 0;
+  segments.forEach(s => {
+    if (!s.from || !s.to) return;
+    const [fh, fm] = s.from.split(':').map(Number);
+    const [th, tm] = s.to.split(':').map(Number);
+    let diff = (th * 60 + tm) - (fh * 60 + fm);
+    if (diff < 0) diff += 24 * 60; // overnight
+    mins += diff;
+  });
+  return mins / 60;
+}
+
+function renderSleepList() {
+  const c = document.getElementById('sleepList');
+  if (!c) return;
+  c.innerHTML = sleepSegments.map((s, i) => `
+    <div class="sleep-seg">
+      <span class="sleep-seg-lbl">Yotdim</span>
+      <input type="time" value="${s.from||''}" onchange="updateSleepSeg(${i},'from',this.value)">
+      <span class="sleep-seg-lbl">Turdim</span>
+      <input type="time" value="${s.to||''}" onchange="updateSleepSeg(${i},'to',this.value)">
+      <button class="sleep-seg-del" onclick="removeSleepSeg(${i})">×</button>
+    </div>
+  `).join('');
+  const total = sleepTotalHours(sleepSegments);
+  const h = Math.floor(total);
+  const m = Math.round((total - h) * 60);
+  document.getElementById('sleepTotal').textContent = `Jami: ${h} soat${m? ' ' + m + ' daqiqa':''}`;
+}
+
+function addSleepSegment() {
+  sleepSegments.push({ from: '', to: '' });
+  renderSleepList();
+}
+function updateSleepSeg(i, key, val) {
+  if (sleepSegments[i]) { sleepSegments[i][key] = val; renderSleepList(); }
+}
+function removeSleepSeg(i) {
+  sleepSegments.splice(i, 1);
+  renderSleepList();
+}
+
 function renderReflection() {
   const t = today();
   const r = t.reflection || {};
   const now = new Date();
   document.getElementById('reflectionDate').textContent = `${dayName(now)}, ${now.getDate()} ${monthName(now.getMonth())}, ${now.getFullYear()}`;
+
+  // Day rating 1-10
+  const rr = document.getElementById('ratingRow');
+  rr.innerHTML = '';
+  for (let n = 1; n <= 10; n++) {
+    const b = document.createElement('button');
+    b.className = 'rating-btn' + (r.rating === n ? ' active' : '');
+    b.textContent = n;
+    b.onclick = () => {
+      today().reflection = Object.assign({}, today().reflection, { rating: n });
+      document.getElementById('ratingValue').textContent = n;
+      document.querySelectorAll('#ratingRow .rating-btn').forEach((x, idx) => x.classList.toggle('active', idx + 1 === n));
+    };
+    rr.appendChild(b);
+  }
+  document.getElementById('ratingValue').textContent = r.rating || '—';
+
   document.querySelectorAll('.mood').forEach(m => m.classList.toggle('selected', m.dataset.mood === r.mood));
   document.getElementById('energySlider').value = r.energy || 3;
   document.getElementById('energyValue').textContent = r.energy || 3;
-  document.getElementById('reflectGood').value = r.good || '';
-  document.getElementById('reflectBad').value = r.bad || '';
-  document.getElementById('reflectTomorrow').value = r.tomorrow || '';
   document.querySelectorAll('#gratitudes input').forEach((inp, i) => inp.value = (r.gratitudes && r.gratitudes[i]) || '');
+
+  // Sleep
+  sleepSegments = (r.sleep && r.sleep.length) ? r.sleep.map(s => ({ ...s })) : [{ from: '', to: '' }];
+  renderSleepList();
+
+  // Questions
+  const qc = document.getElementById('reflectQuestions');
+  qc.innerHTML = REFLECT_QUESTIONS.map((q, i) => `
+    <div class="reflect-q">
+      <div class="reflect-q-label">${i+1}. ${q}</div>
+      <textarea class="reflect-textarea" id="reflectQ${i}" placeholder="Yozish uchun...">${escapeHtml((r.answers && r.answers['q'+i]) || '')}</textarea>
+    </div>
+  `).join('');
 }
 
 function initReflection() {
@@ -5548,19 +6077,24 @@ function initReflection() {
   });
   document.getElementById('energySlider').addEventListener('input', e => document.getElementById('energyValue').textContent = e.target.value);
   document.getElementById('reflectSave').addEventListener('click', () => {
+    const answers = {};
+    REFLECT_QUESTIONS.forEach((q, i) => { answers['q'+i] = document.getElementById('reflectQ'+i)?.value || ''; });
+    const cleanSleep = sleepSegments.filter(s => s.from && s.to);
     today().reflection = {
+      rating: today().reflection?.rating || null,
       mood: document.querySelector('.mood.selected')?.dataset.mood || null,
       energy: parseInt(document.getElementById('energySlider').value),
       gratitudes: Array.from(document.querySelectorAll('#gratitudes input')).map(i => i.value.trim()),
-      good: document.getElementById('reflectGood').value,
-      bad: document.getElementById('reflectBad').value,
-      tomorrow: document.getElementById('reflectTomorrow').value,
+      sleep: cleanSleep,
+      sleepHours: sleepTotalHours(cleanSleep),
+      answers,
       savedAt: new Date().toISOString()
     };
     saveData();
     const c = document.getElementById('reflectConfirm');
     c.classList.add('show');
     setTimeout(() => c.classList.remove('show'), 2000);
+    if (document.getElementById('view-today')?.classList.contains('active')) renderAsos();
   });
 }
 
@@ -6336,127 +6870,36 @@ let planDate = dateKey(new Date(Date.now() + 86400000));
 function renderPlan() {
   const d = new Date(planDate);
   const isTomorrow = planDate === dateKey(new Date(Date.now() + 86400000));
+  const isToday = planDate === todayKey();
   document.getElementById('planDay').textContent = `${dayName(d)}, ${d.getDate()} ${monthName(d.getMonth())}`;
   const daysAhead = Math.round((new Date(planDate) - new Date(todayKey())) / 86400000);
-  document.getElementById('planSub').textContent = isTomorrow ? 'Ertaga' : (daysAhead > 0 ? `${daysAhead} kundan keyin` : 'Bugun');
+  document.getElementById('planSub').textContent = isToday ? 'Bugun' : (isTomorrow ? 'Ertaga' : (daysAhead > 0 ? `${daysAhead} kundan keyin` : `${-daysAhead} kun oldin`));
 
-  renderPlanTaskList('A');
-  renderPlanTaskList('B');
-  renderPlanProjectTasks();
+  renderTaskGroups('planTasks', planDate, 'Bu kunda vazifa yo\'q. "+ Vazifa" bilan qo\'shing yoki inboxdan sana bering.');
+  const pc = document.getElementById('planTasksCount');
+  if (pc) { const a = tasksForDate(planDate); pc.textContent = a.filter(t=>t.done).length + '/' + a.length; }
+  renderInbox();
 }
 
-function renderPlanTaskList(priority) {
-  const type = priority === 'A' ? 'tasksA' : 'tasksB';
-  const maxFill = priority === 'A' ? 3 : 5;
-  const day = getDay(planDate);
-  const list = day[type] || [];
-  const c = document.getElementById(priority === 'A' ? 'planTasksA' : 'planTasksB');
-  c.innerHTML = '';
-  list.forEach((task, idx) => {
-    const el = document.createElement('div');
-    el.className = 'task' + (task.done ? ' done' : '');
-    el.innerHTML = `
-      <div class="task-check" onclick="togglePlanTask('${type}',${idx})">${task.done?'✓':''}</div>
-      <input class="task-text" value="${escapeHtml(task.text)}" data-type="${type}" data-idx="${idx}" placeholder="Vazifa...">
-      <button class="task-delete" onclick="deletePlanTask('${type}',${idx})">×</button>`;
-    c.appendChild(el);
-  });
-  for (let i = list.length; i < maxFill; i++) {
-    const el = document.createElement('button');
-    el.className = 'task-add';
-    el.innerHTML = `+ ${priority==='A'?'Asosiy':'Qo\'shimcha'} vazifa qo'shish`;
-    el.onclick = () => addPlanTask(type);
-    c.appendChild(el);
-  }
-  c.querySelectorAll('.task-text').forEach(input => {
-    input.addEventListener('change', e => {
-      const tp = e.target.dataset.type;
-      const idx = parseInt(e.target.dataset.idx);
-      getDay(planDate)[tp][idx].text = e.target.value;
-      saveData();
-    });
-  });
-}
-
-function addPlanTask(type) {
-  getDay(planDate)[type].push({ text: '', done: false, id: uid() });
-  saveData();
-  renderPlanTaskList(type === 'tasksA' ? 'A' : 'B');
-  setTimeout(() => {
-    const c = document.getElementById(type === 'tasksA' ? 'planTasksA' : 'planTasksB');
-    const inputs = c.querySelectorAll('.task-text');
-    if (inputs.length) inputs[inputs.length-1].focus();
-  }, 50);
-}
-
-function togglePlanTask(type, idx) {
-  const day = getDay(planDate);
-  day[type][idx].done = !day[type][idx].done;
-  saveData();
-  renderPlanTaskList(type === 'tasksA' ? 'A' : 'B');
-}
-
-function deletePlanTask(type, idx) {
-  getDay(planDate)[type].splice(idx, 1);
-  saveData();
-  renderPlanTaskList(type === 'tasksA' ? 'A' : 'B');
-}
-
-function renderPlanProjectTasks() {
-  const c = document.getElementById('planProjectTasks');
-  const openTasks = [];
-  (data.projects || []).forEach(p => {
-    (p.tasks || []).filter(t => !t.done).forEach(t => {
-      openTasks.push({ project: p, task: t });
-    });
-  });
-  if (!openTasks.length) {
-    c.innerHTML = '<div class="empty-state" style="padding:20px;">Loyihalarda ochiq vazifa yo\'q</div>';
+function renderInbox() {
+  const c = document.getElementById('inboxTasks');
+  if (!c) return;
+  const tasks = unassignedTasks();
+  const ic = document.getElementById('inboxCount');
+  if (ic) ic.textContent = tasks.length;
+  if (!tasks.length) {
+    c.innerHTML = '<div class="empty-state" style="padding:14px;">Inbox bo\'sh. Sanasiz vazifa qo\'shsangiz shu yerda turadi.</div>';
     return;
   }
-  c.innerHTML = openTasks.map(({project, task}) => `
-    <div class="project-task">
-      <div class="project-task-main">
-        <span class="project-task-priority-badge" style="background:var(--${project.color||'blue'}-bg);color:var(--${project.color||'blue'}-text);">${escapeHtml(project.name)}</span>
-        <span class="project-task-text" style="cursor:default;">${escapeHtml(task.text)}</span>
-        <div class="project-task-actions" style="opacity:1;">
-          <button class="project-task-btn" onclick="planAddProjectTask('${project.id}','${task.id}','A')" title="A ga qo'shish">A</button>
-          <button class="project-task-btn" onclick="planAddProjectTask('${project.id}','${task.id}','B')" title="B ga qo'shish">B</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function planAddProjectTask(projectId, taskId, priority) {
-  const p = data.projects.find(x => x.id === projectId);
-  const t = p?.tasks?.find(x => x.id === taskId);
-  if (!t) return;
-  const day = getDay(planDate);
-  const type = priority === 'A' ? 'tasksA' : 'tasksB';
-  // Avoid duplicate
-  if ((day[type] || []).some(x => x.linkedProjectTaskId === taskId)) {
-    toast('Allaqachon qo\'shilgan');
-    return;
-  }
-  day[type].push({
-    id: uid(),
-    text: `${p.name}: ${t.text}`,
-    done: false,
-    linkedProjectTaskId: taskId,
-    linkedProjectId: projectId
-  });
-  saveData();
-  renderPlanTaskList(priority);
-  toast(`✓ ${priority} ga qo'shildi`);
+  const ord = { A: 0, B: 1, C: 2 };
+  const sorted = tasks.slice().sort((a,b) => (ord[a.priority]??9)-(ord[b.priority]??9));
+  c.innerHTML = sorted.map(t => unifiedTaskRowHTML(Object.assign({}, t, { source: 'pool' }))).join('');
 }
 
 function initPlan() {
   document.getElementById('planPrev').addEventListener('click', () => {
     const d = new Date(planDate);
     d.setDate(d.getDate() - 1);
-    // Don't allow planning the past
-    if (dateKey(d) < todayKey()) { toast('O\'tgan kunni rejalashtirib bo\'lmaydi'); return; }
     planDate = dateKey(d);
     renderPlan();
   });
