@@ -557,6 +557,14 @@ main {
 }
 .rating-btn:hover { border-color: var(--terra); }
 .rating-btn.active { background: var(--terra); color: white; border-color: var(--terra); }
+.energy-row { display: flex; gap: 8px; }
+.energy-btn {
+  flex: 1; max-width: 56px; height: 40px; border-radius: 10px; border: 1.5px solid var(--line, rgba(0,0,0,0.1));
+  background: var(--bg-elev); color: var(--ink); font-weight: 600; font-family: 'JetBrains Mono', monospace;
+  font-size: 15px; cursor: pointer; transition: all 0.15s ease;
+}
+.energy-btn:hover { border-color: var(--terra); }
+.energy-btn.active { background: var(--terra); color: white; border-color: var(--terra); }
 .reflect-subcard { background: var(--bg-soft); border-radius: var(--radius-lg); padding: 16px 18px; margin: 16px 0; }
 .reflect-subcard-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-mute); font-weight: 700; margin-bottom: 12px; }
 .sleep-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
@@ -2635,12 +2643,19 @@ main {
 /* ============ ASOS SECTION ============ */
 .today-habits-card { margin-top: 14px; border-left: 3px solid var(--purple); }
 /* Resource dashboard */
+.resources-cats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+@media (max-width: 760px) { .resources-cats-grid { grid-template-columns: 1fr; } }
 .res-dashboard {
   background: var(--bg-elev);
   border-radius: var(--radius-lg);
   padding: 18px 20px;
   box-shadow: var(--shadow-sm);
-  margin-bottom: 16px;
+  margin-top: 18px;
+  border-top: 3px solid var(--green);
 }
 .res-dashboard-title { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500; margin-bottom: 14px; }
 .res-dash-hint { font-size: 11px; color: var(--ink-mute); font-family: 'Inter',sans-serif; font-weight: 400; }
@@ -3288,7 +3303,7 @@ main {
         </div>
       </div>
 
-      <div class="resources-grid" id="resourcesGrid"></div>
+      <div id="resourcesGrid"></div>
     </section>
 
     <!-- GOALS -->
@@ -3338,8 +3353,8 @@ main {
             </div>
           </div>
           <div class="reflect-section">
-            <div class="reflect-label">Energiya: <span id="energyValue" style="color:var(--terra); font-family:'JetBrains Mono', monospace;">3</span> / 5</div>
-            <input type="range" min="1" max="5" value="3" class="energy-slider" id="energySlider">
+            <div class="reflect-label">Energiya: <span id="energyValue" style="color:var(--terra); font-family:'JetBrains Mono', monospace;">—</span> / 5</div>
+            <div class="energy-row" id="energyRow"></div>
           </div>
           <div class="reflect-section">
             <div class="reflect-label">Shukr (3 narsa)</div>
@@ -3413,12 +3428,6 @@ main {
         <div class="card-title">⏱️ Deep Work · Bugun / Hafta / Oy</div>
         <div class="dw-stats-grid" id="dwStatsGrid"></div>
         <div class="dw-month-bars" id="dwMonthBars" style="margin-top:14px;"></div>
-      </div>
-
-      <div class="card" style="margin-top:14px;">
-        <div class="card-title">📚 Manbalar holati · Davomiylik</div>
-        <p class="section-desc" style="margin-top:0;margin-bottom:12px;">Har yo'nalishdagi manbalarni qancha vaqtdan beri o'qiyapsiz, oxirgi marta qachon bajarilgan</p>
-        <div id="resourceAnalytics"></div>
       </div>
 
       <div class="grid grid-2">
@@ -3706,7 +3715,7 @@ main {
     <div class="modal-title">Vazifa</div>
     <div class="modal-field"><label>Vazifa matni</label><input type="text" id="taskEditText" placeholder="Reklama kreativlarini tayyorlash"></div>
     <div class="modal-field"><label>Tavsif (ixtiyoriy)</label><textarea id="taskEditDesc" rows="2" placeholder="Qo'shimcha izoh..."></textarea></div>
-    <div class="modal-field"><label>Muddat (ixtiyoriy)</label><input type="date" id="taskEditDue"></div>
+    <div class="modal-field"><label>Sana (bo'sh = sanasiz / inbox)</label><input type="date" id="taskEditDue"></div>
     <div class="modal-field"><label>Prioritet</label><select id="taskEditPriority"><option value="A">Yuqori (A)</option><option value="B" selected>O'rta (B)</option><option value="C">Past (C)</option></select></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeTaskEditModal()">Bekor</button>
@@ -4222,12 +4231,12 @@ function unifiedTaskRowHTML(task) {
   return `<div class="utask ${task.done?'done':''}" data-id="${task.id}">
     <div class="utask-main">
       <div class="utask-check" onclick="toggleUnifiedTask('${task.id}')">${task.done?'✓':''}</div>
-      <span class="utask-pri pri-${task.priority||'B'}" onclick="cycleUnifiedPriority('${task.id}')" title="Prioritetni o'zgartirish">${task.priority||'B'}</span>
+      <span class="utask-pri pri-${task.priority||'B'}" title="Prioritet (📅 orqali o'zgartiriladi)">${task.priority||'B'}</span>
       <input class="utask-text" value="${escapeHtml(task.text)}" onchange="editUnifiedTaskText('${task.id}',this.value)" placeholder="Vazifa matni..." ${isProject?'title="Loyiha vazifasi"':''}>
       ${projTag}
       <div class="utask-actions">
+        <button class="utask-act" onclick="openUnifiedEdit('${task.id}')" title="Sana & prioritet">📅</button>
         <button class="utask-act" onclick="addUnifiedSubtask('${task.id}')" title="Kichik vazifa qo'shish">+</button>
-        <button class="utask-act" onclick="openUnifiedDate('${task.id}')" title="Sanani o'zgartirish">📅</button>
         ${isProject ? '' : `<button class="utask-act del" onclick="deleteUnifiedTask('${task.id}')" title="O'chirish">×</button>`}
       </div>
     </div>
@@ -4292,34 +4301,28 @@ function editUnifiedTaskText(id, text) {
   saveData();
 }
 
-function cycleUnifiedPriority(id) {
-  const found = findUnifiedTask(id);
-  if (!found) return;
-  const cur = found.task.priority || 'B';
-  const next = PRIORITIES[(PRIORITIES.indexOf(cur) + 1) % PRIORITIES.length];
-  found.task.priority = next;
-  saveData();
-  refreshTaskViews();
-}
-
 function deleteUnifiedTask(id) {
   const idx = (data.tasks || []).findIndex(t => t.id === id);
   if (idx >= 0) { data.tasks.splice(idx, 1); saveData(); refreshTaskViews(); }
 }
 
-function openUnifiedDate(id) {
+// Open the SAME edit modal used by project tasks (text, date, priority)
+function openUnifiedEdit(id) {
   const found = findUnifiedTask(id);
   if (!found) return;
-  const cur = found.isProject ? (found.task.due || '') : (found.task.date || '');
-  const val = prompt('Sana (YYYY-MM-DD), bo\'sh qoldirilsa — sanasiz (inbox):', cur);
-  if (val === null) return;
-  const clean = val.trim();
-  if (clean && !/^\d{4}-\d{2}-\d{2}$/.test(clean)) { toast('Format: YYYY-MM-DD'); return; }
-  if (found.isProject) found.task.due = clean || null;
-  else found.task.date = clean || null;
-  saveData();
-  refreshTaskViews();
-  toast(clean ? `✓ ${clean} ga ko'chirildi` : '✓ Sanasiz (inbox) ga o\'tkazildi');
+  const t = found.task;
+  if (found.isProject) {
+    editingTaskRef = { projectId: found.project.id, taskId: t.id };
+    document.getElementById('taskEditDue').value = t.due || '';
+  } else {
+    editingTaskRef = { poolId: t.id };
+    document.getElementById('taskEditDue').value = t.date || '';
+  }
+  document.getElementById('taskEditText').value = t.text || '';
+  document.getElementById('taskEditDesc').value = t.desc || '';
+  const priSel = document.getElementById('taskEditPriority');
+  if (priSel) priSel.value = t.priority || 'B';
+  document.getElementById('taskEditModal').classList.add('show');
 }
 
 /* Subtasks (unified) */
@@ -5342,7 +5345,8 @@ let selectedResType = 'book';
 
 function renderResources() {
   const c = document.getElementById('resourcesGrid');
-  c.innerHTML = resourceDashboardHTML() + Object.keys(RESOURCE_CATS).map(key => resourceCatHTML(key)).join('');
+  const cats = `<div class="resources-cats-grid">${Object.keys(RESOURCE_CATS).map(key => resourceCatHTML(key)).join('')}</div>`;
+  c.innerHTML = cats + resourceDashboardHTML();
 }
 
 function resourceDashboardHTML() {
@@ -5369,7 +5373,7 @@ function resourceDashboardHTML() {
     </div>`;
   }).join('');
   return `<div class="res-dashboard">
-    <div class="res-dashboard-title">📊 Davomiylik · Aktiv manbalar <span class="res-dash-hint">(yakshanba hisobga olinmaydi)</span></div>
+    <div class="res-dashboard-title">📊 Umumiy davomiylik <span class="res-dash-hint">aktiv manbalar · yakshanba hisobga olinmaydi</span></div>
     <div class="res-dash-grid">${cards}</div>
   </div>`;
 }
@@ -5804,19 +5808,26 @@ function closeTaskEditModal() {
 
 function saveTaskEdit() {
   if (!editingTaskRef) return;
-  const { projectId, taskId } = editingTaskRef;
-  const p = data.projects.find(x => x.id === projectId);
-  const t = p?.tasks?.find(x => x.id === taskId);
+  let t, isPool = false;
+  if (editingTaskRef.poolId) {
+    t = (data.tasks || []).find(x => x.id === editingTaskRef.poolId);
+    isPool = true;
+  } else {
+    const p = data.projects.find(x => x.id === editingTaskRef.projectId);
+    t = p?.tasks?.find(x => x.id === editingTaskRef.taskId);
+  }
   if (!t) return;
   t.text = document.getElementById('taskEditText').value.trim();
   t.desc = document.getElementById('taskEditDesc').value.trim();
-  t.due = document.getElementById('taskEditDue').value || null;
+  const dueVal = document.getElementById('taskEditDue').value || null;
+  if (isPool) t.date = dueVal; else t.due = dueVal;
   const priSel = document.getElementById('taskEditPriority');
   if (priSel) t.priority = priSel.value || 'B';
   saveData();
   closeTaskEditModal();
   refreshTaskViews();
-  toast(t.due ? `✓ ${t.due} · ${t.priority} prioritet` : '✓ Saqlandi (sanasiz)');
+  const shownDate = isPool ? t.date : t.due;
+  toast(shownDate ? `✓ ${shownDate} · ${t.priority} prioritet` : '✓ Saqlandi (sanasiz)');
 }
 
 function addProjectSubtask(projectId, taskId) {
@@ -6050,8 +6061,23 @@ function renderReflection() {
   document.getElementById('ratingValue').textContent = r.rating || '—';
 
   document.querySelectorAll('.mood').forEach(m => m.classList.toggle('selected', m.dataset.mood === r.mood));
-  document.getElementById('energySlider').value = r.energy || 3;
-  document.getElementById('energyValue').textContent = r.energy || 3;
+
+  // Energy 1-5 buttons
+  const er = document.getElementById('energyRow');
+  er.innerHTML = '';
+  for (let n = 1; n <= 5; n++) {
+    const b = document.createElement('button');
+    b.className = 'energy-btn' + (r.energy === n ? ' active' : '');
+    b.textContent = n;
+    b.onclick = () => {
+      today().reflection = Object.assign({}, today().reflection, { energy: n });
+      document.getElementById('energyValue').textContent = n;
+      document.querySelectorAll('#energyRow .energy-btn').forEach((x, idx) => x.classList.toggle('active', idx + 1 === n));
+    };
+    er.appendChild(b);
+  }
+  document.getElementById('energyValue').textContent = r.energy || '—';
+
   document.querySelectorAll('#gratitudes input').forEach((inp, i) => inp.value = (r.gratitudes && r.gratitudes[i]) || '');
 
   // Sleep
@@ -6075,7 +6101,6 @@ function initReflection() {
       m.classList.add('selected');
     });
   });
-  document.getElementById('energySlider').addEventListener('input', e => document.getElementById('energyValue').textContent = e.target.value);
   document.getElementById('reflectSave').addEventListener('click', () => {
     const answers = {};
     REFLECT_QUESTIONS.forEach((q, i) => { answers['q'+i] = document.getElementById('reflectQ'+i)?.value || ''; });
@@ -6083,7 +6108,7 @@ function initReflection() {
     today().reflection = {
       rating: today().reflection?.rating || null,
       mood: document.querySelector('.mood.selected')?.dataset.mood || null,
-      energy: parseInt(document.getElementById('energySlider').value),
+      energy: today().reflection?.energy || null,
       gratitudes: Array.from(document.querySelectorAll('#gratitudes input')).map(i => i.value.trim()),
       sleep: cleanSleep,
       sleepHours: sleepTotalHours(cleanSleep),
@@ -6130,9 +6155,8 @@ function renderStats() {
     if (data.days[key]) {
       Object.values(data.days[key].prayers || {}).forEach(v => { if (v) prayerCount++; });
       (data.days[key].deepwork || []).filter(s => s.completed).forEach(s => deepMin += s.duration);
-      (data.days[key].tasksA || []).forEach(t => { if (t.done) tasksDone++; });
-      (data.days[key].tasksB || []).forEach(t => { if (t.done) tasksDone++; });
     }
+    tasksForDate(key).forEach(t => { if (t.done) tasksDone++; });
   });
   document.getElementById('weekPrayers').textContent = prayerCount + '/35';
   document.getElementById('weekPrayersPct').textContent = Math.round(prayerCount/35*100) + '%';
@@ -6140,7 +6164,7 @@ function renderStats() {
   document.getElementById('weekTasks').textContent = tasksDone;
 
   let best = 0, bestName = '—';
-  data.habits.forEach(h => {
+  data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id)).forEach(h => {
     const s = calcHabitStreak(h);
     if (s > best) { best = s; bestName = h.name; }
   });
@@ -6149,13 +6173,15 @@ function renderStats() {
 
   const tKey = todayKey();
   document.getElementById('weekChartBars').innerHTML = last7.map(({ date, key }) => {
-    const d = data.days[key] || { prayers: {}, deepwork: [], tasksA: [], tasksB: [], habits: {} };
-    const prayerPct = Object.values(d.prayers).filter(Boolean).length / 5 * 25;
+    const d = data.days[key] || { prayers: {}, deepwork: [], habits: {} };
+    const prayerPct = Object.values(d.prayers||{}).filter(Boolean).length / 5 * 25;
     const deepPct = Math.min(35, (d.deepwork || []).filter(s=>s.completed).reduce((s,x)=>s+x.duration,0) / 60 / 5 * 35);
-    const taskPct = ((d.tasksA || []).filter(t=>t.done).length + (d.tasksB || []).filter(t=>t.done).length) / 8 * 20;
+    const dayTasks = tasksForDate(key);
+    const taskPct = dayTasks.length ? (dayTasks.filter(t=>t.done).length / dayTasks.length) * 20 : 0;
+    const pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
     let habitPct = 0;
-    if (data.habits.length) {
-      data.habits.forEach(h => { if (getHabitStatus(h, key) === 'done') habitPct += 20 / data.habits.length; });
+    if (pureHabits.length) {
+      pureHabits.forEach(h => { if (getHabitStatus(h, key) === 'done') habitPct += 20 / pureHabits.length; });
     }
     const total = Math.min(100, Math.round(prayerPct + deepPct + taskPct + habitPct));
     return `<div class="wc-day">
@@ -6197,7 +6223,6 @@ function renderStats() {
   }
 
   renderDeepWorkAnalytics();
-  renderResourceAnalytics();
 }
 
 /* === Deep Work analytics (today / week / month) === */
@@ -6781,64 +6806,106 @@ function renderHistory() {
 
   const dayData = data.days[historyDate];
   const c = document.getElementById('histContent');
-  if (!dayData) {
+
+  // Tasks for that date (unified pool + project), independent of day record
+  const dayTasks = tasksForDate(historyDate);
+  const hasAnything = dayData || dayTasks.length;
+  if (!hasAnything) {
     c.innerHTML = '<div class="history-empty-day"><span class="empty-state-icon">📅</span>Bu kunda ma\'lumot yo\'q</div>';
+    document.getElementById('histNext').disabled = historyDate >= todayKey();
     return;
   }
+  const dd = dayData || {};
 
-  // Calculate
   const prayers = ['bomdod','peshin','asr','shom','xufton'];
   const namesP = { bomdod:'🌅 Bomdod', peshin:'☀️ Peshin', asr:'🌤️ Asr', shom:'🌆 Shom', xufton:'🌙 Xufton' };
-  const dwMin = (dayData.deepwork || []).filter(s=>s.completed).reduce((s,x)=>s+x.duration,0);
+  const dwMin = (dd.deepwork || []).filter(s=>s.completed).reduce((s,x)=>s+x.duration,0);
   const dwSessions = deepWorkSessions(dwMin);
-  const aDone = (dayData.tasksA || []).filter(t=>t.done).length;
-  const aTotal = (dayData.tasksA || []).length;
-  const bDone = (dayData.tasksB || []).filter(t=>t.done).length;
-  const bTotal = (dayData.tasksB || []).length;
-  const habitStatuses = data.habits.map(h => ({ name: h.emoji + ' ' + h.name, status: getHabitStatus(h, historyDate) }));
-  const r = dayData.reflection || {};
+
+  // Tasks by priority (real counts, no defaults)
+  const taskDone = dayTasks.filter(t=>t.done).length;
+  let tasksByPri = '';
+  PRIORITIES.forEach(pri => {
+    const grp = dayTasks.filter(t => (t.priority||'B') === pri);
+    if (!grp.length) return;
+    tasksByPri += `<div class="history-row"><span><span class="priority-badge ${pri.toLowerCase()}">${pri}</span> ${PRIORITY_LABEL[pri]}</span><span class="history-row-value">${grp.filter(t=>t.done).length}/${grp.length}</span></div>`;
+    grp.forEach(t => {
+      tasksByPri += `<div class="history-row"><span style="font-size:11px; color:var(--ink-mute);">${t.done?'✓':'○'} ${escapeHtml(t.text || '—')}${t.source==='project'?` <em style="opacity:0.6;">(${escapeHtml(t.projectName)})</em>`:''}</span></div>`;
+    });
+  });
+  if (!dayTasks.length) tasksByPri = '<div class="history-row"><span style="color:var(--ink-faint);">Vazifa belgilanmagan</span></div>';
+
+  // Pure habits (exclude resource-linked)
+  const pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
+  const habitStatuses = pureHabits.map(h => ({ name: (h.emoji||'🎯') + ' ' + h.name, status: getHabitStatus(h, historyDate) }));
+  const habitDoneCount = habitStatuses.filter(h => h.status === 'done').length;
+
+  // Resources (the 4 categories) done/not for that day
+  const resRows = ASOS_MAP.map(m => {
+    const habit = data.habits.find(h => h.id === m.habitId);
+    const done = habit ? getHabitStatus(habit, historyDate) === 'done' : false;
+    return `<div class="history-row"><span style="font-size:12px;">${m.cat}</span><span class="history-row-value" style="color:${done?'var(--green)':'var(--ink-faint)'};">${done?'✓':'○'}</span></div>`;
+  }).join('');
+
+  const r = dd.reflection || {};
+  const moodLabels = { great:'🔥 Ajoyib', good:'😊 Yaxshi', ok:'😐 O\'rtacha', bad:'😔 Yomon', tired:'😴 Charchagan' };
+  let answersHTML = '';
+  if (r.answers) {
+    answersHTML = REFLECT_QUESTIONS.map((q, i) => {
+      const a = r.answers['q'+i];
+      return a ? `<div style="margin-top:8px; font-size:12px;"><b>${i+1}. ${escapeHtml(q)}</b><br>${escapeHtml(a)}</div>` : '';
+    }).join('');
+  }
+  let sleepHTML = '';
+  if (r.sleepHours) {
+    const h = Math.floor(r.sleepHours), m = Math.round((r.sleepHours - h)*60);
+    sleepHTML = `<div class="history-row"><span>😴 Uyqu</span><span class="history-row-value">${h} soat${m?' '+m+' daq':''}</span></div>`;
+  }
 
   c.innerHTML = `
     <div class="history-content">
       <div class="history-card">
-        <h4>🕌 Namozlar (${prayers.filter(p => dayData.prayers?.[p]).length}/5)</h4>
-        ${prayers.map(p => `<div class="history-row"><span>${namesP[p]}</span><span class="history-row-value">${dayData.prayers?.[p] ? '✓ bajarildi' : '— o\'tdi'}</span></div>`).join('')}
+        <h4>🕌 Namozlar (${prayers.filter(p => dd.prayers?.[p]).length}/5)</h4>
+        ${prayers.map(p => `<div class="history-row"><span>${namesP[p]}</span><span class="history-row-value">${dd.prayers?.[p] ? '✓ bajarildi' : '— o\'tdi'}</span></div>`).join('')}
       </div>
 
       <div class="history-card">
         <h4>⏱️ Deep Work</h4>
-        <div class="history-row"><span>Sessiyalar (50 min = 1)</span><span class="history-row-value">${dwSessions}</span></div>
+        <div class="history-row"><span>Sessiyalar</span><span class="history-row-value">${dwSessions}</span></div>
         <div class="history-row"><span>Jami daqiqa</span><span class="history-row-value">${dwMin} min</span></div>
-        <div class="history-row"><span>Sikllar soni</span><span class="history-row-value">${(dayData.deepwork || []).filter(s=>s.completed).length}</span></div>
-        ${(dayData.deepwork || []).filter(s=>s.completed).slice(0,3).map(s => `<div class="history-row"><span style="font-size:11px; color:var(--ink-mute);">${escapeHtml(s.task)}</span><span class="history-row-value" style="color:var(--green); font-size:11px;">${s.duration}m</span></div>`).join('')}
+        <div class="history-row"><span>Sikllar soni</span><span class="history-row-value">${(dd.deepwork || []).filter(s=>s.completed).length}</span></div>
+        ${(dd.deepwork || []).filter(s=>s.completed).slice(0,5).map(s => `<div class="history-row"><span style="font-size:11px; color:var(--ink-mute);">${escapeHtml(s.task||'Sessiya')}</span><span class="history-row-value" style="color:var(--green); font-size:11px;">${s.duration}m</span></div>`).join('')}
       </div>
 
       <div class="history-card">
-        <h4>✅ Vazifalar</h4>
-        <div class="history-row"><span>A vazifalar</span><span class="history-row-value">${aDone}/${Math.max(3,aTotal)}</span></div>
-        <div class="history-row"><span>B vazifalar</span><span class="history-row-value">${bDone}/${Math.max(5,bTotal)}</span></div>
-        ${(dayData.tasksA || []).filter(t=>t.done).slice(0,5).map(t => `<div class="history-row"><span style="font-size:11px; color:var(--ink-mute);">✓ ${escapeHtml(t.text || '—')}</span></div>`).join('')}
+        <h4>✅ Vazifalar (${taskDone}/${dayTasks.length})</h4>
+        ${tasksByPri}
       </div>
 
       <div class="history-card">
-        <h4>🔁 Odatlar</h4>
-        ${habitStatuses.map(h => `<div class="history-row"><span style="font-size:12px;">${escapeHtml(h.name)}</span><span class="history-row-value" style="color: ${h.status==='done'?'var(--green)':h.status==='partial'?'var(--amber)':'var(--ink-faint)'};">${h.status==='done'?'✓':h.status==='partial'?'~':'○'}</span></div>`).join('')}
+        <h4>🔁 Odatlar (${habitDoneCount}/${pureHabits.length})</h4>
+        ${habitStatuses.length ? habitStatuses.map(h => `<div class="history-row"><span style="font-size:12px;">${escapeHtml(h.name)}</span><span class="history-row-value" style="color: ${h.status==='done'?'var(--green)':'var(--ink-faint)'};">${h.status==='done'?'✓':'○'}</span></div>`).join('') : '<div class="history-row"><span style="color:var(--ink-faint);">Odat yo\'q</span></div>'}
+      </div>
+
+      <div class="history-card">
+        <h4>📚 Manbalar</h4>
+        ${resRows}
       </div>
 
       ${r.savedAt ? `
       <div class="history-card" style="grid-column: 1 / -1;">
         <h4>📝 Kunlik xulosa</h4>
-        ${r.mood ? `<div class="history-row"><span>Kayfiyat</span><span class="history-row-value">${r.mood}</span></div>` : ''}
+        ${r.rating ? `<div class="history-row"><span>Kun bahosi</span><span class="history-row-value">${r.rating}/10</span></div>` : ''}
+        ${r.mood ? `<div class="history-row"><span>Kayfiyat</span><span class="history-row-value">${moodLabels[r.mood]||r.mood}</span></div>` : ''}
         ${r.energy ? `<div class="history-row"><span>Energiya</span><span class="history-row-value">${r.energy}/5</span></div>` : ''}
-        ${r.good ? `<div style="margin-top:10px; font-size:12px;"><b>Yaxshi ketdi:</b> ${escapeHtml(r.good)}</div>` : ''}
-        ${r.bad ? `<div style="margin-top:8px; font-size:12px;"><b>Yomon ketdi:</b> ${escapeHtml(r.bad)}</div>` : ''}
+        ${sleepHTML}
         ${(r.gratitudes || []).filter(g=>g).length ? `<div style="margin-top:8px; font-size:12px;"><b>Shukrlar:</b> ${(r.gratitudes||[]).filter(g=>g).map(escapeHtml).join(' · ')}</div>` : ''}
+        ${answersHTML}
       </div>
       ` : ''}
     </div>
   `;
 
-  // Disable next button if today
   document.getElementById('histNext').disabled = historyDate >= todayKey();
 }
 
