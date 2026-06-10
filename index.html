@@ -533,6 +533,57 @@ main {
 .utask-sub:hover .utask-sub-del { opacity: 0.6; }
 .utask-sub-count { font-size: 10px; color: var(--ink-mute); font-family: 'JetBrains Mono', monospace; margin-top: 4px; }
 .inbox-card { border-left: 3px solid var(--amber); }
+/* === Quick Add (Todoist-style) === */
+.quick-add { display: flex; align-items: center; gap: 8px; background: var(--bg-elev); border: 1.5px solid var(--line, rgba(0,0,0,0.1)); border-radius: var(--radius); padding: 6px 8px 6px 12px; box-shadow: var(--shadow-sm); }
+.quick-add:focus-within { border-color: var(--green); }
+.quick-add-icon { color: var(--green); font-size: 18px; font-weight: 700; }
+.quick-add-input { flex: 1; border: none; background: transparent; outline: none; font-size: 14px; color: var(--ink); font-family: 'Inter', sans-serif; min-width: 0; }
+.quick-add .btn { flex-shrink: 0; padding: 7px 14px; }
+.quick-add-preview { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0 4px; min-height: 0; }
+.quick-add-preview:not(:empty) { margin-bottom: 6px; }
+.qa-chip { font-size: 11px; padding: 3px 9px; border-radius: 999px; font-weight: 600; background: var(--bg-soft); color: var(--ink-mute); }
+.qa-chip.pri-A { background: var(--terra-bg); color: var(--terra-text); }
+.qa-chip.pri-B { background: var(--blue-bg); color: var(--blue-text); }
+.qa-chip.pri-C { background: var(--bg-soft); color: var(--ink-mute); }
+.qa-chip.date { background: var(--green-bg, #e3f0e9); color: var(--green); }
+.qa-chip.deadline { background: var(--terra-bg); color: var(--terra-text); }
+.qa-chip.proj { background: var(--purple-bg); color: var(--purple-text); }
+.qa-chip.label { background: var(--blue-bg); color: var(--blue-text); }
+/* Plan tabs */
+.plan-tabs { display: flex; gap: 8px; margin: 14px 0; }
+.plan-tab { flex: 1; border: 1.5px solid var(--line, rgba(0,0,0,0.1)); background: var(--bg-elev); color: var(--ink-mute); border-radius: 10px; padding: 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter',sans-serif; }
+.plan-tab.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.plan-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.pf-chip { border: 1.5px solid var(--line, rgba(0,0,0,0.1)); background: var(--bg-soft); color: var(--ink-mute); border-radius: 999px; padding: 6px 13px; font-size: 12px; cursor: pointer; font-weight: 500; }
+.pf-chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.overdue-group { border-left: 3px solid var(--terra); }
+/* Labels & deadline on task rows */
+.utask-label { font-size: 10px; padding: 2px 7px; border-radius: 999px; background: color-mix(in srgb, var(--lc) 15%, transparent); color: var(--lc); border: 1px solid color-mix(in srgb, var(--lc) 30%, transparent); white-space: nowrap; }
+.utask-deadline { font-size: 10px; padding: 2px 7px; border-radius: 999px; background: var(--bg-soft); color: var(--ink-mute); white-space: nowrap; }
+.utask-deadline.overdue { background: var(--terra-bg); color: var(--terra-text); }
+.project-task-due.deadline { background: var(--bg-soft); }
+.project-task-due.deadline.overdue { background: var(--terra-bg); color: var(--terra-text); }
+/* Project view toggle + board */
+.project-view-toolbar { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.project-view-toggle { display: flex; gap: 4px; background: var(--bg-soft); border-radius: 8px; padding: 3px; }
+.pv-btn { border: none; background: transparent; color: var(--ink-mute); padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter',sans-serif; }
+.pv-btn.on { background: var(--bg-elev); color: var(--ink); box-shadow: var(--shadow-sm); }
+.project-quick-add { margin-bottom: 6px; }
+.project-board { display: grid; grid-template-columns: repeat(4, minmax(140px, 1fr)); gap: 10px; overflow-x: auto; }
+@media (max-width: 760px) { .project-board { grid-template-columns: repeat(4, 78vw); } }
+.pb-col { background: var(--bg-soft); border-radius: 10px; padding: 10px; min-width: 0; }
+.pb-col-head { font-size: 12px; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; color: var(--ink-mute); }
+.pb-col-body { display: flex; flex-direction: column; gap: 6px; }
+.pb-card { background: var(--bg-elev); border-radius: 8px; padding: 8px 10px; box-shadow: var(--shadow-sm); }
+.pb-card.done { opacity: 0.55; }
+.pb-card.done .pb-card-text { text-decoration: line-through; }
+.pb-card-top { display: flex; align-items: flex-start; gap: 8px; }
+.pb-card-text { font-size: 13px; color: var(--ink); cursor: pointer; flex: 1; }
+.pb-card-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; padding-left: 26px; }
+.pb-card-due { font-size: 10px; padding: 1px 6px; border-radius: 999px; background: var(--green-bg, #e3f0e9); color: var(--green); }
+.pb-card-due.overdue { background: var(--terra-bg); color: var(--terra-text); }
+.pb-card-due.deadline { background: var(--bg-soft); color: var(--ink-mute); }
+.pb-empty { font-size: 11px; color: var(--ink-faint); text-align: center; padding: 8px; }
 .manual-dw-card { border-left: 3px solid var(--terra); }
 .manual-dw-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .manual-dw-row input[type="text"] { flex: 1; min-width: 160px; padding: 9px 12px; border: 1px solid var(--line, rgba(0,0,0,0.1)); border-radius: var(--radius); font-size: 14px; background: var(--bg-soft); color: var(--ink); outline: none; }
@@ -2687,6 +2738,65 @@ main {
   flex-wrap: wrap;
   gap: 8px;
 }
+/* === Habit redesign (TZ-based) === */
+.modal-wide { max-width: 520px; }
+.modal-row2 { display: flex; gap: 10px; }
+.seg-select { display: flex; gap: 6px; background: var(--bg-soft); padding: 4px; border-radius: 10px; }
+.seg-opt { flex: 1; border: none; background: transparent; padding: 8px 10px; border-radius: 7px; font-size: 13px; font-weight: 500; color: var(--ink-mute); cursor: pointer; font-family: 'Inter',sans-serif; transition: all 0.15s ease; }
+.seg-opt.active { background: var(--bg-elev); color: var(--ink); box-shadow: var(--shadow-sm); }
+.weekday-picker { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.wd-btn { width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid var(--line, rgba(0,0,0,0.1)); background: var(--bg-soft); color: var(--ink-mute); font-size: 12px; font-weight: 600; cursor: pointer; }
+.wd-btn.on { background: var(--green); color: white; border-color: var(--green); }
+.habit-filter { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.hf-chip { border: 1.5px solid var(--line, rgba(0,0,0,0.1)); background: var(--bg-soft); color: var(--ink-mute); border-radius: 999px; padding: 6px 14px; font-size: 13px; cursor: pointer; font-weight: 500; }
+.hf-chip.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.habit-tag { font-size: 10px; padding: 2px 8px; border-radius: 999px; background: var(--bg-soft); color: var(--ink-mute); }
+.habit-tag.sched { background: var(--blue-bg); color: var(--blue-text); }
+.habit-tag.off { background: var(--terra-bg); color: var(--terra-text); }
+.habit-card-actions { display: flex; flex-direction: column; gap: 4px; }
+.habit-edit-btn, .habit-delete-btn { background: none; border: none; color: var(--ink-mute); cursor: pointer; font-size: 16px; width: 26px; height: 26px; border-radius: 6px; }
+.habit-edit-btn:hover { background: var(--bg-soft); color: var(--ink); }
+.habit-delete-btn:hover { background: var(--terra-bg); color: var(--terra-text); }
+.habit-dot.partial { background: var(--amber); color: white; }
+.habit-dot.off { opacity: 0.35; }
+/* Measure control */
+.habit-measure { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
+.habit-measure-ring { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; background: conic-gradient(var(--green) calc(var(--pct)*1%), var(--bg-soft) 0); position: relative; }
+.habit-measure-ring::after { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: var(--bg-elev); }
+.habit-measure-ring .habit-emoji-display { position: relative; z-index: 1; font-size: 22px; }
+.habit-measure-ctrl { display: flex; align-items: center; gap: 6px; }
+.habit-measure-ctrl button { width: 24px; height: 24px; border-radius: 6px; border: 1px solid var(--line, rgba(0,0,0,0.12)); background: var(--bg-soft); cursor: pointer; font-size: 15px; line-height: 1; color: var(--ink); }
+.habit-measure-val { font-size: 11px; font-family: 'JetBrains Mono', monospace; min-width: 44px; text-align: center; }
+/* Today chip measure variant */
+.th-chip.measure { cursor: default; }
+.th-chip.partial { border-color: var(--amber); }
+.th-chip-prog { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--ink); }
+.th-chip-step { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--line, rgba(0,0,0,0.12)); background: var(--bg-elev); cursor: pointer; font-size: 14px; line-height: 1; color: var(--ink); }
+/* Habit detail modal */
+.hd-sub { font-size: 12px; color: var(--ink-mute); margin-bottom: 14px; }
+.hd-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.hd-stat { background: var(--bg-soft); border-radius: 10px; padding: 10px 6px; text-align: center; }
+.hd-stat-num { font-size: 20px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--terra); }
+.hd-stat-lbl { font-size: 10px; color: var(--ink-mute); margin-top: 2px; }
+.hd-month-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-weight: 600; }
+.hd-month-nav button { background: var(--bg-soft); border: none; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 14px; color: var(--ink); }
+.hd-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.hd-cal-head { text-align: center; font-size: 10px; color: var(--ink-mute); font-weight: 600; padding-bottom: 4px; }
+.hd-cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; background: var(--bg-soft); color: var(--ink-mute); position: relative; }
+.hd-cal-day.done { background: var(--green); color: white; }
+.hd-cal-day.partial { background: var(--amber); color: white; }
+.hd-cal-day.off { opacity: 0.4; }
+.hd-cal-day.today { box-shadow: 0 0 0 2px var(--terra); }
+.hd-dot { display: none; }
+.hd-section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-mute); font-weight: 600; margin: 18px 0 8px; }
+.hd-heat { display: flex; gap: 3px; overflow-x: auto; padding-bottom: 6px; }
+.hd-heat-col { display: flex; flex-direction: column; gap: 3px; }
+.hd-heat-cell { width: 11px; height: 11px; border-radius: 2px; background: var(--bg-soft); }
+.hd-heat-cell.done { background: var(--green); }
+.hd-heat-cell.partial { background: var(--amber); }
+.hd-heat-cell.empty { background: transparent; }
+.hd-actions { margin-top: 16px; }
+
 .th-chip {
   display: flex;
   align-items: center;
@@ -3159,32 +3269,52 @@ main {
       <div class="view-header">
         <div>
           <h1 class="view-title">Reja</h1>
-          <p class="view-sub">Vazifalarni sana va prioritet bilan rejalashtiring · O'sha kuni avtomatik chiqadi</p>
+          <p class="view-sub">Tabiiy til bilan tez qo'shing · <code>#loyiha</code> <code>@yorliq</code> <code>p1</code> <code>ertaga</code> <code>{muddat}</code></p>
         </div>
       </div>
 
-      <div class="history-nav">
-        <button class="history-nav-btn" id="planPrev">◀</button>
-        <div class="history-date-display">
-          <div class="history-date-day" id="planDay">—</div>
-          <div class="history-date-sub" id="planSub">—</div>
-        </div>
-        <button class="history-nav-btn" id="planNext">▶</button>
+      <div class="quick-add">
+        <span class="quick-add-icon">＋</span>
+        <input id="planQuickAdd" class="quick-add-input" data-preview="planQuickPreview" autocomplete="off"
+          placeholder='Masalan: Logo chizish #Web ertaga p1 @dizayn {25.12}'
+          oninput="renderQuickAddPreview('planQuickAdd','planQuickPreview')"
+          onkeydown="quickAddKey(event,'planQuickAdd',{defaultDate:planDate})">
+        <button class="btn btn-primary" onclick="quickAddCommit('planQuickAdd',{defaultDate:planDate})">Qo'shish</button>
+      </div>
+      <div class="quick-add-preview" id="planQuickPreview"></div>
+
+      <div class="plan-tabs">
+        <button class="plan-tab on" id="planTabDay" onclick="setPlanMode('day')">📆 Kun bo'yicha</button>
+        <button class="plan-tab" id="planTabUpcoming" onclick="setPlanMode('upcoming')">⏭️ Kelgusi</button>
       </div>
 
-      <div class="card">
-        <div class="card-title">📋 Shu kun vazifalari <span id="planTasksCount">0</span>
-          <button class="utask-add-btn" onclick="addUnifiedTask(planDate)" title="Vazifa qo'shish">+ Vazifa</button>
+      <div id="planDayMode">
+        <div class="history-nav">
+          <button class="history-nav-btn" id="planPrev">◀</button>
+          <div class="history-date-display">
+            <div class="history-date-day" id="planDay">—</div>
+            <div class="history-date-sub" id="planSub">—</div>
+          </div>
+          <button class="history-nav-btn" id="planNext">▶</button>
         </div>
-        <div class="utask-priority-groups" id="planTasks"></div>
+
+        <div class="card">
+          <div class="card-title">📋 Shu kun vazifalari <span id="planTasksCount">0</span></div>
+          <div class="utask-priority-groups" id="planTasks"></div>
+        </div>
+
+        <div class="card inbox-card" style="margin-top:14px;">
+          <div class="card-title">📥 Inbox · Sanasiz vazifalar <span id="inboxCount">0</span>
+            <button class="utask-add-btn" onclick="addUnifiedTask(null)" title="Sanasiz vazifa qo'shish">+ Vazifa</button>
+          </div>
+          <p class="section-desc">Sana belgilanmagan vazifalar shu yerda turadi. 📅 bosib sana bersangiz, o'sha kunga ketadi.</p>
+          <div class="utask-priority-groups" id="inboxTasks"></div>
+        </div>
       </div>
 
-      <div class="card inbox-card" style="margin-top:14px;">
-        <div class="card-title">📥 Inbox · Sanasiz vazifalar <span id="inboxCount">0</span>
-          <button class="utask-add-btn" onclick="addUnifiedTask(null)" title="Sanasiz vazifa qo'shish">+ Vazifa</button>
-        </div>
-        <p class="section-desc">Sana belgilanmagan vazifalar shu yerda turadi. 📅 bosib sana bersangiz, o'sha kunga ketadi.</p>
-        <div class="utask-priority-groups" id="inboxTasks"></div>
+      <div id="planUpcomingMode" style="display:none;">
+        <div class="plan-filter" id="planFilterBar"></div>
+        <div id="planUpcoming"></div>
       </div>
     </section>
 
@@ -3286,11 +3416,12 @@ main {
       <div class="view-header">
         <div>
           <h1 class="view-title">Odatlar</h1>
-          <p class="view-sub">Katta dumaloq tugmani bosib bugungi holatni belgilang · O'ngdagi 7 ta nuqta o'tgan kunlar</p>
+          <p class="view-sub">Bugungi holatni belgilang · Kartani bosib batafsil statistika · O'lchovli maqsadlar qo'llab-quvvatlanadi</p>
         </div>
         <button class="btn btn-primary" onclick="openHabitModal()">+ Odat qo'shish</button>
       </div>
 
+      <div class="habit-filter" id="habitFilter"></div>
       <div id="habitsGrid"></div>
     </section>
 
@@ -3629,14 +3760,67 @@ main {
 
 <!-- MODALS -->
 <div class="modal-bg" id="habitModal">
-  <div class="modal">
+  <div class="modal modal-wide">
     <div class="modal-title" id="habitModalTitle">Yangi odat</div>
-    <div class="modal-field"><label>Emoji</label><input type="text" id="habitEmoji" placeholder="📖" maxlength="2"></div>
-    <div class="modal-field"><label>Odat nomi</label><input type="text" id="habitName" placeholder="Masalan: Kitob o'qish"></div>
+
+    <div class="modal-field"><label>Tur</label>
+      <div class="seg-select" id="habitTypeSelect">
+        <button type="button" class="seg-opt active" data-val="build" onclick="selectHabitType('build')">✅ Ijobiy odat</button>
+        <button type="button" class="seg-opt" data-val="quit" onclick="selectHabitType('quit')">🚫 Tark etish</button>
+      </div>
+    </div>
+
+    <div class="modal-row2">
+      <div class="modal-field" style="flex:0 0 80px;"><label>Emoji</label><input type="text" id="habitEmoji" placeholder="📖" maxlength="2"></div>
+      <div class="modal-field" style="flex:1;"><label>Nom</label><input type="text" id="habitName" placeholder="Masalan: Suv ichish"></div>
+    </div>
+
+    <div class="modal-field"><label>Kategoriya</label><input type="text" id="habitCategory" placeholder="Masalan: Salomatlik" list="habitCatList"><datalist id="habitCatList"></datalist></div>
+
     <div class="modal-field"><label>Rang</label><div class="resource-type-select" id="habitColorSelect"></div></div>
+
+    <div class="modal-field"><label>Maqsad turi</label>
+      <div class="seg-select" id="habitGoalTypeSelect">
+        <button type="button" class="seg-opt active" data-val="check" onclick="selectHabitGoalType('check')">✓ Oddiy belgilash</button>
+        <button type="button" class="seg-opt" data-val="measure" onclick="selectHabitGoalType('measure')">📏 O'lchovli</button>
+      </div>
+    </div>
+
+    <div class="modal-row2" id="habitMeasureRow" style="display:none;">
+      <div class="modal-field" style="flex:1;"><label>Maqsad qiymati</label><input type="number" id="habitGoalValue" placeholder="30" min="1"></div>
+      <div class="modal-field" style="flex:1;"><label>Birlik</label><input type="text" id="habitGoalUnit" placeholder="daqiqa" list="habitUnitList"><datalist id="habitUnitList"><option value="daqiqa"><option value="soat"><option value="stakan"><option value="qadam"><option value="km"><option value="bet"><option value="marta"></datalist></div>
+    </div>
+
+    <div class="modal-field"><label>Bajariladigan kunlar</label>
+      <div class="seg-select" id="habitSchedSelect">
+        <button type="button" class="seg-opt active" data-val="daily" onclick="selectHabitSched('daily')">Har kuni</button>
+        <button type="button" class="seg-opt" data-val="weekdays" onclick="selectHabitSched('weekdays')">Tanlangan kunlar</button>
+      </div>
+      <div class="weekday-picker" id="habitWeekdayPicker" style="display:none;"></div>
+    </div>
+
+    <div class="modal-field"><label>Vaqt oralig'i</label>
+      <select id="habitTimeRange">
+        <option value="anytime">Istalgan vaqt</option>
+        <option value="morning">🌅 Ertalab</option>
+        <option value="afternoon">☀️ Kunduzi</option>
+        <option value="evening">🌙 Kechqurun</option>
+      </select>
+    </div>
+
     <div class="modal-actions">
       <button class="btn" onclick="closeHabitModal()">Bekor</button>
       <button class="btn btn-primary" onclick="saveHabit()">Saqlash</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="habitDetailModal">
+  <div class="modal modal-wide">
+    <div class="modal-title" id="habitDetailTitle">Odat statistikasi</div>
+    <div id="habitDetailBody"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="document.getElementById('habitDetailModal').classList.remove('show')">Yopish</button>
     </div>
   </div>
 </div>
@@ -3716,7 +3900,9 @@ main {
     <div class="modal-field"><label>Vazifa matni</label><input type="text" id="taskEditText" placeholder="Reklama kreativlarini tayyorlash"></div>
     <div class="modal-field"><label>Tavsif (ixtiyoriy)</label><textarea id="taskEditDesc" rows="2" placeholder="Qo'shimcha izoh..."></textarea></div>
     <div class="modal-field"><label>Sana (bo'sh = sanasiz / inbox)</label><input type="date" id="taskEditDue"></div>
+    <div class="modal-field"><label>Muddat / deadline (ixtiyoriy)</label><input type="date" id="taskEditDeadline"></div>
     <div class="modal-field"><label>Prioritet</label><select id="taskEditPriority"><option value="A">Yuqori (A)</option><option value="B" selected>O'rta (B)</option><option value="C">Past (C)</option></select></div>
+    <div class="modal-field"><label>Yorliqlar (vergul bilan, @ shart emas)</label><input type="text" id="taskEditLabels" placeholder="email, mijoz, shoshilinch"></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeTaskEditModal()">Bekor</button>
       <button class="btn btn-primary" onclick="saveTaskEdit()">Saqlash</button>
@@ -3776,6 +3962,7 @@ const DEFAULT_DATA = {
   projects: [],
   goals: [],
   tasks: [],
+  labels: [],
   days: {},
   prayerCache: { date: null, times: null },
   calendarEvents: []
@@ -3783,10 +3970,34 @@ const DEFAULT_DATA = {
 
 let data = loadData();
 
+// Fill defaults for new habit fields (type, goalType, schedule, timeRange, category)
+function migrateHabits(habits) {
+  return (habits || []).map(h => ({
+    type: h.type || 'build',
+    emoji: h.emoji || '🎯',
+    name: h.name || '',
+    color: h.color || 'green',
+    category: h.category || 'Umumiy',
+    goalType: h.goalType || 'check',
+    goalValue: typeof h.goalValue === 'number' ? h.goalValue : (h.goalType === 'measure' ? 1 : 0),
+    goalUnit: h.goalUnit || '',
+    schedule: h.schedule && h.schedule.mode ? h.schedule : { mode: 'daily', days: [0,1,2,3,4,5,6] },
+    timeRange: h.timeRange || 'anytime',
+    createdAt: h.createdAt || new Date().toISOString(),
+    ...h,
+    // ensure normalized fields win over spread for the ones we always set
+    type: h.type || 'build',
+    goalType: h.goalType || 'check',
+    schedule: h.schedule && h.schedule.mode ? h.schedule : { mode: 'daily', days: [0,1,2,3,4,5,6] },
+    timeRange: h.timeRange || 'anytime',
+    category: h.category || 'Umumiy'
+  }));
+}
+
 function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_DATA));
+    if (!raw) { const d = JSON.parse(JSON.stringify(DEFAULT_DATA)); d.habits = migrateHabits(d.habits); return d; }
     const loaded = JSON.parse(raw);
     return {
       settings: {
@@ -3799,11 +4010,12 @@ function loadData() {
         calendar: { ...DEFAULT_DATA.settings.calendar, ...(loaded.settings?.calendar || {}) },
         deepworkGoals: { ...DEFAULT_DATA.settings.deepworkGoals, ...(loaded.settings?.deepworkGoals || {}) }
       },
-      habits: (loaded.habits || DEFAULT_DATA.habits).map(h => ({ ...h })),
+      habits: migrateHabits(loaded.habits || DEFAULT_DATA.habits),
       resources: migrateResources(loaded.resources),
       projects: loaded.projects || [],
       goals: loaded.goals || [],
       tasks: migrateTasks(loaded),
+      labels: loaded.labels || [],
       days: loaded.days || {},
       prayerCache: loaded.prayerCache || { date: null, times: null },
       calendarEvents: loaded.calendarEvents || [],
@@ -3926,18 +4138,60 @@ function escapeHtml(text) {
 
 /* HABIT HELPERS */
 function getHabitStatus(habit, dayKey) {
-  // Returns: 'none' | 'done' (binary habits)
+  // Returns: 'none' | 'partial' | 'done'
   const d = data.days[dayKey];
   if (!d || !d.habits) return 'none';
   const v = d.habits[habit.id];
-  if (!v) return 'none';
+  if (v === undefined || v === null) return 'none';
   // Legacy subtask object support
   if (typeof v === 'object') {
     const vals = Object.values(v);
     return vals.length && vals.every(x => x === true) ? 'done' : (vals.some(x => x === true) ? 'partial' : 'none');
   }
+  // Measurable habits: numeric progress vs goalValue
+  if (habit.goalType === 'measure') {
+    const goal = habit.goalValue || 1;
+    const num = typeof v === 'number' ? v : (v === true ? goal : 0);
+    if (num <= 0) return 'none';
+    return num >= goal ? 'done' : 'partial';
+  }
+  // Check / quit habits: boolean
   return v === true ? 'done' : 'none';
 }
+
+function getHabitDayValue(habit, dayKey) {
+  const d = data.days[dayKey];
+  if (!d || !d.habits) return 0;
+  const v = d.habits[habit.id];
+  if (typeof v === 'number') return v;
+  if (v === true) return habit.goalValue || 1;
+  return 0;
+}
+
+// Is this habit scheduled (due) on the given date?
+function isHabitDueOn(habit, date) {
+  const sch = habit.schedule;
+  if (!sch || sch.mode === 'daily' || !sch.mode) return true;
+  if (sch.mode === 'weekdays') {
+    const days = sch.days && sch.days.length ? sch.days : [0,1,2,3,4,5,6];
+    return days.includes(date.getDay());
+  }
+  return true; // weekly/other: treat every day as eligible
+}
+
+function scheduleLabel(habit) {
+  const sch = habit.schedule;
+  if (!sch || sch.mode === 'daily' || !sch.mode) return 'Har kuni';
+  if (sch.mode === 'weekdays') {
+    const days = (sch.days || []).slice().sort();
+    if (days.length === 7) return 'Har kuni';
+    if (days.length === 0) return 'Hech qachon';
+    return days.map(d => WEEKDAY_LABELS[d]).join(', ');
+  }
+  return 'Har kuni';
+}
+
+const TIME_RANGE_LABELS = { anytime: 'Istalgan vaqt', morning: '🌅 Ertalab', afternoon: '☀️ Kunduzi', evening: '🌙 Kechqurun' };
 
 function getHabitProgress(habit, dayKey) {
   const d = data.days[dayKey];
@@ -3946,21 +4200,21 @@ function getHabitProgress(habit, dayKey) {
   const total = habit.subtasks?.length || 1;
   if (!v) return { done: 0, total };
   if (!habit.subtasks || !habit.subtasks.length) {
-    return { done: v === true ? 1 : 0, total: 1 };
+    return { done: getHabitStatus(habit, dayKey) === 'done' ? 1 : 0, total: 1 };
   }
   return { done: habit.subtasks.filter(st => v[st.id] === true).length, total };
 }
 
+// Streak counts only DUE days (per schedule); non-due days are skipped (never break, never count).
 function calcHabitStreak(habit) {
   let streak = 0;
   const now = new Date();
-  for (let i = 0; i < 365; i++) {
+  for (let i = 0; i < 400; i++) {
     const d = new Date(now); d.setDate(d.getDate() - i);
+    if (!isHabitDueOn(habit, d)) continue;
     const status = getHabitStatus(habit, dateKey(d));
     if (status === 'done') streak++;
-    else if (i === 0 && status === 'partial') continue;
-    else if (i === 0 && status === 'none') continue;
-    else break;
+    else { if (i === 0) continue; /* today grace */ break; }
   }
   return streak;
 }
@@ -3968,8 +4222,9 @@ function calcHabitStreak(habit) {
 function calcBestStreak(habit) {
   let best = 0, current = 0;
   const now = new Date();
-  for (let i = 365; i >= 0; i--) {
+  for (let i = 400; i >= 0; i--) {
     const d = new Date(now); d.setDate(d.getDate() - i);
+    if (!isHabitDueOn(habit, d)) continue;
     const status = getHabitStatus(habit, dateKey(d));
     if (status === 'done') { current++; best = Math.max(best, current); }
     else current = 0;
@@ -3983,6 +4238,16 @@ function calcHabitTotal(habit) {
     if (getHabitStatus(habit, k) === 'done') total++;
   });
   return total;
+}
+
+// Count successes within a given month (0-indexed month, full year)
+function calcHabitMonthSuccess(habit, year, month) {
+  let count = 0;
+  Object.keys(data.days).forEach(k => {
+    const d = new Date(k);
+    if (d.getFullYear() === year && d.getMonth() === month && getHabitStatus(habit, k) === 'done') count++;
+  });
+  return count;
 }
 
 /* NAVIGATION */
@@ -4190,7 +4455,7 @@ function tasksForDate(dateStr) {
       if (t.due === dateStr) {
         result.push({
           id: t.id, text: t.text, priority: t.priority || 'B', date: t.due,
-          done: t.done, subtasks: t.subtasks || [],
+          done: t.done, subtasks: t.subtasks || [], labels: t.labels || [], deadline: t.deadline || null,
           source: 'project', projectId: p.id, projectName: p.name, projectColor: p.color || 'blue'
         });
       }
@@ -4204,6 +4469,194 @@ function tasksForDate(dateStr) {
 function unassignedTasks() {
   return (data.tasks || []).filter(t => !t.date);
 }
+
+// ===== LABELS =====
+function getLabel(name) {
+  return (data.labels || []).find(l => l.name.toLowerCase() === String(name).toLowerCase());
+}
+function ensureLabel(name) {
+  name = String(name).trim();
+  if (!name) return null;
+  let lbl = getLabel(name);
+  if (!lbl) {
+    const palette = ['blue','terra','green','purple','amber','rose'];
+    lbl = { id: uid(), name, color: palette[(data.labels||[]).length % palette.length] };
+    if (!data.labels) data.labels = [];
+    data.labels.push(lbl);
+  }
+  return lbl;
+}
+function labelColor(name) {
+  const l = getLabel(name);
+  return l ? l.color : 'blue';
+}
+
+// ===== QUICK ADD — natural language parser =====
+const WD_MAP = { yakshanba:0, dushanba:1, seshanba:2, chorshanba:3, payshanba:4, juma:5, shanba:6,
+  ya:0, du:1, se:2, ch:3, pa:4, ju:5, sh:6 };
+
+function nextWeekday(targetDow) {
+  const d = new Date(); d.setHours(0,0,0,0);
+  let add = (targetDow - d.getDay() + 7) % 7;
+  d.setDate(d.getDate() + add);
+  return d;
+}
+
+// Find a date phrase in text. Returns { date:'YYYY-MM-DD', match:'substring' } or null.
+function parseDatePhrase(text) {
+  const lo = ' ' + text.toLowerCase() + ' ';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const mk = d => dateKey(d);
+
+  // Explicit keywords
+  const kw = [
+    { re: /\bbugun\b/, days: 0 },
+    { re: /\bertaga\b/, days: 1 },
+    { re: /\bindin(ga|)\b/, days: 2 },
+    { re: /\bkelasi hafta\b/, days: 7 },
+  ];
+  for (const k of kw) {
+    const m = lo.match(k.re);
+    if (m) { const d = new Date(today); d.setDate(d.getDate() + k.days); return { date: mk(d), match: m[0].trim() }; }
+  }
+  // "N kundan keyin" / "N kun keyin"
+  let m = lo.match(/\b(\d{1,3})\s*kun(dan)?\s*keyin\b/);
+  if (m) { const d = new Date(today); d.setDate(d.getDate() + parseInt(m[1])); return { date: mk(d), match: m[0].trim() }; }
+  // "+N kun" / "+N"
+  m = lo.match(/\+(\d{1,3})\s*(kun)?\b/);
+  if (m) { const d = new Date(today); d.setDate(d.getDate() + parseInt(m[1])); return { date: mk(d), match: m[0].trim() }; }
+  // Weekday names
+  for (const wd in WD_MAP) {
+    const re = new RegExp('\\b' + wd + '\\b');
+    if (re.test(lo)) { return { date: mk(nextWeekday(WD_MAP[wd])), match: wd }; }
+  }
+  // DD.MM(.YYYY) or DD-MM or DD/MM
+  m = lo.match(/\b(\d{1,2})[.\-/](\d{1,2})(?:[.\-/](\d{2,4}))?\b/);
+  if (m) {
+    let day = parseInt(m[1]), mon = parseInt(m[2]) - 1, yr = m[3] ? parseInt(m[3]) : today.getFullYear();
+    if (yr < 100) yr += 2000;
+    let d = new Date(yr, mon, day); d.setHours(0,0,0,0);
+    if (!m[3] && d < today) d = new Date(yr + 1, mon, day);
+    if (!isNaN(d.getTime())) return { date: mk(d), match: m[0].trim() };
+  }
+  return null;
+}
+
+// Parse a Quick Add string into structured fields.
+function parseQuickAdd(raw) {
+  let text = ' ' + raw + ' ';
+  const result = { content: '', priority: null, date: null, deadline: null, projectId: null, projectName: null, labels: [] };
+
+  // Deadline in {curly braces}
+  let m = text.match(/\{([^}]+)\}/);
+  if (m) {
+    const dl = parseDatePhrase(m[1]);
+    if (dl) result.deadline = dl.date;
+    text = text.replace(m[0], ' ');
+  }
+  // Priority p1-p4 (also a/b/c)
+  m = text.match(/\bp([1-4])\b/i);
+  if (m) {
+    result.priority = { '1':'A','2':'B','3':'C','4':'C' }[m[1]];
+    text = text.replace(m[0], ' ');
+  }
+  // Project #Name (match existing by prefix, case-insensitive)
+  m = text.match(/#([^\s#@]+)/);
+  if (m) {
+    const q = m[1].toLowerCase();
+    const proj = (data.projects||[]).find(p => p.name.toLowerCase().replace(/\s+/g,'').startsWith(q) || p.name.toLowerCase().startsWith(q));
+    if (proj) { result.projectId = proj.id; result.projectName = proj.name; }
+    text = text.replace(m[0], ' ');
+  }
+  // Labels @name (can be multiple)
+  let lm;
+  const labelRe = /@([^\s#@]+)/g;
+  while ((lm = labelRe.exec(text)) !== null) result.labels.push(lm[1]);
+  text = text.replace(/@([^\s#@]+)/g, ' ');
+  // Date phrase
+  const dp = parseDatePhrase(text);
+  if (dp) {
+    result.date = dp.date;
+    // remove first occurrence of matched phrase
+    const idx = text.toLowerCase().indexOf(dp.match.toLowerCase());
+    if (idx >= 0) text = text.slice(0, idx) + ' ' + text.slice(idx + dp.match.length);
+  }
+  result.content = text.replace(/\s+/g, ' ').trim();
+  return result;
+}
+
+// Build human-readable chips preview for parsed quick-add
+function quickAddPreview(parsed) {
+  const chips = [];
+  if (parsed.priority) chips.push(`<span class="qa-chip pri-${parsed.priority}">${parsed.priority}</span>`);
+  if (parsed.date) chips.push(`<span class="qa-chip date">📅 ${fmtShortDate(parsed.date)}</span>`);
+  if (parsed.deadline) chips.push(`<span class="qa-chip deadline">⏳ ${fmtShortDate(parsed.deadline)}</span>`);
+  if (parsed.projectName) chips.push(`<span class="qa-chip proj">＃${escapeHtml(parsed.projectName)}</span>`);
+  parsed.labels.forEach(l => chips.push(`<span class="qa-chip label">@${escapeHtml(l)}</span>`));
+  return chips.join('');
+}
+
+function fmtShortDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const tKey = todayKey();
+  if (dateStr === tKey) return 'Bugun';
+  const tom = new Date(); tom.setDate(tom.getDate()+1);
+  if (dateStr === dateKey(tom)) return 'Ertaga';
+  return `${d.getDate()} ${monthName(d.getMonth())}`;
+}
+
+// Live preview under a quick-add input
+function renderQuickAddPreview(inputId, previewId) {
+  const inp = document.getElementById(inputId);
+  const prev = document.getElementById(previewId);
+  if (!inp || !prev) return;
+  const val = inp.value.trim();
+  if (!val) { prev.innerHTML = ''; return; }
+  prev.innerHTML = quickAddPreview(parseQuickAdd(val));
+}
+
+// Commit a quick-add input. ctx = { defaultDate, projectId, onClear }
+function quickAddCommit(inputId, ctx) {
+  ctx = ctx || {};
+  const inp = document.getElementById(inputId);
+  if (!inp) return;
+  const raw = inp.value.trim();
+  if (!raw) return;
+  const p = parseQuickAdd(raw);
+  if (!p.content) { toast('Vazifa matnini kiriting'); return; }
+  p.labels.forEach(ensureLabel);
+  const targetProject = p.projectId || ctx.projectId;
+  if (targetProject) {
+    const proj = data.projects.find(x => x.id === targetProject);
+    if (proj) {
+      if (!proj.tasks) proj.tasks = [];
+      proj.tasks.push({ id: uid(), text: p.content, done: false, subtasks: [],
+        priority: p.priority || 'B', due: p.date || null, deadline: p.deadline || null,
+        labels: p.labels, createdAt: new Date().toISOString() });
+      expandedProjects.add(targetProject);
+    }
+  } else {
+    let date = p.date;
+    if (date === null && ctx.defaultDate !== undefined) date = ctx.defaultDate;
+    data.tasks.push({ id: uid(), text: p.content, priority: p.priority || 'B',
+      date: date || null, deadline: p.deadline || null, labels: p.labels,
+      done: false, subtasks: [], createdAt: new Date().toISOString() });
+  }
+  inp.value = '';
+  const prevId = inp.dataset.preview;
+  if (prevId && document.getElementById(prevId)) document.getElementById(prevId).innerHTML = '';
+  saveData();
+  refreshTaskViews();
+  toast('✓ Qo\'shildi');
+  setTimeout(() => inp.focus(), 30);
+}
+
+function quickAddKey(ev, inputId, ctx) {
+  if (ev.key === 'Enter') { ev.preventDefault(); quickAddCommit(inputId, ctx); }
+}
+
+
 
 // Find a unified task (pool or project) by id; returns { task, isProject, project }
 function findUnifiedTask(id) {
@@ -4222,6 +4675,12 @@ function unifiedTaskRowHTML(task) {
   const subtasks = task.subtasks || [];
   const subDone = subtasks.filter(s => s.done).length;
   const projTag = isProject ? `<span class="utask-proj" style="--pc:var(--${task.projectColor||'blue'});">${escapeHtml(task.projectName)}</span>` : '';
+  const labelsHTML = (task.labels || []).map(l => `<span class="utask-label" style="--lc:var(--${labelColor(l)});">@${escapeHtml(l)}</span>`).join('');
+  let deadlineHTML = '';
+  if (task.deadline) {
+    const od = task.deadline < todayKey() ? 'overdue' : '';
+    deadlineHTML = `<span class="utask-deadline ${od}" title="Muddat (deadline)">⏳ ${fmtShortDate(task.deadline)}</span>`;
+  }
   const subtasksHTML = subtasks.map(st => `
     <div class="utask-sub ${st.done?'done':''}">
       <div class="utask-sub-check" onclick="toggleUnifiedSubtask('${task.id}','${st.id}')">${st.done?'✓':''}</div>
@@ -4233,9 +4692,11 @@ function unifiedTaskRowHTML(task) {
       <div class="utask-check" onclick="toggleUnifiedTask('${task.id}')">${task.done?'✓':''}</div>
       <span class="utask-pri pri-${task.priority||'B'}" title="Prioritet (📅 orqali o'zgartiriladi)">${task.priority||'B'}</span>
       <input class="utask-text" value="${escapeHtml(task.text)}" onchange="editUnifiedTaskText('${task.id}',this.value)" placeholder="Vazifa matni..." ${isProject?'title="Loyiha vazifasi"':''}>
+      ${labelsHTML}
+      ${deadlineHTML}
       ${projTag}
       <div class="utask-actions">
-        <button class="utask-act" onclick="openUnifiedEdit('${task.id}')" title="Sana & prioritet">📅</button>
+        <button class="utask-act" onclick="openUnifiedEdit('${task.id}')" title="Sana, prioritet, yorliq">📅</button>
         <button class="utask-act" onclick="addUnifiedSubtask('${task.id}')" title="Kichik vazifa qo'shish">+</button>
         ${isProject ? '' : `<button class="utask-act del" onclick="deleteUnifiedTask('${task.id}')" title="O'chirish">×</button>`}
       </div>
@@ -4320,6 +4781,8 @@ function openUnifiedEdit(id) {
   }
   document.getElementById('taskEditText').value = t.text || '';
   document.getElementById('taskEditDesc').value = t.desc || '';
+  document.getElementById('taskEditDeadline').value = t.deadline || '';
+  document.getElementById('taskEditLabels').value = (t.labels || []).join(', ');
   const priSel = document.getElementById('taskEditPriority');
   if (priSel) priSel.value = t.priority || 'B';
   document.getElementById('taskEditModal').classList.add('show');
@@ -5167,33 +5630,76 @@ function habitColor(habit) {
   return habit.color || HABIT_COLORS[habit.id] || 'green';
 }
 
+let habitFilterCat = 'all';
+
 function renderTodayHabits() {
   const c = document.getElementById('todayHabitsList');
   if (!c) return;
-  const pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
-  if (!pureHabits.length) {
-    c.innerHTML = '<div class="empty-state" style="padding:14px;">Hali odat yo\'q. <a href="#" onclick="document.querySelector(\'.nav-item[data-view=habits]\').click(); return false;">Odatlar bo\'limidan qo\'shing</a></div>';
+  const tKey = todayKey();
+  const td = new Date();
+  // Only habits DUE today, excluding resource-linked
+  const dueHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id) && isHabitDueOn(h, td));
+  if (!dueHabits.length) {
+    c.innerHTML = '<div class="empty-state" style="padding:14px;">Bugun bajariladigan odat yo\'q. <a href="#" onclick="document.querySelector(\'.nav-item[data-view=habits]\').click(); return false;">Odatlar bo\'limi</a></div>';
     document.getElementById('todayHabitsProgress').textContent = '0/0';
     return;
   }
   let doneCount = 0;
-  c.innerHTML = pureHabits.map(habit => {
-    const done = getHabitStatus(habit, todayKey()) === 'done';
+  c.innerHTML = dueHabits.map(habit => {
+    const status = getHabitStatus(habit, tKey);
+    const done = status === 'done';
     if (done) doneCount++;
     const streak = calcHabitStreak(habit);
+    if (habit.goalType === 'measure') {
+      const val = getHabitDayValue(habit, tKey);
+      const goal = habit.goalValue || 1;
+      return `<div class="th-chip measure ${done?'done':status==='partial'?'partial':''}">
+        <span class="th-chip-emoji">${habit.emoji}</span>
+        <span class="th-chip-name">${escapeHtml(habit.name)}</span>
+        <span class="th-chip-prog">${val}/${goal} ${escapeHtml(habit.goalUnit||'')}</span>
+        <button class="th-chip-step" onclick="incHabit('${habit.id}',-stepFor('${habit.id}'))" title="Kamaytirish">−</button>
+        <button class="th-chip-step" onclick="incHabit('${habit.id}',stepFor('${habit.id}'))" title="Oshirish">+</button>
+        <span class="th-chip-streak ${streak===0?'cold':''}">🔥${streak}</span>
+      </div>`;
+    }
+    const quit = habit.type === 'quit';
     return `<div class="th-chip ${done?'done':''}" onclick="toggleHabit('${habit.id}')">
       <div class="th-chip-check">${done?'✓':''}</div>
-      <span class="th-chip-emoji">${habit.emoji || '🎯'}</span>
-      <span class="th-chip-name">${escapeHtml(habit.name)}</span>
+      <span class="th-chip-emoji">${habit.emoji}</span>
+      <span class="th-chip-name">${escapeHtml(habit.name)}${quit?' <span style="font-size:9px;opacity:0.6;">tark</span>':''}</span>
       <span class="th-chip-streak ${streak===0?'cold':''}">🔥${streak}</span>
     </div>`;
   }).join('');
-  document.getElementById('todayHabitsProgress').textContent = doneCount + '/' + pureHabits.length;
+  document.getElementById('todayHabitsProgress').textContent = doneCount + '/' + dueHabits.length;
 }
+
+// Sensible increment step for a measure habit
+function stepFor(id) {
+  const h = data.habits.find(x => x.id === id);
+  if (!h) return 1;
+  const g = h.goalValue || 1;
+  if (g >= 1000) return Math.round(g / 10);   // e.g. steps: 1000
+  if (g >= 100) return Math.round(g / 10);     // e.g. ml: 250-ish
+  if (g >= 20) return 5;
+  return 1;
+}
+
+function renderHabitFilter() {
+  const c = document.getElementById('habitFilter');
+  if (!c) return;
+  const pure = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
+  const cats = [...new Set(pure.map(h => h.category || 'Umumiy'))];
+  if (cats.length <= 1) { c.innerHTML = ''; return; }
+  const chip = (val, label) => `<button class="hf-chip ${habitFilterCat===val?'on':''}" onclick="setHabitFilter('${val.replace(/'/g,"\\'")}')">${escapeHtml(label)}</button>`;
+  c.innerHTML = chip('all', 'Hammasi') + cats.map(cat => chip(cat, cat)).join('');
+}
+function setHabitFilter(cat) { habitFilterCat = cat; renderHabits(); }
 
 function renderHabits() {
   const c = document.getElementById('habitsGrid');
-  const pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
+  renderHabitFilter();
+  let pureHabits = data.habits.filter(h => !RESOURCE_HABIT_IDS.includes(h.id));
+  if (habitFilterCat !== 'all') pureHabits = pureHabits.filter(h => (h.category||'Umumiy') === habitFilterCat);
   if (!pureHabits.length) {
     c.innerHTML = '<div class="empty-state"><span class="empty-state-icon">🔁</span>Hali odat yo\'q. <a href="#" onclick="openHabitModal(); return false;">Birinchisini qo\'shing</a></div>';
     return;
@@ -5203,9 +5709,13 @@ function renderHabits() {
 
 function habitHTML(habit) {
   const streak = calcHabitStreak(habit);
-  const status = getHabitStatus(habit, todayKey());
+  const tKey = todayKey();
+  const status = getHabitStatus(habit, tKey);
   const done = status === 'done';
   const color = habitColor(habit);
+  const dueToday = isHabitDueOn(habit, new Date());
+  const isMeasure = habit.goalType === 'measure';
+  const quit = habit.type === 'quit';
 
   // Last 7 days dots
   const now = new Date();
@@ -5214,42 +5724,58 @@ function habitHTML(habit) {
     const d = new Date(now); d.setDate(d.getDate() - i);
     const k = dateKey(d);
     const st = getHabitStatus(habit, k);
-    const isToday = k === todayKey();
+    const due = isHabitDueOn(habit, d);
+    const isToday = k === tKey;
     weekDots += `<div class="habit-dot-wrap">
       <span class="habit-dot-label">${WEEKDAY_LABELS[d.getDay()]}</span>
-      <div class="habit-dot ${st==='done'?'done':''} ${isToday?'today':''}" onclick="toggleHabitDay('${habit.id}','${k}')" title="${k}">${st==='done'?'✓':''}</div>
+      <div class="habit-dot ${st==='done'?'done':st==='partial'?'partial':''} ${isToday?'today':''} ${!due?'off':''}" onclick="${isMeasure?`openHabitDetail('${habit.id}')`:`toggleHabitDay('${habit.id}','${k}')`}" title="${k}">${st==='done'?'✓':st==='partial'?'·':''}</div>
     </div>`;
   }
 
-  // 30-day mini heatmap (expanded view)
-  let miniHeat = '';
-  for (let i = 29; i >= 0; i--) {
-    const d = new Date(now); d.setDate(d.getDate() - i);
-    const st = getHabitStatus(habit, dateKey(d));
-    miniHeat += `<div class="habit-mini-day ${st==='done'?'done':''}" title="${dateKey(d)}"></div>`;
+  // Toggle / progress control
+  let control;
+  if (isMeasure) {
+    const val = getHabitDayValue(habit, tKey);
+    const goal = habit.goalValue || 1;
+    const pct = Math.min(100, Math.round(val / goal * 100));
+    control = `<div class="habit-measure">
+      <div class="habit-measure-ring" style="--pct:${pct};" onclick="openHabitDetail('${habit.id}')">
+        <span class="habit-emoji-display">${habit.emoji}</span>
+      </div>
+      <div class="habit-measure-ctrl">
+        <button onclick="incHabit('${habit.id}',-stepFor('${habit.id}'))">−</button>
+        <span class="habit-measure-val">${val}/${goal}</span>
+        <button onclick="incHabit('${habit.id}',stepFor('${habit.id}'))">+</button>
+      </div>
+    </div>`;
+  } else {
+    control = `<div class="habit-toggle-wrap">
+      <div class="habit-toggle-circle ${done?'done':''}" onclick="toggleHabit('${habit.id}')" title="${quit?'Bugun tark etdim':'Bajardim'}">
+        <span class="habit-emoji-display">${habit.emoji}</span>
+        <span class="habit-check-mark">✓</span>
+      </div>
+      <div class="habit-status-label ${done?'done':(streak===0?'cold':'')}">${done?(quit?'TARK ✓':'BUGUN ✓'):'BOSING'}</div>
+    </div>`;
   }
 
-  return `<div class="habit" id="habit-${habit.id}" data-color="${color}">
+  return `<div class="habit" id="habit-${habit.id}" data-color="${color}" ${!dueToday?'style="opacity:0.6;"':''}>
     <div class="habit-main">
-      <div class="habit-toggle-wrap">
-        <div class="habit-toggle-circle ${done?'done':''}" onclick="toggleHabit('${habit.id}')" title="Bosing: bajardim/bekor qilish">
-          <span class="habit-emoji-display">${habit.emoji || '🎯'}</span>
-          <span class="habit-check-mark">✓</span>
-        </div>
-        <div class="habit-status-label ${done?'done':(streak===0?'cold':'')}">${done?'BUGUN ✓':'BOSING'}</div>
-      </div>
-      <div class="habit-info" onclick="toggleHabitExpand('${habit.id}')" style="cursor:pointer;">
+      ${control}
+      <div class="habit-info" onclick="openHabitDetail('${habit.id}')" style="cursor:pointer;">
         <div class="habit-header"><span class="habit-name">${escapeHtml(habit.name)}</span></div>
         <div class="habit-meta">
-          <span class="habit-streak ${streak===0?'cold':''}">🔥 <span class="habit-streak-num">${streak}</span> kundan beri uzluksiz</span>
+          <span class="habit-streak ${streak===0?'cold':''}">🔥 <span class="habit-streak-num">${streak}</span> kun</span>
+          <span class="habit-tag">${escapeHtml(habit.category||'Umumiy')}</span>
+          <span class="habit-tag sched">${scheduleLabel(habit)}</span>
+          ${habit.timeRange && habit.timeRange!=='anytime' ? `<span class="habit-tag">${TIME_RANGE_LABELS[habit.timeRange]}</span>` : ''}
+          ${!dueToday ? '<span class="habit-tag off">Bugun emas</span>' : ''}
         </div>
       </div>
       <div class="habit-week">${weekDots}</div>
-      <button class="habit-delete-btn" onclick="deleteHabit('${habit.id}')">×</button>
-    </div>
-    <div class="habit-stats-row">
-      <div class="habit-stat-box"><div class="habit-stat-num">${streak}</div><div class="habit-stat-lbl">Kun ketma-ket</div></div>
-      <div class="habit-mini-heatmap" title="So'nggi 30 kun">${miniHeat}</div>
+      <div class="habit-card-actions">
+        <button class="habit-edit-btn" onclick="editHabit('${habit.id}')" title="Tahrirlash">✎</button>
+        <button class="habit-delete-btn" onclick="deleteHabit('${habit.id}')" title="O'chirish">×</button>
+      </div>
     </div>
   </div>`;
 }
@@ -5257,6 +5783,8 @@ function habitHTML(habit) {
 function toggleHabit(id) {
   const t = today();
   if (!t.habits) t.habits = {};
+  const h = data.habits.find(x => x.id === id);
+  if (h && h.goalType === 'measure') { openHabitDetail(id); return; }
   t.habits[id] = !t.habits[id];
   saveData();
   renderHabits();
@@ -5275,22 +5803,159 @@ function toggleHabitDay(id, dayKey) {
   renderQuickStats();
 }
 
-function toggleHabitExpand(id) {
-  const el = document.getElementById('habit-' + id);
-  el.classList.toggle('expanded');
+// Increment a measure habit's value for today
+function incHabit(id, delta) {
+  const h = data.habits.find(x => x.id === id);
+  if (!h) return;
+  const t = today();
+  if (!t.habits) t.habits = {};
+  let cur = typeof t.habits[id] === 'number' ? t.habits[id] : 0;
+  cur = Math.max(0, cur + delta);
+  t.habits[id] = cur;
+  saveData();
+  renderHabits();
+  renderTodayHabits();
+  renderQuickStats();
+  if (document.getElementById('habitDetailModal').classList.contains('show')) openHabitDetail(id);
+  if (document.getElementById('view-today').classList.contains('active')) renderAsos();
 }
 
+function toggleHabitExpand(id) {
+  const el = document.getElementById('habit-' + id);
+  if (el) el.classList.toggle('expanded');
+}
+
+/* ===== Habit detail modal: monthly calendar + yearly heatmap + stats ===== */
+let habitDetailMonth = null; // {year, month}
+
+function openHabitDetail(id) {
+  const h = data.habits.find(x => x.id === id);
+  if (!h) return;
+  const now = new Date();
+  habitDetailMonth = { year: now.getFullYear(), month: now.getMonth(), id };
+  renderHabitDetail();
+  document.getElementById('habitDetailModal').classList.add('show');
+}
+
+function changeHabitDetailMonth(delta) {
+  if (!habitDetailMonth) return;
+  let m = habitDetailMonth.month + delta;
+  let y = habitDetailMonth.year;
+  if (m < 0) { m = 11; y--; }
+  if (m > 11) { m = 0; y++; }
+  habitDetailMonth.month = m; habitDetailMonth.year = y;
+  renderHabitDetail();
+}
+
+function renderHabitDetail() {
+  const h = data.habits.find(x => x.id === habitDetailMonth.id);
+  if (!h) return;
+  document.getElementById('habitDetailTitle').textContent = `${h.emoji} ${h.name}`;
+  const { year, month } = habitDetailMonth;
+  const monthNames = ['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
+
+  // Monthly calendar
+  const first = new Date(year, month, 1);
+  const startDow = (first.getDay() + 6) % 7; // Mon=0
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  let cal = '<div class="hd-cal-grid">';
+  ['Du','Se','Ch','Pa','Ju','Sh','Ya'].forEach(d => cal += `<div class="hd-cal-head">${d}</div>`);
+  for (let i = 0; i < startDow; i++) cal += '<div></div>';
+  for (let day = 1; day <= daysInMonth; day++) {
+    const d = new Date(year, month, day);
+    const k = dateKey(d);
+    const st = getHabitStatus(h, k);
+    const due = isHabitDueOn(h, d);
+    const isFuture = d > new Date();
+    let cls = 'hd-cal-day';
+    if (st === 'done') cls += ' done';
+    else if (st === 'partial') cls += ' partial';
+    if (!due) cls += ' off';
+    if (k === todayKey()) cls += ' today';
+    const clickable = !isFuture;
+    cal += `<div class="${cls}" ${clickable && h.goalType!=='measure' ? `onclick="toggleHabitDay('${h.id}','${k}'); renderHabitDetail();"` : ''}>${day}${st==='done'?'<span class="hd-dot"></span>':''}</div>`;
+  }
+  cal += '</div>';
+
+  // Yearly heatmap (last 52 weeks)
+  let heat = '<div class="hd-heat">';
+  const today0 = new Date(); today0.setHours(0,0,0,0);
+  const start = new Date(today0); start.setDate(start.getDate() - 363);
+  start.setDate(start.getDate() - ((start.getDay() + 6) % 7)); // back to Monday
+  for (let w = 0; w < 53; w++) {
+    heat += '<div class="hd-heat-col">';
+    for (let dow = 0; dow < 7; dow++) {
+      const d = new Date(start); d.setDate(d.getDate() + w*7 + dow);
+      if (d > today0) { heat += '<div class="hd-heat-cell empty"></div>'; continue; }
+      const st = getHabitStatus(h, dateKey(d));
+      heat += `<div class="hd-heat-cell ${st==='done'?'done':st==='partial'?'partial':''}" title="${dateKey(d)}"></div>`;
+    }
+    heat += '</div>';
+  }
+  heat += '</div>';
+
+  const streak = calcHabitStreak(h);
+  const best = calcBestStreak(h);
+  const total = calcHabitTotal(h);
+  const monthSuccess = calcHabitMonthSuccess(h, year, month);
+
+  let goalLine = h.goalType === 'measure'
+    ? `O'lchovli maqsad: <b>${h.goalValue} ${escapeHtml(h.goalUnit||'')}</b> / kun`
+    : (h.type === 'quit' ? 'Tark etish odati' : 'Oddiy belgilash');
+
+  document.getElementById('habitDetailBody').innerHTML = `
+    <div class="hd-sub">${goalLine} · ${scheduleLabel(h)} · ${TIME_RANGE_LABELS[h.timeRange]||''}</div>
+    <div class="hd-stats">
+      <div class="hd-stat"><div class="hd-stat-num">${streak}</div><div class="hd-stat-lbl">Joriy streak</div></div>
+      <div class="hd-stat"><div class="hd-stat-num">${best}</div><div class="hd-stat-lbl">Eng uzun</div></div>
+      <div class="hd-stat"><div class="hd-stat-num">${monthSuccess}</div><div class="hd-stat-lbl">Shu oy</div></div>
+      <div class="hd-stat"><div class="hd-stat-num">${total}</div><div class="hd-stat-lbl">Jami</div></div>
+    </div>
+    <div class="hd-month-nav">
+      <button onclick="changeHabitDetailMonth(-1)">◀</button>
+      <span>${monthNames[month]} ${year}</span>
+      <button onclick="changeHabitDetailMonth(1)">▶</button>
+    </div>
+    ${cal}
+    <div class="hd-section-label">Yillik ko'rinish</div>
+    ${heat}
+    <div class="hd-actions">
+      <button class="btn" onclick="editHabit('${h.id}'); document.getElementById('habitDetailModal').classList.remove('show');">✎ Tahrirlash</button>
+    </div>
+  `;
+}
+
+let editingHabitId = null;
+let habitForm = { type: 'build', goalType: 'check', schedule: { mode: 'daily', days: [0,1,2,3,4,5,6] } };
 let selectedHabitColor = 'green';
 const HABIT_COLOR_OPTS = [
   { key: 'green', label: '🟢' }, { key: 'purple', label: '🟣' }, { key: 'terra', label: '🟠' },
   { key: 'blue', label: '🔵' }, { key: 'amber', label: '🟡' }, { key: 'rose', label: '🌸' }
 ];
 
-function openHabitModal() {
-  selectedHabitColor = 'green';
-  renderHabitColorSelect();
-  document.getElementById('habitModal').classList.add('show');
-  document.getElementById('habitName').focus();
+function selectHabitType(v) { habitForm.type = v; document.querySelectorAll('#habitTypeSelect .seg-opt').forEach(b => b.classList.toggle('active', b.dataset.val === v)); }
+function selectHabitGoalType(v) {
+  habitForm.goalType = v;
+  document.querySelectorAll('#habitGoalTypeSelect .seg-opt').forEach(b => b.classList.toggle('active', b.dataset.val === v));
+  document.getElementById('habitMeasureRow').style.display = v === 'measure' ? 'flex' : 'none';
+}
+function selectHabitSched(v) {
+  habitForm.schedule.mode = v;
+  document.querySelectorAll('#habitSchedSelect .seg-opt').forEach(b => b.classList.toggle('active', b.dataset.val === v));
+  document.getElementById('habitWeekdayPicker').style.display = v === 'weekdays' ? 'flex' : 'none';
+  if (v === 'weekdays') renderWeekdayPicker();
+}
+function renderWeekdayPicker() {
+  const c = document.getElementById('habitWeekdayPicker');
+  // Display Mon..Sun order for usability
+  const order = [1,2,3,4,5,6,0];
+  c.innerHTML = order.map(d => `<button type="button" class="wd-btn ${habitForm.schedule.days.includes(d)?'on':''}" onclick="toggleWeekday(${d})">${WEEKDAY_LABELS[d]}</button>`).join('');
+}
+function toggleWeekday(d) {
+  const arr = habitForm.schedule.days;
+  const i = arr.indexOf(d);
+  if (i >= 0) arr.splice(i, 1); else arr.push(d);
+  renderWeekdayPicker();
 }
 function renderHabitColorSelect() {
   const c = document.getElementById('habitColorSelect');
@@ -5300,25 +5965,104 @@ function renderHabitColorSelect() {
   ).join('');
 }
 function selectHabitColor(key) { selectedHabitColor = key; renderHabitColorSelect(); }
-function closeHabitModal() {
-  document.getElementById('habitModal').classList.remove('show');
+
+function fillCategoryDatalist() {
+  const dl = document.getElementById('habitCatList');
+  if (!dl) return;
+  const cats = [...new Set(data.habits.map(h => h.category).filter(Boolean))];
+  ['Salomatlik', 'Ma\'naviyat', 'Ish', 'O\'rganish'].forEach(c => { if (!cats.includes(c)) cats.push(c); });
+  dl.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}">`).join('');
+}
+
+function openHabitModal() {
+  editingHabitId = null;
+  habitForm = { type: 'build', goalType: 'check', schedule: { mode: 'daily', days: [0,1,2,3,4,5,6] } };
+  selectedHabitColor = 'green';
+  document.getElementById('habitModalTitle').textContent = 'Yangi odat';
   document.getElementById('habitEmoji').value = '';
   document.getElementById('habitName').value = '';
+  document.getElementById('habitCategory').value = '';
+  document.getElementById('habitGoalValue').value = '';
+  document.getElementById('habitGoalUnit').value = '';
+  document.getElementById('habitTimeRange').value = 'anytime';
+  selectHabitType('build');
+  selectHabitGoalType('check');
+  selectHabitSched('daily');
+  renderHabitColorSelect();
+  fillCategoryDatalist();
+  document.getElementById('habitModal').classList.add('show');
+  document.getElementById('habitName').focus();
 }
+
+function editHabit(id) {
+  const h = data.habits.find(x => x.id === id);
+  if (!h) return;
+  editingHabitId = id;
+  habitForm = {
+    type: h.type || 'build',
+    goalType: h.goalType || 'check',
+    schedule: { mode: h.schedule?.mode || 'daily', days: (h.schedule?.days || [0,1,2,3,4,5,6]).slice() }
+  };
+  selectedHabitColor = h.color || 'green';
+  document.getElementById('habitModalTitle').textContent = 'Odatni tahrirlash';
+  document.getElementById('habitEmoji').value = h.emoji || '';
+  document.getElementById('habitName').value = h.name || '';
+  document.getElementById('habitCategory').value = h.category || '';
+  document.getElementById('habitGoalValue').value = h.goalValue || '';
+  document.getElementById('habitGoalUnit').value = h.goalUnit || '';
+  document.getElementById('habitTimeRange').value = h.timeRange || 'anytime';
+  selectHabitType(habitForm.type);
+  selectHabitGoalType(habitForm.goalType);
+  selectHabitSched(habitForm.schedule.mode);
+  renderHabitColorSelect();
+  fillCategoryDatalist();
+  document.getElementById('habitModal').classList.add('show');
+}
+
+function closeHabitModal() {
+  document.getElementById('habitModal').classList.remove('show');
+}
+
 function saveHabit() {
-  const emoji = document.getElementById('habitEmoji').value.trim() || '🎯';
+  const emoji = document.getElementById('habitEmoji').value.trim() || (habitForm.type === 'quit' ? '🚫' : '🎯');
   const name = document.getElementById('habitName').value.trim();
   if (!name) { toast('Odat nomini kiriting'); return; }
-  data.habits.push({ id: uid(), emoji, name, color: selectedHabitColor });
+  const goalType = habitForm.goalType;
+  let goalValue = 0, goalUnit = '';
+  if (goalType === 'measure') {
+    goalValue = parseInt(document.getElementById('habitGoalValue').value) || 1;
+    goalUnit = document.getElementById('habitGoalUnit').value.trim() || 'marta';
+  }
+  let schedule = { mode: habitForm.schedule.mode, days: habitForm.schedule.days.slice() };
+  if (schedule.mode === 'daily') schedule.days = [0,1,2,3,4,5,6];
+  if (schedule.mode === 'weekdays' && !schedule.days.length) { toast('Kamida bitta kun tanlang'); return; }
+  const fields = {
+    type: habitForm.type, emoji, name,
+    color: selectedHabitColor,
+    category: document.getElementById('habitCategory').value.trim() || 'Umumiy',
+    goalType, goalValue, goalUnit, schedule,
+    timeRange: document.getElementById('habitTimeRange').value
+  };
+  if (editingHabitId) {
+    const h = data.habits.find(x => x.id === editingHabitId);
+    if (h) Object.assign(h, fields);
+  } else {
+    data.habits.push({ id: uid(), createdAt: new Date().toISOString(), ...fields });
+  }
   saveData();
   closeHabitModal();
   renderHabits();
+  renderTodayHabits();
+  renderQuickStats();
+  toast('✓ Saqlandi');
 }
+
 function deleteHabit(id) {
   if (!confirm('Bu odatni o\'chirasizmi? Tarix saqlanib qoladi.')) return;
   data.habits = data.habits.filter(h => h.id !== id);
   saveData();
   renderHabits();
+  renderTodayHabits();
 }
 
 /* ============ RESOURCES (multi-item, typed) ============ */
@@ -5613,8 +6357,14 @@ function projectHTML(p) {
   const totalCount = tasks.length;
   const pct = totalCount ? Math.round(doneCount/totalCount*100) : 0;
   const isExpanded = expandedProjects.has(p.id);
+  const view = p.view || 'list';
 
-  const tasksHTML = tasks.map(t => projectTaskHTML(p, t)).join('');
+  let body;
+  if (view === 'board') {
+    body = projectBoardHTML(p);
+  } else {
+    body = `<div class="project-task-list">${tasks.map(t => projectTaskHTML(p, t)).join('')}</div>`;
+  }
 
   return `<div class="project-card ${isExpanded?'expanded':''}" data-color="${p.color || 'blue'}" id="project-${p.id}">
     <div class="project-header">
@@ -5634,10 +6384,68 @@ function projectHTML(p) {
       </div>
     </div>
     <div class="project-tasks-wrap">
-      ${tasksHTML}
-      <button class="project-add-task" onclick="addProjectTask('${p.id}')">+ Vazifa qo'shish</button>
+      <div class="project-view-toolbar">
+        <div class="project-view-toggle">
+          <button class="pv-btn ${view==='list'?'on':''}" onclick="setProjectView('${p.id}','list')">☰ Ro'yxat</button>
+          <button class="pv-btn ${view==='board'?'on':''}" onclick="setProjectView('${p.id}','board')">▦ Doska</button>
+        </div>
+      </div>
+      <div class="quick-add project-quick-add">
+        <span class="quick-add-icon">＋</span>
+        <input id="pq-${p.id}" class="quick-add-input" data-preview="pqp-${p.id}" autocomplete="off"
+          placeholder='Vazifa + ertaga p1 @yorliq {muddat}'
+          oninput="renderQuickAddPreview('pq-${p.id}','pqp-${p.id}')"
+          onkeydown="quickAddKey(event,'pq-${p.id}',{projectId:'${p.id}'})">
+        <button class="btn btn-primary" onclick="quickAddCommit('pq-${p.id}',{projectId:'${p.id}'})">Qo'shish</button>
+      </div>
+      <div class="quick-add-preview" id="pqp-${p.id}"></div>
+      ${body}
     </div>
   </div>`;
+}
+
+function projectBoardHTML(p) {
+  const cols = [
+    { pri: 'A', label: '🔴 Yuqori' },
+    { pri: 'B', label: '🔵 O\'rta' },
+    { pri: 'C', label: '⚪ Past' },
+    { pri: 'done', label: '✓ Bajarilgan' }
+  ];
+  const tasks = p.tasks || [];
+  return `<div class="project-board">${cols.map(col => {
+    const list = col.pri === 'done'
+      ? tasks.filter(t => t.done)
+      : tasks.filter(t => !t.done && (t.priority||'B') === col.pri);
+    return `<div class="pb-col">
+      <div class="pb-col-head">${col.label} <span>${list.length}</span></div>
+      <div class="pb-col-body">
+        ${list.map(t => projectBoardCardHTML(p, t)).join('') || '<div class="pb-empty">—</div>'}
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function projectBoardCardHTML(project, task) {
+  const labels = (task.labels || []).map(l => `<span class="utask-label" style="--lc:var(--${labelColor(l)});">@${escapeHtml(l)}</span>`).join('');
+  let due = '';
+  if (task.due) { const od = task.due < todayKey() ? 'overdue' : ''; due = `<span class="pb-card-due ${od}">📅 ${fmtShortDate(task.due)}</span>`; }
+  let dl = task.deadline ? `<span class="pb-card-due deadline">⏳ ${fmtShortDate(task.deadline)}</span>` : '';
+  return `<div class="pb-card ${task.done?'done':''}">
+    <div class="pb-card-top">
+      <div class="project-task-check" onclick="toggleProjectTask('${project.id}','${task.id}')">${task.done?'✓':''}</div>
+      <span class="pb-card-text" onclick="openTaskEdit('${project.id}','${task.id}')">${escapeHtml(task.text || '—')}</span>
+    </div>
+    ${(labels||due||dl) ? `<div class="pb-card-meta">${labels}${due}${dl}</div>` : ''}
+  </div>`;
+}
+
+function setProjectView(projectId, view) {
+  const p = data.projects.find(x => x.id === projectId);
+  if (!p) return;
+  p.view = view;
+  expandedProjects.add(projectId);
+  saveData();
+  renderProjects();
 }
 
 function projectTaskHTML(project, task) {
@@ -5653,6 +6461,9 @@ function projectTaskHTML(project, task) {
     dueText = `${due.getDate()} ${monthName(due.getMonth())}`;
   }
   const pri = task.priority || 'B';
+  const labelsHTML = (task.labels || []).map(l => `<span class="utask-label" style="--lc:var(--${labelColor(l)});">@${escapeHtml(l)}</span>`).join('');
+  let deadlineHTML = '';
+  if (task.deadline) { const od = task.deadline < todayKey() ? 'overdue' : ''; deadlineHTML = `<span class="project-task-due deadline ${od}" title="Muddat">⏳ ${fmtShortDate(task.deadline)}</span>`; }
 
   const subtasksHTML = subtasks.map(st => `
     <div class="project-subtask ${st.done?'done':''}">
@@ -5667,9 +6478,11 @@ function projectTaskHTML(project, task) {
       <div class="project-task-check" onclick="toggleProjectTask('${project.id}','${task.id}')">${task.done?'✓':''}</div>
       <input class="project-task-text" value="${escapeHtml(task.text)}" onchange="updateProjectTaskText('${project.id}','${task.id}',this.value)">
       <span class="project-task-priority-badge ${pri.toLowerCase()}" title="Prioritet">${pri}</span>
+      ${labelsHTML}
+      ${deadlineHTML}
       ${dueText ? `<span class="project-task-due ${dueClass}">${dueText}</span>` : '<span class="project-task-due nodate" onclick="openTaskEdit(\''+project.id+'\',\''+task.id+'\')">sanasiz</span>'}
       <div class="project-task-actions">
-        <button class="project-task-btn" onclick="openTaskEdit('${project.id}','${task.id}')" title="Sana & prioritet">📅</button>
+        <button class="project-task-btn" onclick="openTaskEdit('${project.id}','${task.id}')" title="Sana, prioritet, yorliq">📅</button>
         <button class="project-task-btn" onclick="addProjectSubtask('${project.id}','${task.id}')" title="Subtask">+</button>
         <button class="project-task-btn" onclick="deleteProjectTask('${project.id}','${task.id}')" title="O'chirish">×</button>
       </div>
@@ -5796,6 +6609,8 @@ function openTaskEdit(projectId, taskId) {
   document.getElementById('taskEditText').value = t.text || '';
   document.getElementById('taskEditDesc').value = t.desc || '';
   document.getElementById('taskEditDue').value = t.due || '';
+  document.getElementById('taskEditDeadline').value = t.deadline || '';
+  document.getElementById('taskEditLabels').value = (t.labels || []).join(', ');
   const priSel = document.getElementById('taskEditPriority');
   if (priSel) priSel.value = t.priority || 'B';
   document.getElementById('taskEditModal').classList.add('show');
@@ -5821,6 +6636,10 @@ function saveTaskEdit() {
   t.desc = document.getElementById('taskEditDesc').value.trim();
   const dueVal = document.getElementById('taskEditDue').value || null;
   if (isPool) t.date = dueVal; else t.due = dueVal;
+  t.deadline = document.getElementById('taskEditDeadline').value || null;
+  const labelsRaw = document.getElementById('taskEditLabels').value || '';
+  t.labels = labelsRaw.split(',').map(s => s.replace(/^@/, '').trim()).filter(Boolean);
+  t.labels.forEach(ensureLabel);
   const priSel = document.getElementById('taskEditPriority');
   if (priSel) t.priority = priSel.value || 'B';
   saveData();
@@ -6933,8 +7752,20 @@ function initHistory() {
 
 /* ============ PLAN (REJA) — plan a future day ============ */
 let planDate = dateKey(new Date(Date.now() + 86400000));
+let planMode = 'day';
+let planFilter = 'all';
+
+function setPlanMode(mode) {
+  planMode = mode;
+  document.getElementById('planTabDay').classList.toggle('on', mode === 'day');
+  document.getElementById('planTabUpcoming').classList.toggle('on', mode === 'upcoming');
+  document.getElementById('planDayMode').style.display = mode === 'day' ? '' : 'none';
+  document.getElementById('planUpcomingMode').style.display = mode === 'upcoming' ? '' : 'none';
+  renderPlan();
+}
 
 function renderPlan() {
+  if (planMode === 'upcoming') { renderUpcoming(); return; }
   const d = new Date(planDate);
   const isTomorrow = planDate === dateKey(new Date(Date.now() + 86400000));
   const isToday = planDate === todayKey();
@@ -6942,7 +7773,7 @@ function renderPlan() {
   const daysAhead = Math.round((new Date(planDate) - new Date(todayKey())) / 86400000);
   document.getElementById('planSub').textContent = isToday ? 'Bugun' : (isTomorrow ? 'Ertaga' : (daysAhead > 0 ? `${daysAhead} kundan keyin` : `${-daysAhead} kun oldin`));
 
-  renderTaskGroups('planTasks', planDate, 'Bu kunda vazifa yo\'q. "+ Vazifa" bilan qo\'shing yoki inboxdan sana bering.');
+  renderTaskGroups('planTasks', planDate, 'Bu kunda vazifa yo\'q. Yuqorida tez qo\'shing yoki inboxdan sana bering.');
   const pc = document.getElementById('planTasksCount');
   if (pc) { const a = tasksForDate(planDate); pc.textContent = a.filter(t=>t.done).length + '/' + a.length; }
   renderInbox();
@@ -6961,6 +7792,69 @@ function renderInbox() {
   const ord = { A: 0, B: 1, C: 2 };
   const sorted = tasks.slice().sort((a,b) => (ord[a.priority]??9)-(ord[b.priority]??9));
   c.innerHTML = sorted.map(t => unifiedTaskRowHTML(Object.assign({}, t, { source: 'pool' }))).join('');
+}
+
+// All incomplete dated tasks (pool + project) from a range, with overdue separated
+function allDatedTasks() {
+  const out = [];
+  (data.tasks || []).forEach(t => { if (t.date && !t.done) out.push(Object.assign({}, t, { source: 'pool' })); });
+  (data.projects || []).forEach(p => (p.tasks || []).forEach(t => {
+    if (t.due && !t.done) out.push({ id: t.id, text: t.text, priority: t.priority||'B', date: t.due, deadline: t.deadline,
+      done: t.done, subtasks: t.subtasks||[], labels: t.labels||[], source: 'project', projectId: p.id, projectName: p.name, projectColor: p.color||'blue' });
+  }));
+  return out;
+}
+
+function passesPlanFilter(t) {
+  if (planFilter === 'all') return true;
+  if (planFilter === 'A') return (t.priority||'B') === 'A';
+  if (planFilter.startsWith('@')) return (t.labels||[]).map(x=>x.toLowerCase()).includes(planFilter.slice(1).toLowerCase());
+  return true;
+}
+
+function renderPlanFilterBar() {
+  const c = document.getElementById('planFilterBar');
+  if (!c) return;
+  const chip = (val, label) => `<button class="pf-chip ${planFilter===val?'on':''}" onclick="setPlanFilter('${val.replace(/'/g,"\\'")}')">${escapeHtml(label)}</button>`;
+  let html = chip('all', 'Hammasi') + chip('A', '🔴 P1');
+  (data.labels || []).forEach(l => { html += chip('@' + l.name, '@' + l.name); });
+  c.innerHTML = html;
+}
+function setPlanFilter(v) { planFilter = v; renderUpcoming(); }
+
+function renderUpcoming() {
+  renderPlanFilterBar();
+  const c = document.getElementById('planUpcoming');
+  if (!c) return;
+  const tKey = todayKey();
+  const tasks = allDatedTasks().filter(passesPlanFilter);
+  const overdue = tasks.filter(t => t.date < tKey);
+  const upcoming = tasks.filter(t => t.date >= tKey);
+  const ord = { A: 0, B: 1, C: 2 };
+  const byDate = {};
+  upcoming.forEach(t => { (byDate[t.date] = byDate[t.date] || []).push(t); });
+  const dates = Object.keys(byDate).sort();
+
+  let html = '';
+  if (overdue.length) {
+    overdue.sort((a,b) => a.date.localeCompare(b.date) || (ord[a.priority]??9)-(ord[b.priority]??9));
+    html += `<div class="card upcoming-group overdue-group" style="margin-bottom:12px;">
+      <div class="card-title" style="color:var(--terra-text);">⚠️ Muddati o'tgan <span>${overdue.length}</span></div>
+      ${overdue.map(t => unifiedTaskRowHTML(t)).join('')}
+    </div>`;
+  }
+  if (!dates.length && !overdue.length) {
+    html += '<div class="empty-state" style="padding:24px;"><span class="empty-state-icon">⏭️</span>Kelgusi rejalashtirilgan vazifa yo\'q.</div>';
+  }
+  dates.forEach(dt => {
+    const list = byDate[dt].sort((a,b) => (ord[a.priority]??9)-(ord[b.priority]??9));
+    const d = new Date(dt);
+    html += `<div class="card upcoming-group" style="margin-bottom:12px;">
+      <div class="card-title">${fmtShortDate(dt)} · ${dayName(d)} <span>${list.length}</span></div>
+      ${list.map(t => unifiedTaskRowHTML(t)).join('')}
+    </div>`;
+  });
+  c.innerHTML = html;
 }
 
 function initPlan() {
